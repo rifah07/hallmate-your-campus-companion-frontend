@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Home, UtensilsCrossed, ShieldCheck, BookOpen, Users, BedDouble, Building, Clock, Star, ArrowRight, Quote } from 'lucide-react';
+import {
+  Home, UtensilsCrossed, ShieldCheck, BookOpen, Users, BedDouble, Building, Clock,
+  ArrowRight, Quote, QrCode, CreditCard, Wrench, AlertTriangle, Star, Smartphone,
+  UserCheck, BookMarked, Bell, BarChart3, Eye
+} from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 
 function AnimatedCounter({ end, label, icon: Icon }: { end: number; label: string; icon: React.ElementType }) {
@@ -40,16 +44,32 @@ function AnimatedCounter({ end, label, icon: Icon }: { end: number; label: strin
 }
 
 const features = [
-  { icon: Home, title: 'Modern Facilities', desc: 'Well-furnished rooms with all modern amenities for comfortable living and studying.' },
-  { icon: UtensilsCrossed, title: 'Nutritious Meals', desc: 'Three meals a day plus snacks, prepared fresh in our hygienic dining hall.' },
-  { icon: ShieldCheck, title: 'Safe Environment', desc: '24/7 security with CCTV surveillance and strict visitor management.' },
-  { icon: BookOpen, title: 'Study-Friendly', desc: 'Dedicated study rooms, Wi-Fi connectivity, and quiet hours for academic excellence.' },
+  { icon: Home, title: 'Modern Facilities', desc: 'Well-furnished rooms with study desks, Wi-Fi, and all modern amenities.' },
+  { icon: UtensilsCrossed, title: 'Nutritious Meals', desc: 'Three meals a day plus snacks with meal preference & allergy management.' },
+  { icon: ShieldCheck, title: 'Safe & Secure', desc: '24/7 security, CCTV surveillance, visitor approval system, and emergency SOS.' },
+  { icon: BookOpen, title: 'Study-Friendly', desc: 'Dedicated study rooms with booking system and quiet hours for academic excellence.' },
+];
+
+const studentFeatures = [
+  { icon: QrCode, title: 'Digital Hall ID', desc: 'QR code-based digital ID card for quick verification' },
+  { icon: CreditCard, title: 'Easy Payments', desc: 'Pay via bKash, Nagad, bank transfer, or cards' },
+  { icon: Wrench, title: 'Complaint Tracking', desc: 'Submit and track complaints with priority-based SLA' },
+  { icon: UserCheck, title: 'Visitor Approval', desc: 'Digital visitor pre-approval and management' },
+  { icon: BookMarked, title: 'Study Room Booking', desc: 'Book study rooms online with real-time availability' },
+  { icon: AlertTriangle, title: 'Emergency SOS', desc: 'One-tap emergency alert to security and administration' },
+];
+
+const adminFeatures = [
+  { icon: BarChart3, title: 'Smart Dashboards', desc: 'Role-based dashboards for Provost, House Tutors, and staff' },
+  { icon: Eye, title: 'Full Transparency', desc: 'Provost oversight of all hall operations in real-time' },
+  { icon: CreditCard, title: 'Automated Billing', desc: 'Automated fee generation, tracking, and payment verification' },
+  { icon: Users, title: 'Seat Management', desc: 'Seat allocation, swapping, transfers, and guest room booking' },
 ];
 
 const testimonials = [
-  { name: 'Fatima Rahman', dept: 'CSE, 3rd Year', text: 'HallMate has been my second home. The facilities are excellent and the community is wonderful.', avatar: 'FR' },
-  { name: 'Nusrat Jahan', dept: 'EEE, 4th Year', text: 'I feel safe and supported here. The house tutors are always available and caring.', avatar: 'NJ' },
-  { name: 'Ayesha Siddika', dept: 'BBA, 2nd Year', text: 'The meal quality and study environment make this the best hall on campus.', avatar: 'AS' },
+  { name: 'Fatima Rahman', dept: 'CSE, 3rd Year', text: 'HallMate has transformed how we manage our hall life. The digital ID and online payments save so much time!', avatar: 'FR' },
+  { name: 'Nusrat Jahan', dept: 'EEE, 4th Year', text: 'I feel safe and supported here. The SOS button and visitor management system give my parents peace of mind.', avatar: 'NJ' },
+  { name: 'Ayesha Siddika', dept: 'BBA, 2nd Year', text: 'Booking study rooms and tracking my complaints online is incredibly convenient. Best hall management system!', avatar: 'AS' },
 ];
 
 export default function LandingPage() {
@@ -79,16 +99,16 @@ export default function LandingPage() {
               University Women's Hall
             </h1>
             <p className="text-lg md:text-xl opacity-90 mb-8 font-medium">
-              A Home Away From Home — Where Safety, Comfort & Academic Excellence Meet
+              A Home Away From Home — Smart, Safe & Digitally Managed University Hall
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/apply">
                 <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-lg font-semibold px-8">
-                  Apply for Admission <ArrowRight className="ml-2 h-4 w-4" />
+                  Apply for Seat <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link to="/login">
-                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/15 font-semibold px-8">
+                <Button size="lg" className="bg-primary-foreground/20 text-white border-2 border-white hover:bg-white hover:text-primary font-semibold px-8 backdrop-blur-sm">
                   Student Login
                 </Button>
               </Link>
@@ -97,22 +117,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features */}
+      {/* Core Features */}
       <section className="py-20 gradient-teal-subtle">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground">Why Choose Us</h2>
-            <p className="text-muted-foreground mt-2 max-w-lg mx-auto">Everything you need for a fulfilling residential experience</p>
+            <h2 className="text-3xl font-bold text-foreground">Why Choose Our Hall</h2>
+            <p className="text-muted-foreground mt-2 max-w-lg mx-auto">A digitally managed residential experience for university women</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
+              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
                 <Card className="text-center h-full hover:shadow-teal-lg hover:-translate-y-1 transition-all duration-300 border-border/60">
                   <CardContent className="pt-8 pb-6 px-6">
                     <div className="w-16 h-16 rounded-2xl gradient-teal mx-auto mb-4 flex items-center justify-center shadow-teal">
@@ -132,16 +146,88 @@ export default function LandingPage() {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <AnimatedCounter end={500} label="Students" icon={Users} />
-            <AnimatedCounter end={200} label="Rooms" icon={BedDouble} />
+            <AnimatedCounter end={1000} label="Students" icon={Users} />
+            <AnimatedCounter end={350} label="Rooms" icon={BedDouble} />
             <AnimatedCounter end={14} label="Floors" icon={Building} />
             <AnimatedCounter end={24} label="Hour Security" icon={Clock} />
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Student Features */}
       <section className="py-20 gradient-teal-subtle">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground">For Students</h2>
+            <p className="text-muted-foreground mt-2">Smart digital tools to make hall life seamless</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {studentFeatures.map((f, i) => (
+              <motion.div key={f.title} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
+                <Card className="hover:shadow-teal-lg transition-all hover:-translate-y-0.5 border-border/60">
+                  <CardContent className="p-5 flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg gradient-teal flex items-center justify-center shrink-0">
+                      <f.icon className="w-5 h-5 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground text-sm">{f.title}</h3>
+                      <p className="text-xs text-muted-foreground mt-0.5">{f.desc}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Admin Features */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground">For Administration</h2>
+            <p className="text-muted-foreground mt-2">Comprehensive tools for Provost, House Tutors & staff</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {adminFeatures.map((f, i) => (
+              <motion.div key={f.title} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+                <Card className="text-center hover:shadow-teal-lg transition-all hover:-translate-y-1 border-border/60">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-xl gradient-teal mx-auto mb-3 flex items-center justify-center">
+                      <f.icon className="w-6 h-6 text-primary-foreground" />
+                    </div>
+                    <h3 className="font-semibold text-foreground text-sm">{f.title}</h3>
+                    <p className="text-xs text-muted-foreground mt-1">{f.desc}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Parent Feature Banner */}
+      <section className="py-12 gradient-teal-subtle">
+        <div className="container mx-auto px-4">
+          <Card className="border-primary/20 bg-accent/40">
+            <CardContent className="p-8 flex flex-col md:flex-row items-center gap-6">
+              <div className="w-14 h-14 rounded-2xl gradient-teal flex items-center justify-center shrink-0 shadow-teal">
+                <Smartphone className="w-7 h-7 text-primary-foreground" />
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-lg font-bold text-foreground mb-1">Dedicated Parent Portal</h3>
+                <p className="text-sm text-muted-foreground">Parents can view attendance, payment status, receive monthly reports, and get emergency notifications — all from a read-only portal.</p>
+              </div>
+              <Link to="/about">
+                <Button variant="outline" size="sm">Learn More</Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground">What Our Students Say</h2>
@@ -189,11 +275,11 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Join Our Community?</h2>
           <p className="text-lg opacity-90 mb-8 max-w-lg mx-auto">
-            Apply now and become part of a thriving residential experience.
+            Apply for a seat and become part of a thriving university residential experience.
           </p>
           <Link to="/apply">
             <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-lg font-semibold px-10">
-              Apply Now <ArrowRight className="ml-2 h-4 w-4" />
+              Apply for Seat <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
         </div>
