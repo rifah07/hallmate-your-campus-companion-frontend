@@ -123,6 +123,23 @@ function FormField({ label, children, required }: { label: string; children: Rea
 }
 
 function PersonalInfo() {
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const photoRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (f) {
+      if (f.size > 5 * 1024 * 1024) { alert('File too large. Max 5MB.'); return; }
+      setPhoto(f);
+      const reader = new FileReader();
+      reader.onloadend = () => setPhotoPreview(reader.result as string);
+      reader.readAsDataURL(f);
+    }
+  };
+
+  const removePhoto = () => { setPhoto(null); setPhotoPreview(null); if (photoRef.current) photoRef.current.value = ''; };
+
   return (
     <div className="grid sm:grid-cols-2 gap-4">
       <FormField label="Full Name" required><Input placeholder="Enter your full name" /></FormField>
@@ -135,10 +152,23 @@ function PersonalInfo() {
       <FormField label="Contact Number" required><Input placeholder="01XXXXXXXXX" /></FormField>
       <FormField label="Email" required><Input type="email" placeholder="you@email.com" /></FormField>
       <FormField label="Photo Upload">
-        <div className="border-2 border-dashed border-primary/30 rounded-lg p-4 text-center hover:border-primary/50 transition-colors cursor-pointer">
-          <Upload className="w-6 h-6 text-primary mx-auto mb-1" />
-          <p className="text-xs text-muted-foreground">Click to upload photo</p>
-        </div>
+        <input type="file" ref={photoRef} className="hidden" accept="image/*" onChange={handlePhotoChange} />
+        {photoPreview ? (
+          <div className="relative w-28 h-28 rounded-lg overflow-hidden border border-border group">
+            <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+            <button type="button" onClick={removePhoto} className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ) : (
+          <div
+            className="border-2 border-dashed border-primary/30 rounded-lg p-4 text-center hover:border-primary/50 transition-colors cursor-pointer"
+            onClick={() => photoRef.current?.click()}
+          >
+            <Upload className="w-6 h-6 text-primary mx-auto mb-1" />
+            <p className="text-xs text-muted-foreground">Click to upload photo</p>
+          </div>
+        )}
       </FormField>
       <div className="sm:col-span-2"><FormField label="Present Address" required><Textarea placeholder="Enter your present address" rows={2} /></FormField></div>
       <div className="sm:col-span-2"><FormField label="Permanent Address" required><Textarea placeholder="Enter your permanent address" rows={2} /></FormField></div>
