@@ -91,23 +91,27 @@ function PublicHeader() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden overflow-hidden border-t border-border bg-card"
+            className="xl:hidden overflow-hidden border-t border-border bg-card"
           >
             <nav className="p-4 space-y-1">
-              {NAV_LINKS.map(l => (
-                <Link
-                  key={l.path}
-                  to={l.path}
-                  onClick={() => setMobileOpen(false)}
-                  className={`block px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
-                    location.pathname === l.path
-                      ? 'text-primary bg-accent'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'
-                  }`}
-                >
-                  {l.label}
-                </Link>
-              ))}
+              {NAV_LINKS.map(l =>
+                l.children ? (
+                  <div key={l.label}>
+                    <p className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase">{l.label}</p>
+                    {l.children.map(c => (
+                      <Link key={c.path} to={c.path} onClick={() => setMobileOpen(false)}
+                        className={`block px-6 py-2 rounded-md text-sm font-medium transition-colors ${location.pathname === c.path ? 'text-primary bg-accent' : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'}`}>
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <Link key={l.path} to={l.path} onClick={() => setMobileOpen(false)}
+                    className={`block px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${location.pathname === l.path ? 'text-primary bg-accent' : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'}`}>
+                    {l.label}
+                  </Link>
+                )
+              )}
               <div className="pt-3 flex flex-col gap-2">
                 <Link to="/track-application" onClick={() => setMobileOpen(false)}>
                   <Button variant="outline" className="w-full">Track Application</Button>
