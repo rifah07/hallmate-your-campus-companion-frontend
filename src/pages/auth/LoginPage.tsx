@@ -81,7 +81,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-accent/20 to-secondary/30">
+    <div className="min-h-screen flex flex-col relative overflow-hidden">
+      {/* Layered background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-secondary via-accent/30 to-background" />
+      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, hsl(var(--primary)) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+      
+      {/* Animated floating orbs */}
+      <motion.div animate={{ x: [0, 40, 0], y: [0, -30, 0] }} transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+        className="absolute top-[5%] right-[10%] w-[450px] h-[450px] rounded-full bg-primary/[0.07] blur-[100px]" />
+      <motion.div animate={{ x: [0, -25, 0], y: [0, 35, 0] }} transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full bg-primary-glow/[0.06] blur-[90px]" />
+      <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.04, 0.08, 0.04] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-primary/[0.04] blur-[120px]" />
+
+      {/* Decorative teal arc */}
+      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full border border-primary/[0.08]" />
+      <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full border border-primary/[0.06]" />
+
       <div className="container mx-auto px-4 pt-5 relative z-20">
         <button onClick={() => navigate('/')} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group cursor-pointer">
           <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
