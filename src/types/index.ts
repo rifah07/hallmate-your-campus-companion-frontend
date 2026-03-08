@@ -10,7 +10,9 @@ export type UserRole =
   | 'STUDENT'
   | 'PARENT';
 
-export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'SUSPENDED' | 'GRADUATED';
+export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'SUSPENDED' | 'GRADUATED' | 'SEAT_CANCELLED';
+export type ProgramType = 'UNDERGRADUATE' | 'MASTERS' | 'PHD';
+export type BloodGroupEnum = 'A_POSITIVE' | 'A_NEGATIVE' | 'B_POSITIVE' | 'B_NEGATIVE' | 'O_POSITIVE' | 'O_NEGATIVE' | 'AB_POSITIVE' | 'AB_NEGATIVE';
 export type RoomStatus = 'AVAILABLE' | 'OCCUPIED' | 'MAINTENANCE' | 'RESERVED';
 export type RoomType = 'SINGLE' | 'DOUBLE' | 'TRIPLE' | 'QUAD';
 export type BloodGroup = 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
@@ -51,6 +53,7 @@ export interface User {
   role: UserRole;
   status: UserStatus;
   avatar?: string;
+  photo?: string;
   department?: string;
   year?: number;
   program?: string;
@@ -59,8 +62,12 @@ export interface User {
   emergencyContactName?: string;
   emergencyContactPhone?: string;
   assignedFloor?: number;
+  designation?: string;
+  medicalConditions?: string;
+  allergies?: string;
   roomId?: string;
   isFirstLogin?: boolean;
+  isDeleted?: boolean;
   createdAt: string;
   updatedAt: string;
 }

@@ -31,6 +31,7 @@ export const STATUS_COLORS: Record<string, string> = {
   INACTIVE: 'bg-muted text-muted-foreground border-border',
   SUSPENDED: 'bg-destructive/15 text-destructive border-destructive/30',
   GRADUATED: 'bg-primary/15 text-primary border-primary/30',
+  SEAT_CANCELLED: 'bg-warning/15 text-warning border-warning/30',
   AVAILABLE: 'bg-success/15 text-success border-success/30',
   OCCUPIED: 'bg-rose/15 text-rose border-rose/30',
   MAINTENANCE: 'bg-warning/15 text-warning border-warning/30',
