@@ -120,53 +120,57 @@ export default function LandingPage() {
   return (
     <div className="overflow-hidden">
       {/* ═══════ Hero ═══════ */}
-      <section ref={heroRef} className="relative min-h-[90vh] flex items-center gradient-teal overflow-hidden">
-        {/* Animated orbs */}
+      <section ref={heroRef} className="relative min-h-[92vh] flex items-center overflow-hidden">
+        {/* Rich layered background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(174,60%,28%)] via-[hsl(174,60%,36%)] to-[hsl(166,55%,42%)]" />
         <div className="absolute inset-0 overflow-hidden">
-          <motion.div animate={{ x: [0, 30, 0], y: [0, -20, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[10%] left-[15%] w-[500px] h-[500px] bg-white/[0.04] rounded-full blur-3xl" />
-          <motion.div animate={{ x: [0, -20, 0], y: [0, 30, 0] }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-[5%] right-[10%] w-[600px] h-[600px] bg-white/[0.03] rounded-full blur-3xl" />
-          <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-white/[0.02] rounded-full blur-3xl" />
-          {/* Grid pattern */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+          <motion.div animate={{ x: [0, 40, 0], y: [0, -30, 0] }} transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+            className="absolute top-[5%] left-[10%] w-[600px] h-[600px] bg-white/[0.05] rounded-full blur-[100px]" />
+          <motion.div animate={{ x: [0, -25, 0], y: [0, 35, 0] }} transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+            className="absolute bottom-[0%] right-[5%] w-[700px] h-[700px] bg-white/[0.04] rounded-full blur-[120px]" />
+          {/* Subtle dot pattern */}
+          <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         </div>
 
-        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="container mx-auto px-4 relative z-10 py-20">
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }} className="max-w-3xl mx-auto text-center text-primary-foreground">
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3, duration: 0.5 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-sm font-medium mb-8 border border-white/15 shadow-lg shadow-black/5">
-              <span className="w-2 h-2 bg-emerald-300 rounded-full animate-pulse-soft" />
-              Smart Digital Hall Management
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="container mx-auto px-4 relative z-10 py-24">
+          <div className="max-w-4xl mx-auto">
+            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="text-center text-primary-foreground">
+              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.6 }}
+                className="inline-flex items-center gap-2.5 bg-white/[0.12] backdrop-blur-lg px-5 py-2 rounded-full text-[13px] font-medium mb-10 border border-white/[0.15]">
+                <span className="w-2 h-2 bg-emerald-300 rounded-full animate-pulse" />
+                Smart Digital Hall Management
+              </motion.div>
+
+              <h1 className="font-display text-[2.5rem] sm:text-[3.25rem] md:text-[3.75rem] font-extrabold leading-[1.1] mb-6 tracking-[-0.02em]">
+                University Women's Hall
+              </h1>
+
+              <p className="text-[15px] sm:text-base opacity-75 mb-12 font-normal leading-[1.7] max-w-lg mx-auto">
+                A Home Away From Home — Safe, Smart & Digitally Managed Residential Experience
+              </p>
+
+              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.6 }}
+                className="flex flex-col sm:flex-row gap-3.5 justify-center">
+                <Link to="/apply">
+                  <Button className="bg-white text-primary hover:bg-white/95 shadow-xl shadow-black/10 font-semibold px-8 h-12 text-[15px] rounded-xl group transition-all duration-200 hover:shadow-2xl hover:scale-[1.02]">
+                    Apply for Seat <ArrowRight className="ml-2.5 h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button className="bg-white/[0.12] text-white border border-white/20 hover:bg-white/[0.2] font-medium px-8 h-12 text-[15px] backdrop-blur-lg rounded-xl transition-all duration-200 hover:border-white/30">
+                    <LogIn className="mr-2 h-4 w-4" /> Sign In
+                  </Button>
+                </Link>
+              </motion.div>
             </motion.div>
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.15] mb-5 tracking-tight">
-              <span className="block">University</span>
-              <span className="block mt-1">Women's Hall</span>
-            </h1>
-            <p className="text-base sm:text-lg opacity-80 mb-10 font-normal leading-relaxed max-w-xl mx-auto">
-              A Home Away From Home — Safe, Smart & Digitally Managed Residential Experience
-            </p>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/apply">
-                <Button size="sm" className="bg-white text-primary hover:bg-white/95 shadow-lg shadow-black/8 font-semibold px-7 h-11 text-sm rounded-xl group">
-                  Apply for Seat <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-                </Button>
-              </Link>
-              <Link to="/login">
-                <Button size="sm" className="bg-white/10 text-white border border-white/25 hover:bg-white/18 font-medium px-7 h-11 text-sm backdrop-blur-md rounded-xl transition-all duration-300">
-                  <LogIn className="mr-2 h-4 w-4" /> Sign In
-                </Button>
-              </Link>
-            </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
 
-        {/* Bottom wave */}
+        {/* Elegant bottom curve */}
         <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" preserveAspectRatio="none">
-            <path d="M0 80V30C180 5 360 55 540 35C720 15 900 50 1080 40C1260 30 1350 10 1440 25V80H0Z" fill="hsl(var(--background))" />
+          <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" preserveAspectRatio="none">
+            <path d="M0 100V60C240 20 480 80 720 50C960 20 1200 60 1440 40V100H0Z" fill="hsl(var(--background))" />
           </svg>
         </div>
       </section>
