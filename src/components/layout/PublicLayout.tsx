@@ -11,11 +11,11 @@ const NAV_LINKS: NavItem[] = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about', children: [
     { label: 'About the Hall', path: '/about' },
-    { label: 'Provost', path: '/provost' },
-    { label: 'All Provosts', path: '/all-provosts' },
     { label: 'Achievements', path: '/achievements' },
   ]},
   { label: 'People', path: '', children: [
+    { label: 'Provost', path: '/provost' },
+    { label: 'All Provosts', path: '/all-provosts' },
     { label: 'House Tutors', path: '/house-tutors' },
     { label: 'Staff', path: '/staff' },
   ]},
