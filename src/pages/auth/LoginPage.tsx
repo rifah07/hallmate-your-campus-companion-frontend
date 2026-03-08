@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Eye, EyeOff, GraduationCap, ShieldCheck, BookOpen, Utensils, Wrench, DoorOpen, Users, UserCheck } from 'lucide-react';
+import { Eye, EyeOff, GraduationCap, ShieldCheck, BookOpen, Utensils, Wrench, DoorOpen, Users, UserCheck, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -65,127 +65,137 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-accent/30 to-secondary/40 p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-6"
-      >
-        {/* Left: Login Form */}
-        <div className="flex flex-col justify-center">
-          <div className="mb-8">
-            <div className="inline-flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-2xl gradient-teal flex items-center justify-center shadow-teal">
-                <GraduationCap className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-foreground tracking-tight">HallMate</h1>
-                <p className="text-xs text-muted-foreground">University Hall Management</p>
-              </div>
-            </div>
-            <p className="text-muted-foreground text-sm max-w-sm">
-              Sign in with your university credentials to access your hall portal.
-            </p>
-          </div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-accent/20 to-secondary/30">
+      {/* Back to Homepage */}
+      <div className="container mx-auto px-4 pt-5">
+        <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group">
+          <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+          Back to Homepage
+        </Link>
+      </div>
 
-          <Card className="border-border/40 shadow-xl bg-card/90 backdrop-blur-sm">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg">Sign In</CardTitle>
-              <CardDescription>Enter your university ID and password</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="universityId">University ID</Label>
-                  <Input
-                    id="universityId"
-                    placeholder="e.g., 2024000001"
-                    {...register('universityId')}
-                    className={errors.universityId ? 'border-destructive' : ''}
-                  />
-                  {errors.universityId && <p className="text-xs text-destructive">{errors.universityId.message}</p>}
+      <div className="flex-1 flex items-center justify-center p-4 -mt-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8"
+        >
+          {/* Left: Login Form */}
+          <div className="flex flex-col justify-center">
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-2xl gradient-teal flex items-center justify-center shadow-teal">
+                  <GraduationCap className="w-6 h-6 text-primary-foreground" />
                 </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-foreground tracking-tight">HallMate</h1>
+                  <p className="text-xs text-muted-foreground">University Hall Management</p>
+                </div>
+              </div>
+              <p className="text-muted-foreground text-sm max-w-sm leading-relaxed">
+                Sign in with your university credentials to access your hall portal.
+              </p>
+            </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative">
+            <Card className="border-border/40 shadow-xl bg-card/95 backdrop-blur-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg">Sign In</CardTitle>
+                <CardDescription>Enter your university ID and password</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="universityId">University ID</Label>
                     <Input
-                      id="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Enter your password"
-                      {...register('password')}
-                      className={errors.password ? 'border-destructive' : ''}
+                      id="universityId"
+                      placeholder="e.g., 2024000001"
+                      {...register('universityId')}
+                      className={errors.universityId ? 'border-destructive' : ''}
                     />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {errors.universityId && <p className="text-xs text-destructive">{errors.universityId.message}</p>}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Password</Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Enter your password"
+                        {...register('password')}
+                        className={errors.password ? 'border-destructive' : ''}
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </Button>
+                    </div>
+                    {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Checkbox id="remember" checked={rememberMe} onCheckedChange={(v) => setRememberMe(!!v)} />
+                      <Label htmlFor="remember" className="text-sm font-normal cursor-pointer">Remember me</Label>
+                    </div>
+                    <Button type="button" variant="link" className="px-0 text-sm" onClick={() => navigate('/forgot-password')}>
+                      Forgot password?
                     </Button>
                   </div>
-                  {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
-                </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Checkbox id="remember" checked={rememberMe} onCheckedChange={(v) => setRememberMe(!!v)} />
-                    <Label htmlFor="remember" className="text-sm font-normal cursor-pointer">Remember me</Label>
-                  </div>
-                  <Button type="button" variant="link" className="px-0 text-sm" onClick={() => navigate('/forgot-password')}>
-                    Forgot password?
+                  <Button type="submit" className="w-full gradient-teal text-primary-foreground shadow-teal hover:opacity-90 transition-opacity" disabled={loading}>
+                    {loading ? 'Signing in...' : 'Sign In'}
                   </Button>
-                </div>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
 
-                <Button type="submit" className="w-full gradient-teal text-primary-foreground shadow-teal hover:opacity-90 transition-opacity" disabled={loading}>
-                  {loading ? 'Signing in...' : 'Sign In'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right: Demo Quick Login */}
-        <div className="flex flex-col justify-center">
-          <Card className="border-border/40 shadow-xl bg-card/90 backdrop-blur-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Users className="h-5 w-5 text-primary" />
-                Quick Demo Access
-              </CardTitle>
-              <CardDescription>Click any role to explore the dashboard</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {DEMO_ROLES.map(({ role, label, icon: Icon, desc }, i) => (
-                  <motion.div
-                    key={role}
-                    initial={{ opacity: 0, x: 12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + i * 0.04 }}
-                  >
-                    <button
-                      onClick={() => handleDemoLogin(role)}
-                      className="w-full flex items-center gap-3 p-3 rounded-xl border border-border/60 bg-background/50 hover:bg-accent hover:border-primary/30 transition-all text-left group"
+          {/* Right: Demo Quick Login */}
+          <div className="flex flex-col justify-center">
+            <Card className="border-border/40 shadow-xl bg-card/95 backdrop-blur-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Users className="h-5 w-5 text-primary" />
+                  Quick Demo Access
+                </CardTitle>
+                <CardDescription>Click any role to explore the dashboard</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {DEMO_ROLES.map(({ role, label, icon: Icon, desc }, i) => (
+                    <motion.div
+                      key={role}
+                      initial={{ opacity: 0, x: 12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.04 }}
                     >
-                      <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors shrink-0">
-                        <Icon className="w-4 h-4 text-primary" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">{label}</p>
-                        <p className="text-xs text-muted-foreground">{desc}</p>
-                      </div>
-                    </button>
-                  </motion.div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </motion.div>
+                      <button
+                        onClick={() => handleDemoLogin(role)}
+                        className="w-full flex items-center gap-3 p-3.5 rounded-xl border border-border/60 bg-background/50 hover:bg-accent hover:border-primary/30 hover:shadow-md transition-all text-left group"
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all shrink-0">
+                          <Icon className="w-4.5 h-4.5 text-primary group-hover:text-primary-foreground" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-foreground truncate">{label}</p>
+                          <p className="text-xs text-muted-foreground">{desc}</p>
+                        </div>
+                      </button>
+                    </motion.div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }
