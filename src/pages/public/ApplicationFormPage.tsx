@@ -232,18 +232,54 @@ function RoomPreference() {
 }
 
 function DocumentsUpload() {
-  const docs = ['Passport Photo', 'University ID Card', 'Admit Card / Enrollment Letter', 'Previous Hall Clearance', 'Medical Certificate'];
+  const docLabels = ['Passport Photo', 'University ID Card', 'Admit Card / Enrollment Letter', 'Previous Hall Clearance', 'Medical Certificate'];
+  const [files, setFiles] = useState<Record<string, File | null>>({});
+  const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+
+  const handleFile = (label: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (f) {
+      if (f.size > 5 * 1024 * 1024) { alert('File too large. Max 5MB.'); return; }
+      setFiles(prev => ({ ...prev, [label]: f }));
+    }
+  };
+
+  const removeFile = (label: string) => {
+    setFiles(prev => ({ ...prev, [label]: null }));
+    const ref = inputRefs.current[label];
+    if (ref) ref.value = '';
+  };
+
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground mb-2">Upload the required documents. Accepted formats: PDF, JPG, PNG (max 5MB each).</p>
-      {docs.map(d => (
-        <div key={d} className="flex items-center gap-4 p-3 border border-dashed border-primary/30 rounded-lg hover:border-primary/50 transition-colors cursor-pointer">
-          <FileText className="w-5 h-5 text-primary shrink-0" />
-          <div className="flex-1">
-            <p className="text-sm font-medium text-foreground">{d}</p>
-            <p className="text-xs text-muted-foreground">Click to upload</p>
-          </div>
-          <Button variant="outline" size="sm">Browse</Button>
+      {docLabels.map(d => (
+        <div key={d}>
+          <input type="file" className="hidden" accept="image/*,.pdf" ref={el => { inputRefs.current[d] = el; }} onChange={e => handleFile(d, e)} />
+          {files[d] ? (
+            <div className="flex items-center gap-4 p-3 border border-primary/40 bg-primary/5 rounded-lg">
+              <FileText className="w-5 h-5 text-primary shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground truncate">{d}</p>
+                <p className="text-xs text-muted-foreground truncate">{files[d]!.name} ({(files[d]!.size / 1024).toFixed(1)} KB)</p>
+              </div>
+              <Button type="button" variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => removeFile(d)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <div
+              className="flex items-center gap-4 p-3 border border-dashed border-primary/30 rounded-lg hover:border-primary/50 transition-colors cursor-pointer"
+              onClick={() => inputRefs.current[d]?.click()}
+            >
+              <FileText className="w-5 h-5 text-primary shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-foreground">{d}</p>
+                <p className="text-xs text-muted-foreground">Click to upload</p>
+              </div>
+              <Button type="button" variant="outline" size="sm" onClick={e => { e.stopPropagation(); inputRefs.current[d]?.click(); }}>Browse</Button>
+            </div>
+          )}
         </div>
       ))}
     </div>
