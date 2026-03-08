@@ -7,8 +7,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
+  { label: 'Provost', path: '/provost' },
+  { label: 'People', path: '', children: [
+    { label: 'All Provosts', path: '/all-provosts' },
+    { label: 'House Tutors', path: '/house-tutors' },
+    { label: 'Staff', path: '/staff' },
+  ]},
   { label: 'Facilities', path: '/facilities' },
+  { label: 'Dining', path: '/dining' },
   { label: 'Admission', path: '/admission' },
+  { label: 'Achievements', path: '/achievements' },
+  { label: 'Events', path: '/events-public' },
   { label: 'Notices', path: '/public-notices' },
   { label: 'Gallery', path: '/gallery' },
   { label: 'FAQ', path: '/faq' },
