@@ -54,7 +54,7 @@ function AnimatedCounter({ end, label, icon: Icon, suffix = '+' }: { end: number
 // ── Section Header ───────────────────────────────────────────────
 function SectionHeader({ tag, title, subtitle }: { tag: string; title: string; subtitle?: string }) {
   return (
-    <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="text-center mb-16">
+    <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="text-center mb-10">
       <span className="inline-flex items-center gap-1.5 text-primary font-semibold text-xs uppercase tracking-[0.15em] mb-3 bg-primary/8 px-3 py-1 rounded-full border border-primary/15">
         <Sparkles className="w-3 h-3" /> {tag}
       </span>
@@ -179,7 +179,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ Stats ═══════ */}
-      <section className="relative -mt-6 z-10 pb-16">
+      <section className="relative mt-4 sm:mt-6 z-10 pb-10">
         <div className="container mx-auto px-4">
           <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
             className="max-w-4xl mx-auto gradient-teal rounded-2xl p-8 md:p-10 shadow-glow">
@@ -194,7 +194,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ Provost's Message ═══════ */}
-      <section className="py-24">
+      <section className="py-14 md:py-16">
         <div className="container mx-auto px-4">
           <SectionHeader tag="From the Provost" title="Provost's Message" />
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
@@ -419,7 +419,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ Testimonials ═══════ */}
-      <section className="py-24 gradient-teal-subtle">
+      <section className="py-14 md:py-16 gradient-teal-subtle">
         <div className="container mx-auto px-4">
           <SectionHeader tag="Testimonials" title="What Our Students Say" />
           <div className="max-w-2xl mx-auto">
@@ -456,7 +456,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ CTA ═══════ */}
-      <section className="py-28 gradient-teal text-primary-foreground text-center relative overflow-hidden">
+      <section className="py-16 md:py-20 gradient-teal text-primary-foreground text-center relative overflow-hidden">
         <div className="absolute inset-0">
           <motion.div animate={{ x: [0, 40, 0] }} transition={{ duration: 20, repeat: Infinity }} className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/[0.04] rounded-full blur-3xl" />
           <motion.div animate={{ x: [0, -30, 0] }} transition={{ duration: 25, repeat: Infinity }} className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/[0.04] rounded-full blur-3xl" />
