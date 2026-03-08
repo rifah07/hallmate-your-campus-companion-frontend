@@ -221,27 +221,29 @@ export default function LandingPage() {
           <div className="max-w-4xl mx-auto space-y-4">
             {recentNotices.map((notice, i) => (
               <motion.div key={notice.id} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-                <Card className="border-border/50 hover:shadow-md hover:border-primary/20 transition-all group">
-                  <CardContent className="p-5 flex items-start gap-4">
-                    <div className="w-11 h-11 rounded-xl gradient-teal flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
-                      <Megaphone className="w-5 h-5 text-primary-foreground" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <h3 className="font-semibold text-foreground text-sm truncate">{notice.title}</h3>
-                        {notice.isPinned && (
-                          <Badge variant="outline" className="text-[10px] bg-primary/10 text-primary border-primary/20 shrink-0">📌 Pinned</Badge>
-                        )}
-                        <Badge variant="outline" className={`text-[10px] shrink-0 ${NOTICE_COLORS[notice.category] || NOTICE_COLORS.GENERAL}`}>
-                          {notice.category}
-                        </Badge>
+                <Link to={`/public-notices/${notice.id}`}>
+                  <Card className="border-border/50 hover:shadow-md hover:border-primary/20 transition-all group cursor-pointer">
+                    <CardContent className="p-5 flex items-start gap-4">
+                      <div className="w-11 h-11 rounded-xl gradient-teal flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+                        <Megaphone className="w-5 h-5 text-primary-foreground" />
                       </div>
-                      <p className="text-sm text-muted-foreground line-clamp-1">{notice.content}</p>
-                      <p className="text-xs text-muted-foreground/60 mt-1.5">{new Date(notice.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} · {notice.authorName}</p>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </CardContent>
-                </Card>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap mb-1">
+                          <h3 className="font-semibold text-foreground text-sm truncate group-hover:text-primary transition-colors">{notice.title}</h3>
+                          {notice.isPinned && (
+                            <Badge variant="outline" className="text-[10px] bg-primary/10 text-primary border-primary/20 shrink-0">📌 Pinned</Badge>
+                          )}
+                          <Badge variant="outline" className={`text-[10px] shrink-0 ${NOTICE_COLORS[notice.category] || NOTICE_COLORS.GENERAL}`}>
+                            {notice.category}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground line-clamp-1">{notice.content}</p>
+                        <p className="text-xs text-muted-foreground/60 mt-1.5">{new Date(notice.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} · {notice.authorName}</p>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </CardContent>
+                  </Card>
+                </Link>
               </motion.div>
             ))}
           </div>
