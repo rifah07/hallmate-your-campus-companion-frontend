@@ -1,14 +1,23 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Menu, X, Shield, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Menu, X, Shield, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
+  { label: 'Provost', path: '/provost' },
+  { label: 'People', path: '', children: [
+    { label: 'All Provosts', path: '/all-provosts' },
+    { label: 'House Tutors', path: '/house-tutors' },
+    { label: 'Staff', path: '/staff' },
+  ]},
   { label: 'Facilities', path: '/facilities' },
+  { label: 'Dining', path: '/dining' },
   { label: 'Admission', path: '/admission' },
+  { label: 'Achievements', path: '/achievements' },
+  { label: 'Events', path: '/events-public' },
   { label: 'Notices', path: '/public-notices' },
   { label: 'Gallery', path: '/gallery' },
   { label: 'FAQ', path: '/faq' },
@@ -29,23 +38,40 @@ function PublicHeader() {
           <span className="text-lg font-bold text-foreground">HallMate</span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
-          {NAV_LINKS.map(l => (
-            <Link
-              key={l.path}
-              to={l.path}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                location.pathname === l.path
-                  ? 'text-primary bg-accent'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+        <nav className="hidden xl:flex items-center gap-0.5">
+          {NAV_LINKS.map(l =>
+            l.children ? (
+              <div key={l.label} className="relative group">
+                <button className="px-2.5 py-2 rounded-md text-sm font-medium transition-colors text-muted-foreground hover:text-foreground hover:bg-accent/60 flex items-center gap-1">
+                  {l.label} <ChevronDown className="w-3 h-3" />
+                </button>
+                <div className="absolute top-full left-0 pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <div className="bg-card border border-border rounded-lg shadow-lg py-1 min-w-[160px]">
+                    {l.children.map(c => (
+                      <Link key={c.path} to={c.path} className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors">
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={l.path}
+                to={l.path}
+                className={`px-2.5 py-2 rounded-md text-sm font-medium transition-colors ${
+                  location.pathname === l.path
+                    ? 'text-primary bg-accent'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'
+                }`}
+              >
+                {l.label}
+              </Link>
+            )
+          )}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-2">
+        <div className="hidden xl:flex items-center gap-2">
           <Link to="/track-application">
             <Button variant="outline" size="sm">Track Application</Button>
           </Link>
@@ -54,7 +80,7 @@ function PublicHeader() {
           </Link>
         </div>
 
-        <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
+        <Button variant="ghost" size="icon" className="xl:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
       </div>
@@ -65,23 +91,27 @@ function PublicHeader() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden overflow-hidden border-t border-border bg-card"
+            className="xl:hidden overflow-hidden border-t border-border bg-card"
           >
             <nav className="p-4 space-y-1">
-              {NAV_LINKS.map(l => (
-                <Link
-                  key={l.path}
-                  to={l.path}
-                  onClick={() => setMobileOpen(false)}
-                  className={`block px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
-                    location.pathname === l.path
-                      ? 'text-primary bg-accent'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'
-                  }`}
-                >
-                  {l.label}
-                </Link>
-              ))}
+              {NAV_LINKS.map(l =>
+                l.children ? (
+                  <div key={l.label}>
+                    <p className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase">{l.label}</p>
+                    {l.children.map(c => (
+                      <Link key={c.path} to={c.path} onClick={() => setMobileOpen(false)}
+                        className={`block px-6 py-2 rounded-md text-sm font-medium transition-colors ${location.pathname === c.path ? 'text-primary bg-accent' : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'}`}>
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <Link key={l.path} to={l.path} onClick={() => setMobileOpen(false)}
+                    className={`block px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${location.pathname === l.path ? 'text-primary bg-accent' : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'}`}>
+                    {l.label}
+                  </Link>
+                )
+              )}
               <div className="pt-3 flex flex-col gap-2">
                 <Link to="/track-application" onClick={() => setMobileOpen(false)}>
                   <Button variant="outline" className="w-full">Track Application</Button>

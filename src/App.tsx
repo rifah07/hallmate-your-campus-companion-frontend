@@ -21,6 +21,13 @@ import ContactPage from "@/pages/public/ContactPage";
 import FAQPage from "@/pages/public/FAQPage";
 import GalleryPage from "@/pages/public/GalleryPage";
 import PublicNoticesPage from "@/pages/public/PublicNoticesPage";
+import ProvostPage from "@/pages/public/ProvostPage";
+import AllProvostsPage from "@/pages/public/AllProvostsPage";
+import HouseTutorsPage from "@/pages/public/HouseTutorsPage";
+import StaffPage from "@/pages/public/StaffPage";
+import DiningPage from "@/pages/public/DiningPage";
+import AchievementsPage from "@/pages/public/AchievementsPage";
+import EventsPublicPage from "@/pages/public/EventsPublicPage";
 
 // Auth pages
 import LoginPage from "@/pages/auth/LoginPage";
@@ -105,6 +112,13 @@ const App = () => (
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/public-notices" element={<PublicNoticesPage />} />
+            <Route path="/provost" element={<ProvostPage />} />
+            <Route path="/all-provosts" element={<AllProvostsPage />} />
+            <Route path="/house-tutors" element={<HouseTutorsPage />} />
+            <Route path="/staff" element={<StaffPage />} />
+            <Route path="/dining" element={<DiningPage />} />
+            <Route path="/achievements" element={<AchievementsPage />} />
+            <Route path="/events-public" element={<EventsPublicPage />} />
           </Route>
 
           {/* Auth pages (no layout) */}
