@@ -76,7 +76,7 @@ function PublicHeader() {
             <Button variant="outline" size="sm">Track Application</Button>
           </Link>
           <Link to="/login">
-            <Button size="sm">Student Login</Button>
+            <Button size="sm">Login</Button>
           </Link>
         </div>
 
@@ -117,7 +117,7 @@ function PublicHeader() {
                   <Button variant="outline" className="w-full">Track Application</Button>
                 </Link>
                 <Link to="/login" onClick={() => setMobileOpen(false)}>
-                  <Button className="w-full">Student Login</Button>
+                  <Button className="w-full">Login</Button>
                 </Link>
               </div>
             </nav>
