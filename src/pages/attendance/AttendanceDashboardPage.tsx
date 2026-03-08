@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { mockUsers, mockAttendance, mockLeaveApplications } from '@/lib/mock-data';
-import { STATUS_COLORS } from '@/constants';
+import { useAuthStore } from '@/store/auth.store';
 import { Calendar, Users, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,59 @@ import { useToast } from '@/hooks/use-toast';
 export default function AttendanceDashboardPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuthStore();
+  const isStudent = user?.role === 'STUDENT';
+
+  // Student view: show only their own attendance
+  if (isStudent) {
+    const myAttendance = mockAttendance.filter(a => a.studentId === user?.id);
+    const present = myAttendance.filter(a => a.status === 'PRESENT').length;
+    const absent = myAttendance.filter(a => a.status === 'ABSENT').length;
+    const onLeave = myAttendance.filter(a => a.status === 'LEAVE').length;
+    const total = myAttendance.length;
+    const rate = total > 0 ? Math.round((present / total) * 100) : 0;
+
+    return (
+      <div className="space-y-6">
+        <div><h1 className="text-2xl font-bold">My Attendance</h1><p className="text-muted-foreground">Your attendance record</p></div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[
+            { l: 'Attendance Rate', v: `${rate}%`, icon: Calendar, c: 'bg-primary/10 text-primary' },
+            { l: 'Present', v: present, icon: CheckCircle, c: 'bg-success/10 text-success' },
+            { l: 'Absent', v: absent, icon: XCircle, c: 'bg-destructive/10 text-destructive' },
+            { l: 'On Leave', v: onLeave, icon: Clock, c: 'bg-warning/10 text-warning' },
+          ].map((s, i) => (
+            <motion.div key={s.l} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+              <Card><CardContent className="p-5">
+                <div className={`p-2.5 rounded-xl w-fit ${s.c}`}><s.icon className="h-5 w-5" /></div>
+                <div className="mt-3"><p className="text-2xl font-bold">{s.v}</p><p className="text-sm text-muted-foreground">{s.l}</p></div>
+              </CardContent></Card>
+            </motion.div>
+          ))}
+        </div>
+        <Card><CardHeader className="pb-3"><CardTitle className="text-base">Recent Attendance</CardTitle></CardHeader>
+          <CardContent>
+            <div className="rounded-lg border overflow-hidden">
+              <Table><TableHeader><TableRow><TableHead>Date</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+                <TableBody>{myAttendance.slice(0, 14).map(a => (
+                  <TableRow key={a.id}>
+                    <TableCell className="text-sm">{new Date(a.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={a.status === 'PRESENT' ? 'bg-success/15 text-success' : a.status === 'ABSENT' ? 'bg-destructive/15 text-destructive' : 'bg-warning/15 text-warning'}>
+                        {a.status}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}</TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Admin/Staff view: full attendance management
   const students = mockUsers.filter(u => u.role === 'STUDENT');
   const todayRecords = mockAttendance.filter(a => a.date === '2024-06-17');
   const present = todayRecords.filter(a => a.status === 'PRESENT').length;
@@ -28,11 +81,16 @@ export default function AttendanceDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between"><div><h1 className="text-2xl font-bold">Attendance</h1><p className="text-muted-foreground">Track student attendance</p></div>
-        <div className="flex gap-2"><Button variant="outline" onClick={() => navigate('/attendance/leave')}>Leave Approvals</Button><Button onClick={() => toast({ title: 'Attendance Saved' })}>Save Attendance</Button></div>
+      <div className="flex items-center justify-between">
+        <div><h1 className="text-2xl font-bold">Attendance</h1><p className="text-muted-foreground">Track student attendance</p></div>
+        <Button onClick={() => toast({ title: 'Attendance Saved' })}>Save Attendance</Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((s, i) => (<motion.div key={s.l} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}><Card><CardContent className="p-5"><div className={`p-2.5 rounded-xl w-fit ${s.c}`}><s.icon className="h-5 w-5" /></div><div className="mt-3"><p className="text-2xl font-bold">{s.v}</p><p className="text-sm text-muted-foreground">{s.l}</p></div></CardContent></Card></motion.div>))}
+        {stats.map((s, i) => (
+          <motion.div key={s.l} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+            <Card><CardContent className="p-5"><div className={`p-2.5 rounded-xl w-fit ${s.c}`}><s.icon className="h-5 w-5" /></div><div className="mt-3"><p className="text-2xl font-bold">{s.v}</p><p className="text-sm text-muted-foreground">{s.l}</p></div></CardContent></Card>
+          </motion.div>
+        ))}
       </div>
       <Card><CardHeader className="pb-3"><CardTitle className="text-base">Mark Attendance — Today</CardTitle></CardHeader><CardContent>
         <div className="rounded-lg border overflow-hidden"><Table><TableHeader><TableRow><TableHead className="w-12">Present</TableHead><TableHead>Student</TableHead><TableHead>Department</TableHead><TableHead>Room</TableHead></TableRow></TableHeader>
