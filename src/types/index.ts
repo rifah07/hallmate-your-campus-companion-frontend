@@ -287,6 +287,25 @@ export interface AuditLog {
   createdAt: string;
 }
 
+export interface MealCancellation {
+  id: string;
+  studentId: string;
+  studentName: string;
+  date: string;
+  mealType: MealType;
+  reason?: string;
+  cancelledAt: string;
+}
+
+export interface HallOffMeal {
+  id: string;
+  date: string;
+  mealType: MealType;
+  reason: string;
+  createdBy: string;
+  createdAt: string;
+}
+
 export interface QueryParams {
   page?: number;
   limit?: number;

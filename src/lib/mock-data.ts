@@ -1,4 +1,4 @@
-import type { User, Room, Notification, Application, Complaint, ComplaintComment, MaintenanceRequest, Notice, MealMenu, GuestMeal, MealFeedback, Visitor, AttendanceRecord, LeaveApplication, Fee, Bill, HallEvent, AuditLog, UserRole } from '@/types';
+import type { User, Room, Notification, Application, Complaint, ComplaintComment, MaintenanceRequest, Notice, MealMenu, GuestMeal, MealFeedback, Visitor, AttendanceRecord, LeaveApplication, Fee, Bill, HallEvent, AuditLog, UserRole, MealCancellation, HallOffMeal } from '@/types';
 
 const avatarUrl = (name: string) =>
   `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&size=128`;
@@ -149,6 +149,18 @@ export const mockAuditLogs: AuditLog[] = [
   { id: 'al3', userId: '2', userName: 'Prof. Nasreen Ahmed', action: 'APPROVE', resource: 'Application', details: 'Approved transfer application #APP2', ipAddress: '192.168.1.15', createdAt: '2024-06-14T14:00:00' },
   { id: 'al4', userId: '9', userName: 'Mr. Karim', action: 'CREATE', resource: 'Visitor', details: 'Registered visitor Mrs. Nasima Begum', ipAddress: '192.168.1.50', createdAt: '2024-06-17T10:00:00' },
   { id: 'al5', userId: '3', userName: 'Ms. Sultana Begum', action: 'UPDATE', resource: 'Attendance', details: 'Marked attendance for Floor 3', ipAddress: '192.168.1.20', createdAt: '2024-06-17T09:00:00' },
+];
+
+export const mockMealCancellations: MealCancellation[] = [
+  { id: 'mc1', studentId: '4', studentName: 'Anika Islam', date: '2024-06-18', mealType: 'LUNCH', cancelledAt: '2024-06-17T10:00:00' },
+  { id: 'mc2', studentId: '5', studentName: 'Tasnia Haque', date: '2024-06-18', mealType: 'DINNER', reason: 'Going home', cancelledAt: '2024-06-17T08:00:00' },
+  { id: 'mc3', studentId: '4', studentName: 'Anika Islam', date: '2024-06-19', mealType: 'BREAKFAST', cancelledAt: '2024-06-17T10:00:00' },
+  { id: 'mc4', studentId: '6', studentName: 'Raisa Kabir', date: '2024-06-18', mealType: 'BREAKFAST', reason: 'Fasting', cancelledAt: '2024-06-16T20:00:00' },
+];
+
+export const mockHallOffMeals: HallOffMeal[] = [
+  { id: 'ho1', date: '2024-06-25', mealType: 'LUNCH', reason: 'Eid vacation - Hall closed', createdBy: '10', createdAt: '2024-06-20T10:00:00' },
+  { id: 'ho2', date: '2024-06-25', mealType: 'DINNER', reason: 'Eid vacation - Hall closed', createdBy: '10', createdAt: '2024-06-20T10:00:00' },
 ];
 
 export const mockCurrentUser: User = mockUsers[0];

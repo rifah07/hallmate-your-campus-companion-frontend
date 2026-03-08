@@ -1,7 +1,7 @@
 import {
   Home, Users, UserPlus, Upload, BarChart3, Building, DoorOpen, BedDouble,
   ClipboardList, MessageSquare, Wrench, Megaphone, UtensilsCrossed, UserCheck,
-  CalendarDays, DollarSign, Calendar, FileText, Settings, UserCircle, Shield,
+  CalendarDays, DollarSign, Calendar, FileText, Settings, UserCircle, Shield, Ban, Eye,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useLocation } from 'react-router-dom';
@@ -55,6 +55,8 @@ const groups: { label: string; items: NavItem[] }[] = [
   ]},
   { label: 'Hall Services', items: [
     { title: 'Meals', url: '/meals', icon: UtensilsCrossed, roles: [...ALL.filter(r => r !== 'PARENT')] },
+    { title: 'Cancel Meals', url: '/meals/cancel', icon: Ban, roles: ['STUDENT'] },
+    { title: 'Meal Overview', url: '/meals/overview', icon: Eye, roles: ['DINING_STAFF','SUPER_ADMIN','PROVOST'] },
     { title: 'Visitors', url: '/visitors', icon: UserCheck, roles: ['SUPER_ADMIN','PROVOST','GUARD','STUDENT'] },
     { title: 'Attendance', url: '/attendance', icon: CalendarDays, roles: ['SUPER_ADMIN','PROVOST','HOUSE_TUTOR','STUDENT'] },
     { title: 'Fees', url: '/fees', icon: DollarSign, roles: ['SUPER_ADMIN','PROVOST','OFFICE_STAFF','STUDENT'] },
