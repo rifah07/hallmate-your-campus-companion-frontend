@@ -50,7 +50,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginForm) => {
     setLoading(true);
     try {
-      const response = await authService.login(data);
+      const response = await authService.login({ universityId: data.universityId, password: data.password });
       const { user, accessToken } = response.data.data;
       localStorage.setItem('accessToken', accessToken);
       login(user, accessToken);
