@@ -5,13 +5,25 @@ import { useAuthStore } from '@/store/auth.store';
 import { mockRooms, mockUsers } from '@/lib/mock-data';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useMemo } from 'react';
 
 export function HouseTutorDashboard() {
   const { user } = useAuthStore();
   const navigate = useNavigate();
-  const floor = user?.assignedFloor || 3;
-  const floorRooms = mockRooms.filter(r => r.floor === floor);
-  const floorStudents = mockUsers.filter(u => u.role === 'STUDENT').slice(0, 8);
+  const floor = user?.assignedFloor ?? 1;
+
+  const { floorRooms, floorStudents } = useMemo(() => {
+    const rooms = mockRooms.filter(r => r.floor === floor);
+    // Collect unique students from room occupants on this floor
+    const studentIds = new Set<string>();
+    const students: typeof mockUsers = [];
+    for (const room of rooms) {
+      for (const o of room.occupants) {
+        if (!studentIds.has(o.id)) { studentIds.add(o.id); students.push(o); }
+      }
+    }
+    return { floorRooms: rooms, floorStudents: students };
+  }, [floor]);
 
   const stats = [
     { label: `Floor ${floor} Overview`, value: `${floorRooms.length} Rooms`, icon: BedDouble, color: 'bg-primary/10 text-primary' },
