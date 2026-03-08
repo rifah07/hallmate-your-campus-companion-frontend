@@ -100,12 +100,12 @@ function PublicHeader() {
           )}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-2.5">
+        <div className="hidden lg:flex items-center gap-3">
           <Link to="/track-application">
-            <Button variant="outline" size="sm" className="rounded-lg font-medium border-border/60 hover:border-primary/30 transition-colors">Track Application</Button>
+            <Button variant="outline" size="sm" className="rounded-xl font-semibold border-border/60 hover:border-primary/30 px-5 h-10 text-sm transition-all duration-200">Track Application</Button>
           </Link>
           <Link to="/login">
-            <Button size="sm" className="rounded-lg font-semibold shadow-teal hover:shadow-glow transition-shadow">Sign In</Button>
+            <Button size="sm" className="rounded-xl font-bold shadow-teal hover:shadow-glow px-6 h-10 text-sm transition-all duration-200">Sign In</Button>
           </Link>
         </div>
 
