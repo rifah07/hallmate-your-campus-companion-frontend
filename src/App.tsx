@@ -35,6 +35,7 @@ import LoginPage from "@/pages/auth/LoginPage";
 import FirstLoginPage from "@/pages/auth/FirstLoginPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
+import ChangePasswordPage from "@/pages/auth/ChangePasswordPage";
 
 // Protected pages
 import DashboardPage from "@/pages/dashboard/DashboardPage";

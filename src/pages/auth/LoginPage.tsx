@@ -11,12 +11,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuthStore } from '@/store/auth.store';
 import { getDemoUser } from '@/lib/mock-data';
+import { authService } from '@/services/auth.service';
 import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
 import type { UserRole } from '@/types';
 
 const loginSchema = z.object({
-  universityId: z.string().min(10, 'University ID must be 10 digits').max(10),
+  universityId: z.string().regex(/^\d{10}$/, 'University ID must be exactly 10 digits'),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -48,13 +49,28 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginForm) => {
     setLoading(true);
-    setTimeout(() => {
-      const demoUser = getDemoUser('STUDENT');
-      login(demoUser, 'mock-jwt-token');
-      toast({ title: 'Welcome back!', description: `Logged in as ${demoUser.name}` });
+    try {
+      const response = await authService.login(data);
+      const { user, accessToken } = response.data.data;
+      localStorage.setItem('accessToken', accessToken);
+      login(user, accessToken);
+      toast({ title: 'Welcome back!', description: `Logged in as ${user.name}` });
       navigate('/dashboard');
+    } catch (error: any) {
+      const errMsg = error.response?.data?.error?.message || 'Login failed';
+      // Handle first-time login redirect
+      if (errMsg.includes('First-time login required') || errMsg.includes('first-time login')) {
+        toast({
+          title: 'First-Time Login',
+          description: 'Please set your password using the one-time password sent to your email.',
+        });
+        navigate('/first-login');
+        return;
+      }
+      toast({ title: 'Login Failed', description: errMsg, variant: 'destructive' });
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   const handleDemoLogin = (role: UserRole) => {
@@ -66,7 +82,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-accent/20 to-secondary/30">
-      {/* Back to Homepage */}
       <div className="container mx-auto px-4 pt-5">
         <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group">
           <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
@@ -101,7 +116,7 @@ export default function LoginPage() {
             <Card className="border-border/40 shadow-xl bg-card/95 backdrop-blur-sm">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg">Sign In</CardTitle>
-                <CardDescription>Enter your university ID and password</CardDescription>
+                <CardDescription>Enter your 10-digit university ID and password</CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -110,6 +125,7 @@ export default function LoginPage() {
                     <Input
                       id="universityId"
                       placeholder="e.g., 2024000001"
+                      maxLength={10}
                       {...register('universityId')}
                       className={errors.universityId ? 'border-destructive' : ''}
                     />
@@ -152,6 +168,13 @@ export default function LoginPage() {
                   <Button type="submit" className="w-full gradient-teal text-primary-foreground shadow-teal hover:opacity-90 transition-opacity" disabled={loading}>
                     {loading ? 'Signing in...' : 'Sign In'}
                   </Button>
+
+                  <p className="text-xs text-center text-muted-foreground">
+                    First time here?{' '}
+                    <Button type="button" variant="link" className="px-0 text-xs h-auto" onClick={() => navigate('/first-login')}>
+                      Set up your account
+                    </Button>
+                  </p>
                 </form>
               </CardContent>
             </Card>
