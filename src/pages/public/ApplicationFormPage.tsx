@@ -1,8 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, ArrowRight, Check, Upload, FileText } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Upload, FileText, X, Image as ImageIcon } from 'lucide-react';
 
 const STEPS = ['Personal Info', 'Academic Info', 'Guardian Info', 'Room Preference', 'Documents', 'Declaration'];
 
@@ -126,6 +123,23 @@ function FormField({ label, children, required }: { label: string; children: Rea
 }
 
 function PersonalInfo() {
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const photoRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (f) {
+      if (f.size > 5 * 1024 * 1024) { alert('File too large. Max 5MB.'); return; }
+      setPhoto(f);
+      const reader = new FileReader();
+      reader.onloadend = () => setPhotoPreview(reader.result as string);
+      reader.readAsDataURL(f);
+    }
+  };
+
+  const removePhoto = () => { setPhoto(null); setPhotoPreview(null); if (photoRef.current) photoRef.current.value = ''; };
+
   return (
     <div className="grid sm:grid-cols-2 gap-4">
       <FormField label="Full Name" required><Input placeholder="Enter your full name" /></FormField>
@@ -138,10 +152,23 @@ function PersonalInfo() {
       <FormField label="Contact Number" required><Input placeholder="01XXXXXXXXX" /></FormField>
       <FormField label="Email" required><Input type="email" placeholder="you@email.com" /></FormField>
       <FormField label="Photo Upload">
-        <div className="border-2 border-dashed border-primary/30 rounded-lg p-4 text-center hover:border-primary/50 transition-colors cursor-pointer">
-          <Upload className="w-6 h-6 text-primary mx-auto mb-1" />
-          <p className="text-xs text-muted-foreground">Click to upload photo</p>
-        </div>
+        <input type="file" ref={photoRef} className="hidden" accept="image/*" onChange={handlePhotoChange} />
+        {photoPreview ? (
+          <div className="relative w-28 h-28 rounded-lg overflow-hidden border border-border group">
+            <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+            <button type="button" onClick={removePhoto} className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ) : (
+          <div
+            className="border-2 border-dashed border-primary/30 rounded-lg p-4 text-center hover:border-primary/50 transition-colors cursor-pointer"
+            onClick={() => photoRef.current?.click()}
+          >
+            <Upload className="w-6 h-6 text-primary mx-auto mb-1" />
+            <p className="text-xs text-muted-foreground">Click to upload photo</p>
+          </div>
+        )}
       </FormField>
       <div className="sm:col-span-2"><FormField label="Present Address" required><Textarea placeholder="Enter your present address" rows={2} /></FormField></div>
       <div className="sm:col-span-2"><FormField label="Permanent Address" required><Textarea placeholder="Enter your permanent address" rows={2} /></FormField></div>
@@ -205,18 +232,54 @@ function RoomPreference() {
 }
 
 function DocumentsUpload() {
-  const docs = ['Passport Photo', 'University ID Card', 'Admit Card / Enrollment Letter', 'Previous Hall Clearance', 'Medical Certificate'];
+  const docLabels = ['Passport Photo', 'University ID Card', 'Admit Card / Enrollment Letter', 'Previous Hall Clearance', 'Medical Certificate'];
+  const [files, setFiles] = useState<Record<string, File | null>>({});
+  const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+
+  const handleFile = (label: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (f) {
+      if (f.size > 5 * 1024 * 1024) { alert('File too large. Max 5MB.'); return; }
+      setFiles(prev => ({ ...prev, [label]: f }));
+    }
+  };
+
+  const removeFile = (label: string) => {
+    setFiles(prev => ({ ...prev, [label]: null }));
+    const ref = inputRefs.current[label];
+    if (ref) ref.value = '';
+  };
+
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground mb-2">Upload the required documents. Accepted formats: PDF, JPG, PNG (max 5MB each).</p>
-      {docs.map(d => (
-        <div key={d} className="flex items-center gap-4 p-3 border border-dashed border-primary/30 rounded-lg hover:border-primary/50 transition-colors cursor-pointer">
-          <FileText className="w-5 h-5 text-primary shrink-0" />
-          <div className="flex-1">
-            <p className="text-sm font-medium text-foreground">{d}</p>
-            <p className="text-xs text-muted-foreground">Click to upload</p>
-          </div>
-          <Button variant="outline" size="sm">Browse</Button>
+      {docLabels.map(d => (
+        <div key={d}>
+          <input type="file" className="hidden" accept="image/*,.pdf" ref={el => { inputRefs.current[d] = el; }} onChange={e => handleFile(d, e)} />
+          {files[d] ? (
+            <div className="flex items-center gap-4 p-3 border border-primary/40 bg-primary/5 rounded-lg">
+              <FileText className="w-5 h-5 text-primary shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground truncate">{d}</p>
+                <p className="text-xs text-muted-foreground truncate">{files[d]!.name} ({(files[d]!.size / 1024).toFixed(1)} KB)</p>
+              </div>
+              <Button type="button" variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => removeFile(d)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <div
+              className="flex items-center gap-4 p-3 border border-dashed border-primary/30 rounded-lg hover:border-primary/50 transition-colors cursor-pointer"
+              onClick={() => inputRefs.current[d]?.click()}
+            >
+              <FileText className="w-5 h-5 text-primary shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-foreground">{d}</p>
+                <p className="text-xs text-muted-foreground">Click to upload</p>
+              </div>
+              <Button type="button" variant="outline" size="sm" onClick={e => { e.stopPropagation(); inputRefs.current[d]?.click(); }}>Browse</Button>
+            </div>
+          )}
         </div>
       ))}
     </div>
