@@ -21,6 +21,7 @@ import ContactPage from "@/pages/public/ContactPage";
 import FAQPage from "@/pages/public/FAQPage";
 import GalleryPage from "@/pages/public/GalleryPage";
 import PublicNoticesPage from "@/pages/public/PublicNoticesPage";
+import PublicNoticeDetailPage from "@/pages/public/PublicNoticeDetailPage";
 import ProvostPage from "@/pages/public/ProvostPage";
 import AllProvostsPage from "@/pages/public/AllProvostsPage";
 import HouseTutorsPage from "@/pages/public/HouseTutorsPage";
@@ -114,6 +115,7 @@ const App = () => (
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/public-notices" element={<PublicNoticesPage />} />
+            <Route path="/public-notices/:id" element={<PublicNoticeDetailPage />} />
             <Route path="/provost" element={<ProvostPage />} />
             <Route path="/all-provosts" element={<AllProvostsPage />} />
             <Route path="/house-tutors" element={<HouseTutorsPage />} />
