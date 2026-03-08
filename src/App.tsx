@@ -7,12 +7,28 @@ import { useEffect } from "react";
 import { useThemeStore } from "@/store/theme.store";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import PublicLayout from "@/components/layout/PublicLayout";
 import type { UserRole } from "@/types";
 
+// Public pages
+import LandingPage from "@/pages/public/LandingPage";
+import AboutPage from "@/pages/public/AboutPage";
+import FacilitiesPage from "@/pages/public/FacilitiesPage";
+import AdmissionPage from "@/pages/public/AdmissionPage";
+import ApplicationFormPage from "@/pages/public/ApplicationFormPage";
+import TrackApplicationPage from "@/pages/public/TrackApplicationPage";
+import ContactPage from "@/pages/public/ContactPage";
+import FAQPage from "@/pages/public/FAQPage";
+import GalleryPage from "@/pages/public/GalleryPage";
+import PublicNoticesPage from "@/pages/public/PublicNoticesPage";
+
+// Auth pages
 import LoginPage from "@/pages/auth/LoginPage";
 import FirstLoginPage from "@/pages/auth/FirstLoginPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
+
+// Protected pages
 import DashboardPage from "@/pages/dashboard/DashboardPage";
 import UsersListPage from "@/pages/users/UsersListPage";
 import CreateUserPage from "@/pages/users/CreateUserPage";
@@ -77,18 +93,32 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Public pages with PublicLayout */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/facilities" element={<FacilitiesPage />} />
+            <Route path="/admission" element={<AdmissionPage />} />
+            <Route path="/apply" element={<ApplicationFormPage />} />
+            <Route path="/track-application" element={<TrackApplicationPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/public-notices" element={<PublicNoticesPage />} />
+          </Route>
+
+          {/* Auth pages (no layout) */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/first-login" element={<FirstLoginPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
+          {/* Protected routes */}
           <Route element={<P roles={ALL}><DashboardLayout /></P>}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
 
-            {/* Users */}
             <Route path="/users" element={<P roles={MGMT}><UsersListPage /></P>} />
             <Route path="/users/new" element={<P roles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF']}><CreateUserPage /></P>} />
             <Route path="/users/bulk-upload" element={<P roles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF']}><BulkUploadPage /></P>} />
@@ -96,7 +126,6 @@ const App = () => (
             <Route path="/users/:id" element={<P roles={MGMT}><UserDetailsPage /></P>} />
             <Route path="/users/:id/edit" element={<P roles={MGMT}><CreateUserPage /></P>} />
 
-            {/* Rooms */}
             <Route path="/rooms" element={<P roles={MGMT}><RoomsListPage /></P>} />
             <Route path="/rooms/new" element={<P roles={ADMIN}><CreateRoomPage /></P>} />
             <Route path="/rooms/vacant" element={<P roles={['SUPER_ADMIN','PROVOST','HOUSE_TUTOR']}><VacantRoomsPage /></P>} />
@@ -104,51 +133,39 @@ const App = () => (
             <Route path="/rooms/statistics" element={<P roles={ADMIN}><RoomStatisticsPage /></P>} />
             <Route path="/rooms/:id" element={<P roles={MGMT}><RoomDetailsPage /></P>} />
 
-            {/* Applications */}
             <Route path="/applications" element={<P roles={MGMT}><ApplicationsListPage /></P>} />
             <Route path="/applications/my" element={<P roles={['STUDENT']}><MyApplicationsPage /></P>} />
             <Route path="/applications/new" element={<P roles={['STUDENT']}><NewApplicationPage /></P>} />
             <Route path="/applications/statistics" element={<P roles={ADMIN}><ApplicationStatisticsPage /></P>} />
             <Route path="/applications/:id" element={<P roles={[...MGMT,'STUDENT']}><ApplicationDetailsPage /></P>} />
 
-            {/* Complaints */}
             <Route path="/complaints" element={<P roles={MGMT}><ComplaintsListPage /></P>} />
             <Route path="/complaints/my" element={<P roles={['STUDENT']}><MyComplaintsPage /></P>} />
             <Route path="/complaints/new" element={<P roles={['STUDENT']}><SubmitComplaintPage /></P>} />
             <Route path="/complaints/statistics" element={<P roles={ADMIN}><ComplaintStatisticsPage /></P>} />
             <Route path="/complaints/:id" element={<P roles={[...MGMT,'STUDENT']}><ComplaintDetailsPage /></P>} />
 
-            {/* Maintenance */}
             <Route path="/maintenance" element={<P roles={[...MGMT,'MAINTENANCE_STAFF']}><MaintenanceListPage /></P>} />
             <Route path="/maintenance/statistics" element={<P roles={ADMIN}><MaintenanceStatisticsPage /></P>} />
             <Route path="/maintenance/:id" element={<P roles={[...MGMT,'MAINTENANCE_STAFF']}><MaintenanceDetailsPage /></P>} />
 
-            {/* Notices */}
             <Route path="/notices" element={<NoticeBoardPage />} />
             <Route path="/notices/new" element={<P roles={ADMIN}><CreateNoticePage /></P>} />
             <Route path="/notices/:id" element={<NoticeDetailsPage />} />
 
-            {/* Meals */}
             <Route path="/meals" element={<MealDashboardPage />} />
 
-            {/* Visitors */}
             <Route path="/visitors" element={<P roles={['SUPER_ADMIN','PROVOST','GUARD','STUDENT']}><VisitorsLogPage /></P>} />
             <Route path="/visitors/new" element={<P roles={['GUARD','SUPER_ADMIN']}><RegisterVisitorPage /></P>} />
 
-            {/* Attendance */}
             <Route path="/attendance" element={<P roles={['SUPER_ADMIN','PROVOST','HOUSE_TUTOR','STUDENT']}><AttendanceDashboardPage /></P>} />
 
-            {/* Fees */}
             <Route path="/fees" element={<P roles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF','STUDENT']}><FeesDashboardPage /></P>} />
 
-            {/* Events */}
             <Route path="/events" element={<EventsCalendarPage />} />
             <Route path="/events/:id" element={<EventDetailsPage />} />
 
-            {/* Reports */}
             <Route path="/reports" element={<P roles={ADMIN}><ReportsDashboardPage /></P>} />
-
-            {/* Settings */}
             <Route path="/settings" element={<P roles={ADMIN}><SettingsPage /></P>} />
           </Route>
 

@@ -57,6 +57,10 @@ export default {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+        },
         rose: {
           DEFAULT: "hsl(var(--rose))",
           foreground: "hsl(var(--rose-foreground))",
@@ -64,6 +68,10 @@ export default {
         teal: {
           DEFAULT: "hsl(var(--teal))",
           foreground: "hsl(var(--teal-foreground))",
+        },
+        sea: {
+          DEFAULT: "hsl(var(--sea))",
+          foreground: "hsl(var(--sea-foreground))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -93,6 +101,10 @@ export default {
         "fade-in": {
           from: { opacity: "0", transform: "translateY(8px)" },
           to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "counter": {
+          from: { "--num": "0" },
+          to: { "--num": "var(--target)" },
         },
       },
       animation: {
