@@ -121,9 +121,13 @@ export default function LandingPage() {
     <div className="overflow-hidden">
       {/* ═══════ Hero ═══════ */}
       <section ref={heroRef} className="relative min-h-[88vh] flex items-center overflow-hidden">
-        {/* Teal gradient background matching theme */}
-        <div className="absolute inset-0 gradient-teal" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
+        {/* Parallax background image */}
+        <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], [0, 100]) }} className="absolute inset-0">
+          <img src="/images/hall-building.jpg" alt="University Women's Hall Building" className="w-full h-full object-cover" />
+        </motion.div>
+        {/* Teal gradient overlay */}
+        <div className="absolute inset-0 gradient-teal opacity-85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30" />
         <div className="absolute inset-0 overflow-hidden">
           <motion.div animate={{ x: [0, 30, 0], y: [0, -20, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             className="absolute top-[10%] left-[15%] w-[500px] h-[500px] bg-white/[0.06] rounded-full blur-[100px]" />
