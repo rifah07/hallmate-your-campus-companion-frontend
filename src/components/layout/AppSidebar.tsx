@@ -38,13 +38,9 @@ const groups: { label: string; items: NavItem[] }[] = [
     { title: 'Vacant Rooms', url: '/rooms/vacant', icon: DoorOpen, roles: ['SUPER_ADMIN','PROVOST','HOUSE_TUTOR'] },
     { title: 'My Floor', url: '/rooms/my-floor', icon: BedDouble, roles: ['HOUSE_TUTOR'] },
   ]},
-  { label: 'Applications', items: [
-    { title: 'All Applications', url: '/applications', icon: ClipboardList, roles: MGMT },
-    { title: 'My Applications', url: '/applications/my', icon: ClipboardList, roles: ['STUDENT'] },
-  ]},
-  { label: 'Complaints', items: [
-    { title: 'All Complaints', url: '/complaints', icon: MessageSquare, roles: MGMT },
-    { title: 'My Complaints', url: '/complaints/my', icon: MessageSquare, roles: ['STUDENT'] },
+  { label: 'Complaints & Requests', items: [
+    { title: 'All Submissions', url: '/complaints', icon: MessageSquare, roles: MGMT },
+    { title: 'My Submissions', url: '/complaints/my', icon: ClipboardList, roles: ['STUDENT'] },
   ]},
   { label: 'Maintenance', items: [
     { title: 'Requests', url: '/maintenance', icon: Wrench, roles: [...MGMT, 'MAINTENANCE_STAFF'] },

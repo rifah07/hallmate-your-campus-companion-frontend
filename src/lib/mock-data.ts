@@ -3,10 +3,39 @@ import type { User, Room, Notification, Application, Complaint, ComplaintComment
 const avatarUrl = (name: string) =>
   `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&size=128`;
 
+// Helper to generate house tutors - one per floor
+const HOUSE_TUTOR_NAMES = [
+  'Ms. Farida Akter', 'Ms. Rubina Khatun', 'Ms. Sultana Begum', 'Ms. Shahana Parveen',
+  'Ms. Moushumi Das', 'Ms. Tahmina Akter', 'Ms. Kamrun Nahar', 'Ms. Sabina Yeasmin',
+  'Ms. Dilara Begum', 'Ms. Rahima Khatun', 'Ms. Nasima Akter', 'Ms. Shamima Nasrin',
+  'Ms. Hasina Begum', 'Ms. Roksana Parvin',
+];
+
+const HOUSE_TUTOR_DEPTS = [
+  'Physics', 'Chemistry', 'Mathematics', 'English', 'Economics', 'Sociology',
+  'Political Science', 'Pharmacy', 'Civil Engineering', 'Electrical Engineering',
+  'Computer Science', 'Architecture', 'Business Administration', 'Mechanical Engineering',
+];
+
+const houseTutors: User[] = HOUSE_TUTOR_NAMES.map((name, i) => ({
+  id: `ht${i + 1}`,
+  name,
+  universityId: `2024000${100 + i}`,
+  email: `${name.split(' ').pop()!.toLowerCase()}${i + 1}@univ.edu.bd`,
+  phone: `0171100${String(20 + i).padStart(4, '0')}`,
+  role: 'HOUSE_TUTOR' as UserRole,
+  status: 'ACTIVE' as const,
+  avatar: avatarUrl(name),
+  department: HOUSE_TUTOR_DEPTS[i],
+  assignedFloor: i + 1,
+  createdAt: '2024-01-01',
+  updatedAt: '2024-01-01',
+}));
+
 export const mockUsers: User[] = [
   { id: '1', name: 'Dr. Fatima Rahman', universityId: '2024000001', email: 'fatima@univ.edu.bd', phone: '01711000001', role: 'SUPER_ADMIN', status: 'ACTIVE', avatar: avatarUrl('Fatima Rahman'), department: 'Administration', createdAt: '2024-01-01', updatedAt: '2024-01-01' },
   { id: '2', name: 'Prof. Nasreen Ahmed', universityId: '2024000002', email: 'nasreen@univ.edu.bd', phone: '01711000002', role: 'PROVOST', status: 'ACTIVE', avatar: avatarUrl('Nasreen Ahmed'), department: 'Physics', createdAt: '2024-01-01', updatedAt: '2024-01-01' },
-  { id: '3', name: 'Ms. Sultana Begum', universityId: '2024000003', email: 'sultana@univ.edu.bd', phone: '01711000003', role: 'HOUSE_TUTOR', status: 'ACTIVE', avatar: avatarUrl('Sultana Begum'), department: 'Chemistry', assignedFloor: 3, createdAt: '2024-01-01', updatedAt: '2024-01-01' },
+  ...houseTutors,
   { id: '4', name: 'Anika Islam', universityId: '2024100001', email: 'anika@univ.edu.bd', phone: '01811000001', role: 'STUDENT', status: 'ACTIVE', avatar: avatarUrl('Anika Islam'), department: 'Computer Science', year: 3, program: 'BSc', session: '2021-22', bloodGroup: 'B+', roomId: 'r1', createdAt: '2024-01-15', updatedAt: '2024-06-01' },
   { id: '5', name: 'Tasnia Haque', universityId: '2024100002', email: 'tasnia@univ.edu.bd', phone: '01811000002', role: 'STUDENT', status: 'ACTIVE', avatar: avatarUrl('Tasnia Haque'), department: 'English', year: 2, program: 'BA', session: '2022-23', bloodGroup: 'A+', roomId: 'r1', createdAt: '2024-02-01', updatedAt: '2024-06-01' },
   { id: '6', name: 'Raisa Kabir', universityId: '2024100003', email: 'raisa@univ.edu.bd', phone: '01811000003', role: 'STUDENT', status: 'ACTIVE', avatar: avatarUrl('Raisa Kabir'), department: 'Electrical Engineering', year: 4, program: 'BSc', session: '2020-21', bloodGroup: 'O+', roomId: 'r2', createdAt: '2024-01-20', updatedAt: '2024-06-01' },
@@ -21,21 +50,35 @@ export const mockUsers: User[] = [
   { id: '15', name: 'Maryam Khan', universityId: '2024100006', email: 'maryam@univ.edu.bd', phone: '01811000006', role: 'STUDENT', status: 'ACTIVE', avatar: avatarUrl('Maryam Khan'), department: 'Pharmacy', year: 3, program: 'BPharm', session: '2021-22', bloodGroup: 'O-', createdAt: '2024-01-10', updatedAt: '2024-06-01' },
 ];
 
-export const mockRooms: Room[] = Array.from({ length: 40 }, (_, i) => {
-  const floor = Math.floor(i / 3) + 1;
-  const types = ['SINGLE', 'DOUBLE', 'TRIPLE', 'QUAD'] as const;
-  const type = types[i % 4];
-  const capacity = { SINGLE: 1, DOUBLE: 2, TRIPLE: 3, QUAD: 4 }[type];
-  const statuses = ['AVAILABLE', 'OCCUPIED', 'MAINTENANCE', 'AVAILABLE'] as const;
-  const status = i < 30 ? statuses[i % 4] : 'AVAILABLE';
+// Helper: get house tutor for a floor
+export const getHouseTutorForFloor = (floor: number): User | undefined =>
+  mockUsers.find(u => u.role === 'HOUSE_TUTOR' && u.assignedFloor === floor);
+
+// Rooms: 10 rooms per floor, 14 floors = 140 rooms (realistic for 1000+ students)
+const ROOM_TYPES: Room['type'][] = ['SINGLE', 'DOUBLE', 'TRIPLE', 'QUAD'];
+const ROOM_CAPACITY: Record<Room['type'], number> = { SINGLE: 1, DOUBLE: 2, TRIPLE: 3, QUAD: 4 };
+const students = () => mockUsers.filter(u => u.role === 'STUDENT');
+
+export const mockRooms: Room[] = Array.from({ length: 140 }, (_, i) => {
+  const floor = Math.floor(i / 10) + 1;
+  const roomInFloor = (i % 10) + 1;
+  const type = ROOM_TYPES[i % 4];
+  const capacity = ROOM_CAPACITY[type];
+  const statuses: Room['status'][] = ['AVAILABLE', 'OCCUPIED', 'OCCUPIED', 'OCCUPIED'];
+  const status = i < 120 ? statuses[i % 4] : 'AVAILABLE';
   const occupantCount = status === 'OCCUPIED' ? Math.min(capacity, Math.floor(Math.random() * capacity) + 1) : 0;
-  const occupants = mockUsers.filter(u => u.role === 'STUDENT').slice(0, occupantCount);
+  const occupants = students().slice(0, occupantCount);
   return {
-    id: `r${i + 1}`, roomNumber: `${floor}${String(i % 10 + 1).padStart(2, '0')}`,
-    floor: Math.min(floor, 14), type, capacity, occupants,
-    status: status as Room['status'],
+    id: `r${i + 1}`,
+    roomNumber: `${floor}${String(roomInFloor).padStart(2, '0')}`,
+    floor,
+    type,
+    capacity,
+    occupants,
+    status,
     features: { ac: i % 3 === 0, balcony: i % 5 === 0, attachedBath: i % 4 === 0 },
-    createdAt: '2024-01-01', updatedAt: '2024-06-01',
+    createdAt: '2024-01-01',
+    updatedAt: '2024-06-01',
   };
 });
 
@@ -51,7 +94,7 @@ export const mockComplaints: Complaint[] = [
   { id: 'cmp1', studentId: '4', studentName: 'Anika Islam', studentAvatar: avatarUrl('Anika Islam'), category: 'MAINTENANCE', priority: 'HIGH', status: 'OPEN', title: 'AC not working in Room 301', description: 'The AC in our room has stopped working since yesterday. It is very hot.', photos: [], roomNumber: '301', comments: [{ id: 'c1', userId: '1', userName: 'Dr. Fatima Rahman', content: 'Forwarded to maintenance team.', isInternal: false, createdAt: '2024-06-15T12:00:00' }], createdAt: '2024-06-15T10:00:00', updatedAt: '2024-06-15T12:00:00' },
   { id: 'cmp2', studentId: '5', studentName: 'Tasnia Haque', studentAvatar: avatarUrl('Tasnia Haque'), category: 'DINING', priority: 'MEDIUM', status: 'IN_PROGRESS', title: 'Poor food quality at dinner', description: 'The dinner quality has declined significantly over the past week.', photos: [], comments: [], createdAt: '2024-06-14T18:00:00', updatedAt: '2024-06-15T09:00:00' },
   { id: 'cmp3', studentId: '6', studentName: 'Raisa Kabir', studentAvatar: avatarUrl('Raisa Kabir'), category: 'SECURITY', priority: 'URGENT', status: 'OPEN', title: 'Broken lock on Room 205', description: 'The main door lock of our room is broken and cannot be locked properly.', photos: [], roomNumber: '205', comments: [], createdAt: '2024-06-16T08:00:00', updatedAt: '2024-06-16T08:00:00' },
-  { id: 'cmp4', studentId: '14', studentName: 'Sadia Akter', studentAvatar: avatarUrl('Sadia Akter'), category: 'BEHAVIOR', priority: 'LOW', status: 'RESOLVED', title: 'Noise complaint - Room 310', description: 'Room 310 residents are making excessive noise after midnight.', photos: [], roomNumber: '308', assignedTo: '3', assignedToName: 'Ms. Sultana Begum', comments: [], createdAt: '2024-06-10T22:00:00', updatedAt: '2024-06-12T10:00:00' },
+  { id: 'cmp4', studentId: '14', studentName: 'Sadia Akter', studentAvatar: avatarUrl('Sadia Akter'), category: 'BEHAVIOR', priority: 'LOW', status: 'RESOLVED', title: 'Noise complaint - Room 310', description: 'Room 310 residents are making excessive noise after midnight.', photos: [], roomNumber: '308', assignedTo: 'ht3', assignedToName: 'Ms. Sultana Begum', comments: [], createdAt: '2024-06-10T22:00:00', updatedAt: '2024-06-12T10:00:00' },
   { id: 'cmp5', studentId: '15', studentName: 'Maryam Khan', studentAvatar: avatarUrl('Maryam Khan'), category: 'OTHER', priority: 'MEDIUM', status: 'CLOSED', title: 'WiFi connectivity issues', description: 'WiFi in Floor 3 is very slow and keeps disconnecting.', photos: [], comments: [], createdAt: '2024-06-05T14:00:00', updatedAt: '2024-06-08T16:00:00' },
 ];
 
@@ -76,7 +119,7 @@ export const mockNotifications: Notification[] = [
   { id: 'nf2', title: 'Maintenance Request', message: 'Room 205 reported AC malfunction', type: 'warning', read: false, createdAt: '2024-06-15T09:15:00' },
   { id: 'nf3', title: 'Room Transfer Complete', message: 'Tasnia Haque transferred to Room 401', type: 'success', read: true, createdAt: '2024-06-14T16:00:00' },
   { id: 'nf4', title: 'Security Alert', message: 'Late entry recorded at Gate 2', type: 'error', read: true, createdAt: '2024-06-14T23:30:00' },
-  { id: 'nf5', title: 'Application Approved', message: 'Your room transfer application has been approved', type: 'success', read: false, link: '/applications/app2', createdAt: '2024-06-15T11:00:00' },
+  { id: 'nf5', title: 'Application Approved', message: 'Your room transfer application has been approved', type: 'success', read: false, link: '/complaints/app2', createdAt: '2024-06-15T11:00:00' },
   { id: 'nf6', title: 'Complaint Update', message: 'Your complaint #CMP1 has been assigned to maintenance', type: 'info', read: false, link: '/complaints/cmp1', createdAt: '2024-06-15T12:30:00' },
   { id: 'nf7', title: 'Fee Payment Due', message: 'Hall fee payment due by June 30, 2024', type: 'warning', read: true, link: '/fees', createdAt: '2024-06-10T09:00:00' },
 ];
@@ -107,32 +150,41 @@ export const mockVisitors: Visitor[] = [
 
 export const mockAttendance: AttendanceRecord[] = mockUsers
   .filter(u => u.role === 'STUDENT')
-  .flatMap(u => Array.from({ length: 7 }, (_, i) => ({
-    id: `att-${u.id}-${i}`, studentId: u.id, studentName: u.name,
-    date: `2024-06-${String(11 + i).padStart(2, '0')}`,
-    status: (Math.random() > 0.15 ? 'PRESENT' : Math.random() > 0.5 ? 'ABSENT' : 'LEAVE') as AttendanceRecord['status'],
-    markedBy: '3', floor: 3,
-  })));
+  .flatMap(u => {
+    // Find room, derive floor
+    const room = mockRooms.find(r => r.id === u.roomId);
+    const floor = room ? room.floor : 3;
+    return Array.from({ length: 7 }, (_, i) => ({
+      id: `att-${u.id}-${i}`,
+      studentId: u.id,
+      studentName: u.name,
+      date: `2024-06-${String(11 + i).padStart(2, '0')}`,
+      status: (Math.random() > 0.15 ? 'PRESENT' : Math.random() > 0.5 ? 'ABSENT' : 'LEAVE') as AttendanceRecord['status'],
+      markedBy: getHouseTutorForFloor(floor)?.id || 'ht3',
+      floor,
+    }));
+  });
 
 export const mockLeaveApplications: LeaveApplication[] = [
-  { id: 'lv1', studentId: '4', studentName: 'Anika Islam', type: 'MEDICAL', fromDate: '2024-06-20', toDate: '2024-06-22', reason: 'Doctor appointment and rest.', documents: [], status: 'APPROVED', approvedBy: '3', notes: 'Medical certificate verified.', createdAt: '2024-06-18T09:00:00' },
+  { id: 'lv1', studentId: '4', studentName: 'Anika Islam', type: 'MEDICAL', fromDate: '2024-06-20', toDate: '2024-06-22', reason: 'Doctor appointment and rest.', documents: [], status: 'APPROVED', approvedBy: 'ht3', notes: 'Medical certificate verified.', createdAt: '2024-06-18T09:00:00' },
   { id: 'lv2', studentId: '14', studentName: 'Sadia Akter', type: 'PERSONAL', fromDate: '2024-06-25', toDate: '2024-06-27', reason: 'Family event at hometown.', documents: [], status: 'PENDING', createdAt: '2024-06-17T15:00:00' },
   { id: 'lv3', studentId: '6', studentName: 'Raisa Kabir', type: 'ACADEMIC', fromDate: '2024-06-22', toDate: '2024-06-22', reason: 'Academic conference at another university.', documents: [], status: 'APPROVED', approvedBy: '2', createdAt: '2024-06-16T10:00:00' },
 ];
 
+// Seat rent reduced to 50%: 1200 → 600
 export const mockFees: Fee[] = [
-  { id: 'f1', type: 'SEAT_RENT', name: 'Monthly Seat Rent', amount: 1200, dueDate: '2024-06-30', applicableTo: 'All Students' },
+  { id: 'f1', type: 'SEAT_RENT', name: 'Monthly Seat Rent', amount: 600, dueDate: '2024-06-30', applicableTo: 'All Students' },
   { id: 'f2', type: 'UTILITY', name: 'Utility Bill (June)', amount: 500, dueDate: '2024-06-30', applicableTo: 'All Students' },
   { id: 'f3', type: 'DINING', name: 'Dining Charge (June)', amount: 3000, dueDate: '2024-06-30', applicableTo: 'Full Board Plan' },
   { id: 'f4', type: 'OTHER', name: 'Development Fund', amount: 2000, dueDate: '2024-07-15', applicableTo: 'All Students' },
 ];
 
 export const mockBills: Bill[] = [
-  { id: 'b1', studentId: '4', studentName: 'Anika Islam', feeId: 'f1', feeName: 'Monthly Seat Rent', amount: 1200, dueDate: '2024-06-30', status: 'PAID', paidAt: '2024-06-20T10:00:00', paymentMethod: 'ONLINE', referenceNumber: 'TXN-2024-001', createdAt: '2024-06-01' },
+  { id: 'b1', studentId: '4', studentName: 'Anika Islam', feeId: 'f1', feeName: 'Monthly Seat Rent', amount: 600, dueDate: '2024-06-30', status: 'PAID', paidAt: '2024-06-20T10:00:00', paymentMethod: 'ONLINE', referenceNumber: 'TXN-2024-001', createdAt: '2024-06-01' },
   { id: 'b2', studentId: '4', studentName: 'Anika Islam', feeId: 'f2', feeName: 'Utility Bill', amount: 500, dueDate: '2024-06-30', status: 'PENDING', createdAt: '2024-06-01' },
-  { id: 'b3', studentId: '5', studentName: 'Tasnia Haque', feeId: 'f1', feeName: 'Monthly Seat Rent', amount: 1200, dueDate: '2024-06-30', status: 'OVERDUE', createdAt: '2024-06-01' },
-  { id: 'b4', studentId: '6', studentName: 'Raisa Kabir', feeId: 'f1', feeName: 'Monthly Seat Rent', amount: 1200, dueDate: '2024-06-30', status: 'PAID', paidAt: '2024-06-18T14:00:00', paymentMethod: 'BANK_TRANSFER', referenceNumber: 'TXN-2024-002', createdAt: '2024-06-01' },
-  { id: 'b5', studentId: '14', studentName: 'Sadia Akter', feeId: 'f1', feeName: 'Monthly Seat Rent', amount: 1200, dueDate: '2024-06-30', status: 'PENDING', createdAt: '2024-06-01' },
+  { id: 'b3', studentId: '5', studentName: 'Tasnia Haque', feeId: 'f1', feeName: 'Monthly Seat Rent', amount: 600, dueDate: '2024-06-30', status: 'OVERDUE', createdAt: '2024-06-01' },
+  { id: 'b4', studentId: '6', studentName: 'Raisa Kabir', feeId: 'f1', feeName: 'Monthly Seat Rent', amount: 600, dueDate: '2024-06-30', status: 'PAID', paidAt: '2024-06-18T14:00:00', paymentMethod: 'BANK_TRANSFER', referenceNumber: 'TXN-2024-002', createdAt: '2024-06-01' },
+  { id: 'b5', studentId: '14', studentName: 'Sadia Akter', feeId: 'f1', feeName: 'Monthly Seat Rent', amount: 600, dueDate: '2024-06-30', status: 'PENDING', createdAt: '2024-06-01' },
 ];
 
 export const mockEvents: HallEvent[] = [
@@ -148,7 +200,7 @@ export const mockAuditLogs: AuditLog[] = [
   { id: 'al2', userId: '1', userName: 'Dr. Fatima Rahman', action: 'UPDATE', resource: 'Room', details: 'Assigned Room 301 to Anika Islam', ipAddress: '192.168.1.10', createdAt: '2024-06-15T10:35:00' },
   { id: 'al3', userId: '2', userName: 'Prof. Nasreen Ahmed', action: 'APPROVE', resource: 'Application', details: 'Approved transfer application #APP2', ipAddress: '192.168.1.15', createdAt: '2024-06-14T14:00:00' },
   { id: 'al4', userId: '9', userName: 'Mr. Karim', action: 'CREATE', resource: 'Visitor', details: 'Registered visitor Mrs. Nasima Begum', ipAddress: '192.168.1.50', createdAt: '2024-06-17T10:00:00' },
-  { id: 'al5', userId: '3', userName: 'Ms. Sultana Begum', action: 'UPDATE', resource: 'Attendance', details: 'Marked attendance for Floor 3', ipAddress: '192.168.1.20', createdAt: '2024-06-17T09:00:00' },
+  { id: 'al5', userId: 'ht3', userName: 'Ms. Sultana Begum', action: 'UPDATE', resource: 'Attendance', details: 'Marked attendance for Floor 3', ipAddress: '192.168.1.20', createdAt: '2024-06-17T09:00:00' },
 ];
 
 export const mockMealCancellations: MealCancellation[] = [
