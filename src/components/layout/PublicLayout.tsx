@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Menu, X, Shield, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube, ChevronDown } from 'lucide-react';
+import { Menu, X, GraduationCap, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -33,7 +33,7 @@ function PublicHeader() {
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl gradient-teal flex items-center justify-center">
-            <Shield className="w-5 h-5 text-primary-foreground" />
+            <GraduationCap className="w-5 h-5 text-primary-foreground" />
           </div>
           <span className="text-lg font-bold text-foreground">HallMate</span>
         </Link>
@@ -136,7 +136,7 @@ function PublicFooter() {
           <div>
             <div className="flex items-center gap-2.5 mb-4">
               <div className="w-8 h-8 rounded-lg gradient-teal flex items-center justify-center">
-                <Shield className="w-4 h-4 text-primary-foreground" />
+                <GraduationCap className="w-4 h-4 text-primary-foreground" />
               </div>
               <span className="text-lg font-bold text-background">HallMate</span>
             </div>
