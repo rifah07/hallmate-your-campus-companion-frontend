@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Target, Eye, Heart, Award, Users, GraduationCap } from 'lucide-react';
 
-const fadeUp = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } } };
+const fadeUp = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } };
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.1 } } };
 
 const provost = { name: 'Prof. Dr. Nasreen Ahmed', role: 'Provost', initials: 'NA', desc: 'Professor, Dept. of Chemistry. Leading the hall administration since 2020.' };
