@@ -1,4 +1,4 @@
-import type { User, Room, Notification, Application, Complaint, ComplaintComment, MaintenanceRequest, Notice, MealMenu, GuestMeal, MealFeedback, Visitor, AttendanceRecord, LeaveApplication, Fee, Bill, HallEvent, AuditLog, UserRole } from '@/types';
+import type { User, Room, Notification, Application, Complaint, ComplaintComment, MaintenanceRequest, Notice, MealMenu, GuestMeal, MealFeedback, Visitor, AttendanceRecord, LeaveApplication, Fee, Bill, HallEvent, AuditLog, UserRole, MealCancellation, HallOffMeal } from '@/types';
 
 const avatarUrl = (name: string) =>
   `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&size=128`;
