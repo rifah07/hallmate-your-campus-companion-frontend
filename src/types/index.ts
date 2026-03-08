@@ -138,6 +138,14 @@ export interface MaintenanceRequest {
   updatedAt: string;
 }
 
+export interface NoticeAttachment {
+  id: string;
+  name: string;
+  url: string;
+  type: 'pdf' | 'image' | 'doc' | 'other';
+  size: string;
+}
+
 export interface Notice {
   id: string;
   title: string;
@@ -147,7 +155,7 @@ export interface Notice {
   authorName: string;
   isPinned: boolean;
   targetAudience: string;
-  attachments: string[];
+  attachments: NoticeAttachment[];
   viewCount: number;
   createdAt: string;
   updatedAt: string;

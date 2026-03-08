@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Pin, Eye } from 'lucide-react';
+import { ArrowLeft, Pin, Eye, FileText, Download, Paperclip } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,6 +21,36 @@ export default function NoticeDetailsPage() {
         <Badge className="mb-3">{notice.category}</Badge>
         <h2 className="text-xl font-bold mb-4">{notice.title}</h2>
         <p className="text-sm leading-relaxed whitespace-pre-wrap">{notice.content}</p>
+
+        {notice.attachments.length > 0 && (
+          <div className="mt-6 pt-4 border-t border-border">
+            <h3 className="text-sm font-semibold flex items-center gap-2 mb-3">
+              <Paperclip className="w-4 h-4 text-muted-foreground" />
+              Attachments ({notice.attachments.length})
+            </h3>
+            <div className="space-y-2">
+              {notice.attachments.map(att => (
+                <a
+                  key={att.id}
+                  href={att.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-lg border border-border bg-muted/30 hover:bg-muted/60 transition-colors group"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-destructive/10 flex items-center justify-center shrink-0">
+                    <FileText className="w-4 h-4 text-destructive" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">{att.name}</p>
+                    <p className="text-xs text-muted-foreground">{att.type.toUpperCase()} • {att.size}</p>
+                  </div>
+                  <Download className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="flex items-center gap-3 mt-6 text-xs text-muted-foreground border-t pt-4">
           <span>By {notice.authorName}</span><span>•</span>
           <span>{new Date(notice.createdAt).toLocaleString()}</span><span>•</span>

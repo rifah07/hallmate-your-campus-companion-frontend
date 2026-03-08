@@ -107,11 +107,18 @@ export const mockMaintenanceRequests: MaintenanceRequest[] = [
 ];
 
 export const mockNotices: Notice[] = [
-  { id: 'n1', title: 'Hall Fees Payment Deadline', content: 'All students must pay their hall fees by June 30, 2024. Late payment will incur a fine of BDT 500. Please visit the office or use online banking.', category: 'URGENT', authorId: '2', authorName: 'Prof. Nasreen Ahmed', isPinned: true, targetAudience: 'All Students', attachments: [], viewCount: 342, createdAt: '2024-06-10T09:00:00', updatedAt: '2024-06-10T09:00:00' },
-  { id: 'n2', title: 'Cultural Night - Registration Open', content: 'Annual cultural night will be held on July 15, 2024. Students interested in performing can register at the office by July 5.', category: 'EVENT', authorId: '2', authorName: 'Prof. Nasreen Ahmed', isPinned: true, targetAudience: 'All', attachments: [], viewCount: 189, createdAt: '2024-06-12T11:00:00', updatedAt: '2024-06-12T11:00:00' },
+  { id: 'n1', title: 'Hall Fees Payment Deadline', content: 'All students must pay their hall fees by June 30, 2024. Late payment will incur a fine of BDT 500. Please visit the office or use online banking.', category: 'URGENT', authorId: '2', authorName: 'Prof. Nasreen Ahmed', isPinned: true, targetAudience: 'All Students', attachments: [
+    { id: 'a1', name: 'Fee_Structure_2024.pdf', url: '#', type: 'pdf', size: '245 KB' },
+    { id: 'a2', name: 'Payment_Guidelines.pdf', url: '#', type: 'pdf', size: '120 KB' },
+  ], viewCount: 342, createdAt: '2024-06-10T09:00:00', updatedAt: '2024-06-10T09:00:00' },
+  { id: 'n2', title: 'Cultural Night - Registration Open', content: 'Annual cultural night will be held on July 15, 2024. Students interested in performing can register at the office by July 5.', category: 'EVENT', authorId: '2', authorName: 'Prof. Nasreen Ahmed', isPinned: true, targetAudience: 'All', attachments: [
+    { id: 'a3', name: 'Cultural_Night_Schedule.pdf', url: '#', type: 'pdf', size: '180 KB' },
+  ], viewCount: 189, createdAt: '2024-06-12T11:00:00', updatedAt: '2024-06-12T11:00:00' },
   { id: 'n3', title: 'Water Supply Maintenance', content: 'Water supply will be temporarily disrupted on Saturday, June 22 from 8 AM to 12 PM for tank cleaning and pipe maintenance.', category: 'MAINTENANCE', authorId: '1', authorName: 'Dr. Fatima Rahman', isPinned: false, targetAudience: 'All', attachments: [], viewCount: 267, createdAt: '2024-06-14T14:00:00', updatedAt: '2024-06-14T14:00:00' },
   { id: 'n4', title: 'New WiFi Password', content: 'The WiFi password has been updated. New password: HallWiFi@2024. Please connect with SSID "UnivWomensHall".', category: 'GENERAL', authorId: '8', authorName: 'Mrs. Rehana Parvin', isPinned: false, targetAudience: 'All', attachments: [], viewCount: 412, createdAt: '2024-06-08T10:00:00', updatedAt: '2024-06-08T10:00:00' },
-  { id: 'n5', title: 'Exam Schedule Reminder', content: 'Final exams begin on July 1, 2024. Study hours (10 PM - 6 AM) will be strictly enforced. Quiet hours must be maintained.', category: 'ACADEMIC', authorId: '2', authorName: 'Prof. Nasreen Ahmed', isPinned: false, targetAudience: 'All Students', attachments: [], viewCount: 298, createdAt: '2024-06-15T08:00:00', updatedAt: '2024-06-15T08:00:00' },
+  { id: 'n5', title: 'Exam Schedule Reminder', content: 'Final exams begin on July 1, 2024. Study hours (10 PM - 6 AM) will be strictly enforced. Quiet hours must be maintained.', category: 'ACADEMIC', authorId: '2', authorName: 'Prof. Nasreen Ahmed', isPinned: false, targetAudience: 'All Students', attachments: [
+    { id: 'a4', name: 'Exam_Timetable_Summer2024.pdf', url: '#', type: 'pdf', size: '310 KB' },
+  ], viewCount: 298, createdAt: '2024-06-15T08:00:00', updatedAt: '2024-06-15T08:00:00' },
 ];
 
 export const mockNotifications: Notification[] = [
