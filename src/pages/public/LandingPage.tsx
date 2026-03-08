@@ -120,47 +120,46 @@ export default function LandingPage() {
   return (
     <div className="overflow-hidden">
       {/* ═══════ Hero ═══════ */}
-      <section ref={heroRef} className="relative min-h-[85vh] flex items-center overflow-hidden bg-foreground">
-        {/* Refined dark background with subtle accent */}
-        <div className="absolute inset-0 bg-gradient-to-b from-foreground via-foreground to-foreground/95" />
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-primary/[0.07] rounded-full blur-[150px]" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/[0.04] rounded-full blur-[100px]" />
+      <section ref={heroRef} className="relative min-h-[88vh] flex items-center overflow-hidden">
+        {/* Teal gradient background matching theme */}
+        <div className="absolute inset-0 gradient-teal" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div animate={{ x: [0, 30, 0], y: [0, -20, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute top-[10%] left-[15%] w-[500px] h-[500px] bg-white/[0.06] rounded-full blur-[100px]" />
+          <motion.div animate={{ x: [0, -20, 0], y: [0, 25, 0] }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+            className="absolute bottom-[5%] right-[10%] w-[600px] h-[600px] bg-white/[0.04] rounded-full blur-[120px]" />
+          <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         </div>
-        {/* Fine grid overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
 
-        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="container mx-auto px-4 relative z-10 py-32">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
-              <div className="inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] px-4 py-1.5 rounded-full text-xs font-medium text-white/60 mb-10 tracking-wide uppercase">
-                <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-                Est. 1947 · University of Dhaka
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="container mx-auto px-4 relative z-10 py-28">
+          <div className="max-w-3xl mx-auto text-center text-primary-foreground">
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+              <div className="inline-flex items-center gap-2 bg-white/[0.12] backdrop-blur-md border border-white/[0.15] px-4 py-1.5 rounded-full text-xs font-medium mb-8 tracking-wide">
+                <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full animate-pulse" />
+                Smart Digital Hall Management
               </div>
             </motion.div>
 
-            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-4xl sm:text-5xl md:text-[3.5rem] font-bold leading-[1.08] tracking-[-0.03em] text-white mb-5">
+            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold leading-[1.1] tracking-[-0.02em] mb-5">
               University Women's Hall
             </motion.h1>
 
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.7 }}
-              className="w-12 h-[2px] bg-primary mx-auto mb-6" />
-
-            <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.7 }}
-              className="text-white/50 text-sm sm:text-base leading-[1.8] max-w-md mx-auto mb-12 font-normal">
+            <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.6 }}
+              className="text-sm sm:text-base opacity-80 leading-[1.7] max-w-lg mx-auto mb-10 font-normal">
               A Home Away From Home — Safe, Smart & Digitally Managed Residential Experience
             </motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/apply">
-                <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 h-11 text-sm rounded-lg group transition-all duration-200 shadow-lg shadow-primary/20">
+                <Button className="bg-white text-primary hover:bg-white/95 shadow-xl shadow-black/10 font-semibold px-8 h-11 text-sm rounded-xl group transition-all duration-200 hover:shadow-2xl">
                   Apply for Seat <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                 </Button>
               </Link>
               <Link to="/login">
-                <Button className="bg-white/[0.07] text-white/80 border border-white/[0.1] hover:bg-white/[0.12] hover:text-white font-medium px-8 h-11 text-sm rounded-lg transition-all duration-200">
+                <Button className="bg-white/[0.12] text-white border border-white/20 hover:bg-white/[0.2] font-medium px-8 h-11 text-sm backdrop-blur-md rounded-xl transition-all duration-200">
                   <LogIn className="mr-2 h-4 w-4" /> Sign In
                 </Button>
               </Link>
@@ -168,8 +167,11 @@ export default function LandingPage() {
           </div>
         </motion.div>
 
-        {/* Clean bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" preserveAspectRatio="none">
+            <path d="M0 80V40C360 70 720 10 1080 40C1260 55 1380 50 1440 45V80H0Z" fill="hsl(var(--background))" />
+          </svg>
+        </div>
       </section>
 
       {/* ═══════ Stats ═══════ */}
