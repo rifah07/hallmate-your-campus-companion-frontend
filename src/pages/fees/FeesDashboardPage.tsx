@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/store/auth.store';
 
 const MONTHLY_FEES = [
-  { id: 'mf1', type: 'SEAT_RENT', name: 'Monthly Seat Rent', amount: 1200, frequency: 'Monthly', applicableTo: 'All Students' },
+  { id: 'mf1', type: 'SEAT_RENT', name: 'Monthly Seat Rent', amount: 600, frequency: 'Monthly', applicableTo: 'All Students' },
   { id: 'mf2', type: 'UTILITY', name: 'Utility Bill', amount: 500, frequency: 'Monthly', applicableTo: 'All Students' },
   { id: 'mf3', type: 'DINING', name: 'Dining Charge', amount: 3000, frequency: 'Monthly', applicableTo: 'Full Board Plan' },
   { id: 'mf4', type: 'INTERNET', name: 'Internet & WiFi', amount: 200, frequency: 'Monthly', applicableTo: 'All Students' },
