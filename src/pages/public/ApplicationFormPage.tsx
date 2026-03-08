@@ -1,8 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, ArrowRight, Check, Upload, FileText } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Upload, FileText, X, Image as ImageIcon } from 'lucide-react';
 
 const STEPS = ['Personal Info', 'Academic Info', 'Guardian Info', 'Room Preference', 'Documents', 'Declaration'];
 
