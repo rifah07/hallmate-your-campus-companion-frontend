@@ -26,7 +26,7 @@ export const ROLE_COLORS: Record<UserRole, string> = {
   PARENT: 'bg-secondary text-secondary-foreground',
 };
 
-export const STATUS_COLORS = {
+export const STATUS_COLORS: Record<string, string> = {
   ACTIVE: 'bg-success/15 text-success border-success/30',
   INACTIVE: 'bg-muted text-muted-foreground border-border',
   SUSPENDED: 'bg-destructive/15 text-destructive border-destructive/30',
@@ -35,6 +35,30 @@ export const STATUS_COLORS = {
   OCCUPIED: 'bg-rose/15 text-rose border-rose/30',
   MAINTENANCE: 'bg-warning/15 text-warning border-warning/30',
   RESERVED: 'bg-primary/15 text-primary border-primary/30',
+  PENDING: 'bg-warning/15 text-warning border-warning/30',
+  APPROVED: 'bg-success/15 text-success border-success/30',
+  REJECTED: 'bg-destructive/15 text-destructive border-destructive/30',
+  CANCELLED: 'bg-muted text-muted-foreground border-border',
+  OPEN: 'bg-primary/15 text-primary border-primary/30',
+  IN_PROGRESS: 'bg-warning/15 text-warning border-warning/30',
+  RESOLVED: 'bg-success/15 text-success border-success/30',
+  CLOSED: 'bg-muted text-muted-foreground border-border',
+  TODO: 'bg-primary/15 text-primary border-primary/30',
+  COMPLETED: 'bg-success/15 text-success border-success/30',
+  CHECKED_IN: 'bg-success/15 text-success border-success/30',
+  CHECKED_OUT: 'bg-muted text-muted-foreground border-border',
+  PRESENT: 'bg-success/15 text-success border-success/30',
+  ABSENT: 'bg-destructive/15 text-destructive border-destructive/30',
+  LEAVE: 'bg-warning/15 text-warning border-warning/30',
+  PAID: 'bg-success/15 text-success border-success/30',
+  OVERDUE: 'bg-destructive/15 text-destructive border-destructive/30',
+};
+
+export const PRIORITY_COLORS: Record<string, string> = {
+  LOW: 'bg-muted text-muted-foreground',
+  MEDIUM: 'bg-primary/15 text-primary',
+  HIGH: 'bg-warning/15 text-warning',
+  URGENT: 'bg-destructive/15 text-destructive',
 };
 
 export const ADMIN_ROLES: UserRole[] = ['SUPER_ADMIN', 'PROVOST'];
@@ -53,3 +77,35 @@ export const DEPARTMENTS = [
 ];
 
 export const FLOORS = Array.from({ length: 14 }, (_, i) => i + 1);
+
+export const COMPLAINT_CATEGORIES = [
+  { value: 'MAINTENANCE', label: 'Maintenance' },
+  { value: 'DINING', label: 'Dining' },
+  { value: 'BEHAVIOR', label: 'Behavior' },
+  { value: 'SECURITY', label: 'Security' },
+  { value: 'OTHER', label: 'Other' },
+];
+
+export const MAINTENANCE_TYPES = [
+  { value: 'ELECTRICAL', label: 'Electrical' },
+  { value: 'PLUMBING', label: 'Plumbing' },
+  { value: 'CARPENTRY', label: 'Carpentry' },
+  { value: 'CLEANING', label: 'Cleaning' },
+  { value: 'OTHER', label: 'Other' },
+];
+
+export const EVENT_CATEGORIES = [
+  { value: 'CULTURAL', label: 'Cultural' },
+  { value: 'SPORTS', label: 'Sports' },
+  { value: 'ACADEMIC', label: 'Academic' },
+  { value: 'SOCIAL', label: 'Social' },
+  { value: 'OFFICIAL', label: 'Official' },
+];
+
+export const NOTICE_CATEGORIES = [
+  { value: 'GENERAL', label: 'General' },
+  { value: 'ACADEMIC', label: 'Academic' },
+  { value: 'EVENT', label: 'Event' },
+  { value: 'URGENT', label: 'Urgent' },
+  { value: 'MAINTENANCE', label: 'Maintenance' },
+];
