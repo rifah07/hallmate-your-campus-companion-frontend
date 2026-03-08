@@ -58,8 +58,8 @@ function SectionHeader({ tag, title, subtitle }: { tag: string; title: string; s
       <span className="inline-flex items-center gap-1.5 text-primary font-semibold text-xs uppercase tracking-[0.15em] mb-3 bg-primary/8 px-3 py-1 rounded-full border border-primary/15">
         <Sparkles className="w-3 h-3" /> {tag}
       </span>
-      <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold text-foreground leading-tight">{title}</h2>
-      {subtitle && <p className="text-muted-foreground mt-4 max-w-xl mx-auto leading-relaxed text-base">{subtitle}</p>}
+      <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground leading-tight tracking-tight">{title}</h2>
+      {subtitle && <p className="text-muted-foreground mt-4 max-w-xl mx-auto leading-relaxed text-lg">{subtitle}</p>}
     </motion.div>
   );
 }
@@ -140,23 +140,23 @@ export default function LandingPage() {
               <span className="w-2 h-2 bg-emerald-300 rounded-full animate-pulse-soft" />
               Smart Digital Hall Management
             </motion.div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-6">
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5rem] font-extrabold leading-[1.05] mb-6 tracking-tight">
               <span className="block">University</span>
               <span className="block mt-1">Women's Hall</span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl opacity-85 mb-12 font-medium leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl md:text-2xl opacity-85 mb-12 font-medium leading-relaxed max-w-2xl mx-auto">
               A Home Away From Home — Safe, Smart & Digitally Managed Residential Experience
             </p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
               className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/apply">
-                <Button size="lg" className="bg-white text-primary hover:bg-white/95 shadow-xl shadow-black/10 font-bold px-8 h-13 text-base rounded-xl group">
-                  Apply for Seat <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                <Button size="lg" className="bg-white text-primary hover:bg-white/95 shadow-xl shadow-black/10 font-bold px-10 h-14 text-lg rounded-2xl group tracking-tight">
+                  Apply for Seat <ArrowRight className="ml-2.5 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
               <Link to="/login">
-                <Button size="lg" className="bg-white/10 text-white border border-white/25 hover:bg-white/20 font-semibold px-8 h-13 text-base backdrop-blur-md rounded-xl">
-                  <LogIn className="mr-2 h-4 w-4" /> Sign In
+                <Button size="lg" className="bg-white/12 text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/40 font-semibold px-10 h-14 text-lg backdrop-blur-md rounded-2xl tracking-tight transition-all duration-300">
+                  <LogIn className="mr-2.5 h-5 w-5" /> Sign In
                 </Button>
               </Link>
             </motion.div>
