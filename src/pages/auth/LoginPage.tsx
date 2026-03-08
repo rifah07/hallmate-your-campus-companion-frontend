@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Shield, Eye, EyeOff } from 'lucide-react';
+import { Shield, Eye, EyeOff, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuthStore } from '@/store/auth.store';
-import { mockUsers } from '@/lib/mock-data';
+import { mockUsers, getDemoUser } from '@/lib/mock-data';
 import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
+import type { UserRole } from '@/types';
 
 const loginSchema = z.object({
   universityId: z.string().min(10, 'University ID must be 10 digits').max(10),
@@ -20,6 +21,19 @@ const loginSchema = z.object({
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
+
+const DEMO_ROLES: { role: UserRole; label: string; color: string }[] = [
+  { role: 'SUPER_ADMIN', label: 'Super Admin', color: 'bg-destructive/10 text-destructive hover:bg-destructive/20' },
+  { role: 'PROVOST', label: 'Provost', color: 'bg-primary/10 text-primary hover:bg-primary/20' },
+  { role: 'HOUSE_TUTOR', label: 'House Tutor', color: 'bg-secondary/10 text-secondary-foreground hover:bg-secondary/20' },
+  { role: 'ASSISTANT_WARDEN', label: 'Asst. Warden', color: 'bg-accent text-accent-foreground hover:bg-accent/80' },
+  { role: 'OFFICE_STAFF', label: 'Office Staff', color: 'bg-muted text-muted-foreground hover:bg-muted/80' },
+  { role: 'DINING_STAFF', label: 'Dining Staff', color: 'bg-warning/10 text-warning hover:bg-warning/20' },
+  { role: 'MAINTENANCE_STAFF', label: 'Maintenance', color: 'bg-info/10 text-info hover:bg-info/20' },
+  { role: 'GUARD', label: 'Guard', color: 'bg-muted text-muted-foreground hover:bg-muted/80' },
+  { role: 'STUDENT', label: 'Student', color: 'bg-success/10 text-success hover:bg-success/20' },
+  { role: 'PARENT', label: 'Parent', color: 'bg-primary/10 text-primary hover:bg-primary/20' },
+];
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +49,6 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginForm) => {
     setLoading(true);
-    // Mock login - find user by universityId
     setTimeout(() => {
       const user = mockUsers.find(u => u.universityId === data.universityId);
       if (user) {
@@ -43,7 +56,6 @@ export default function LoginPage() {
         toast({ title: 'Welcome back!', description: `Logged in as ${user.name}` });
         navigate('/dashboard');
       } else {
-        // Demo: log in as first user
         const demoUser = mockUsers[0];
         login(demoUser, 'mock-jwt-token');
         toast({ title: 'Demo Login', description: `Logged in as ${demoUser.name} (demo)` });
@@ -53,13 +65,20 @@ export default function LoginPage() {
     }, 800);
   };
 
+  const handleDemoLogin = (role: UserRole) => {
+    const user = getDemoUser(role);
+    login(user, 'mock-jwt-token');
+    toast({ title: 'Demo Login', description: `Logged in as ${user.name} (${role})` });
+    navigate('/dashboard');
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-secondary/30 to-accent/20 p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        className="w-full max-w-lg"
       >
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary mb-4">
@@ -123,13 +142,28 @@ export default function LoginPage() {
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? 'Signing in...' : 'Sign In'}
               </Button>
-
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground mt-4">
-                  Demo: Enter any ID or just click Sign In
-                </p>
-              </div>
             </form>
+
+            {/* Demo Quick Login */}
+            <div className="mt-6 pt-6 border-t border-border">
+              <div className="flex items-center gap-2 mb-3">
+                <Users className="h-4 w-4 text-muted-foreground" />
+                <p className="text-sm font-medium text-muted-foreground">Quick Demo Login</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {DEMO_ROLES.map(({ role, label, color }) => (
+                  <Button
+                    key={role}
+                    variant="ghost"
+                    size="sm"
+                    className={`text-xs h-8 ${color}`}
+                    onClick={() => handleDemoLogin(role)}
+                  >
+                    {label}
+                  </Button>
+                ))}
+              </div>
+            </div>
           </CardContent>
         </Card>
       </motion.div>
