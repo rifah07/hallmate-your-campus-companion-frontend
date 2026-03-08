@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useThemeStore } from "@/store/theme.store";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import type { UserRole } from "@/types";
 
 import LoginPage from "@/pages/auth/LoginPage";
 import FirstLoginPage from "@/pages/auth/FirstLoginPage";
@@ -24,24 +25,49 @@ import RoomDetailsPage from "@/pages/rooms/RoomDetailsPage";
 import CreateRoomPage from "@/pages/rooms/CreateRoomPage";
 import RoomStatisticsPage from "@/pages/rooms/RoomStatisticsPage";
 import MyFloorPage from "@/pages/rooms/MyFloorPage";
+import ApplicationsListPage from "@/pages/applications/ApplicationsListPage";
+import MyApplicationsPage from "@/pages/applications/MyApplicationsPage";
+import NewApplicationPage from "@/pages/applications/NewApplicationPage";
+import ApplicationDetailsPage from "@/pages/applications/ApplicationDetailsPage";
+import ApplicationStatisticsPage from "@/pages/applications/ApplicationStatisticsPage";
+import ComplaintsListPage from "@/pages/complaints/ComplaintsListPage";
+import MyComplaintsPage from "@/pages/complaints/MyComplaintsPage";
+import SubmitComplaintPage from "@/pages/complaints/SubmitComplaintPage";
+import ComplaintDetailsPage from "@/pages/complaints/ComplaintDetailsPage";
+import ComplaintStatisticsPage from "@/pages/complaints/ComplaintStatisticsPage";
+import MaintenanceListPage from "@/pages/maintenance/MaintenanceListPage";
+import MaintenanceDetailsPage from "@/pages/maintenance/MaintenanceDetailsPage";
+import MaintenanceStatisticsPage from "@/pages/maintenance/MaintenanceStatisticsPage";
+import NoticeBoardPage from "@/pages/notices/NoticeBoardPage";
+import NoticeDetailsPage from "@/pages/notices/NoticeDetailsPage";
+import CreateNoticePage from "@/pages/notices/CreateNoticePage";
+import MealDashboardPage from "@/pages/meals/MealDashboardPage";
+import VisitorsLogPage from "@/pages/visitors/VisitorsLogPage";
+import RegisterVisitorPage from "@/pages/visitors/RegisterVisitorPage";
+import AttendanceDashboardPage from "@/pages/attendance/AttendanceDashboardPage";
+import FeesDashboardPage from "@/pages/fees/FeesDashboardPage";
+import EventsCalendarPage from "@/pages/events/EventsCalendarPage";
+import EventDetailsPage from "@/pages/events/EventDetailsPage";
+import ReportsDashboardPage from "@/pages/reports/ReportsDashboardPage";
 import ProfilePage from "@/pages/profile/ProfilePage";
 import SettingsPage from "@/pages/settings/SettingsPage";
 import UnauthorizedPage from "@/pages/UnauthorizedPage";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
-
-const ALL_ROLES = ['SUPER_ADMIN','PROVOST','HOUSE_TUTOR','ASSISTANT_WARDEN','OFFICE_STAFF','DINING_STAFF','MAINTENANCE_STAFF','GUARD','STUDENT','PARENT'] as const;
-const MGMT = ['SUPER_ADMIN','PROVOST','HOUSE_TUTOR','ASSISTANT_WARDEN','OFFICE_STAFF'] as const;
-const ADMIN = ['SUPER_ADMIN','PROVOST'] as const;
+const ALL: UserRole[] = ['SUPER_ADMIN','PROVOST','HOUSE_TUTOR','ASSISTANT_WARDEN','OFFICE_STAFF','DINING_STAFF','MAINTENANCE_STAFF','GUARD','STUDENT','PARENT'];
+const MGMT: UserRole[] = ['SUPER_ADMIN','PROVOST','HOUSE_TUTOR','ASSISTANT_WARDEN','OFFICE_STAFF'];
+const ADMIN: UserRole[] = ['SUPER_ADMIN','PROVOST'];
 
 function ThemeInit() {
   const { theme } = useThemeStore();
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-  }, [theme]);
+  useEffect(() => { document.documentElement.classList.toggle('dark', theme === 'dark'); }, [theme]);
   return null;
 }
+
+const P = ({ roles, children }: { roles: UserRole[]; children: React.ReactNode }) => (
+  <ProtectedRoute allowedRoles={roles}>{children}</ProtectedRoute>
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -58,25 +84,72 @@ const App = () => (
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-          <Route element={<ProtectedRoute allowedRoles={[...ALL_ROLES]}><DashboardLayout /></ProtectedRoute>}>
+          <Route element={<P roles={ALL}><DashboardLayout /></P>}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
 
-            <Route path="/users" element={<ProtectedRoute allowedRoles={[...MGMT]}><UsersListPage /></ProtectedRoute>} />
-            <Route path="/users/new" element={<ProtectedRoute allowedRoles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF']}><CreateUserPage /></ProtectedRoute>} />
-            <Route path="/users/bulk-upload" element={<ProtectedRoute allowedRoles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF']}><BulkUploadPage /></ProtectedRoute>} />
-            <Route path="/users/statistics" element={<ProtectedRoute allowedRoles={[...ADMIN]}><UserStatisticsPage /></ProtectedRoute>} />
-            <Route path="/users/:id" element={<ProtectedRoute allowedRoles={[...MGMT]}><UserDetailsPage /></ProtectedRoute>} />
-            <Route path="/users/:id/edit" element={<ProtectedRoute allowedRoles={[...MGMT]}><CreateUserPage /></ProtectedRoute>} />
+            {/* Users */}
+            <Route path="/users" element={<P roles={MGMT}><UsersListPage /></P>} />
+            <Route path="/users/new" element={<P roles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF']}><CreateUserPage /></P>} />
+            <Route path="/users/bulk-upload" element={<P roles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF']}><BulkUploadPage /></P>} />
+            <Route path="/users/statistics" element={<P roles={ADMIN}><UserStatisticsPage /></P>} />
+            <Route path="/users/:id" element={<P roles={MGMT}><UserDetailsPage /></P>} />
+            <Route path="/users/:id/edit" element={<P roles={MGMT}><CreateUserPage /></P>} />
 
-            <Route path="/rooms" element={<ProtectedRoute allowedRoles={[...MGMT]}><RoomsListPage /></ProtectedRoute>} />
-            <Route path="/rooms/new" element={<ProtectedRoute allowedRoles={[...ADMIN]}><CreateRoomPage /></ProtectedRoute>} />
-            <Route path="/rooms/vacant" element={<ProtectedRoute allowedRoles={['SUPER_ADMIN','PROVOST','HOUSE_TUTOR']}><VacantRoomsPage /></ProtectedRoute>} />
-            <Route path="/rooms/my-floor" element={<ProtectedRoute allowedRoles={['HOUSE_TUTOR']}><MyFloorPage /></ProtectedRoute>} />
-            <Route path="/rooms/statistics" element={<ProtectedRoute allowedRoles={[...ADMIN]}><RoomStatisticsPage /></ProtectedRoute>} />
-            <Route path="/rooms/:id" element={<ProtectedRoute allowedRoles={[...MGMT]}><RoomDetailsPage /></ProtectedRoute>} />
+            {/* Rooms */}
+            <Route path="/rooms" element={<P roles={MGMT}><RoomsListPage /></P>} />
+            <Route path="/rooms/new" element={<P roles={ADMIN}><CreateRoomPage /></P>} />
+            <Route path="/rooms/vacant" element={<P roles={['SUPER_ADMIN','PROVOST','HOUSE_TUTOR']}><VacantRoomsPage /></P>} />
+            <Route path="/rooms/my-floor" element={<P roles={['HOUSE_TUTOR']}><MyFloorPage /></P>} />
+            <Route path="/rooms/statistics" element={<P roles={ADMIN}><RoomStatisticsPage /></P>} />
+            <Route path="/rooms/:id" element={<P roles={MGMT}><RoomDetailsPage /></P>} />
 
-            <Route path="/settings" element={<ProtectedRoute allowedRoles={[...ADMIN]}><SettingsPage /></ProtectedRoute>} />
+            {/* Applications */}
+            <Route path="/applications" element={<P roles={MGMT}><ApplicationsListPage /></P>} />
+            <Route path="/applications/my" element={<P roles={['STUDENT']}><MyApplicationsPage /></P>} />
+            <Route path="/applications/new" element={<P roles={['STUDENT']}><NewApplicationPage /></P>} />
+            <Route path="/applications/statistics" element={<P roles={ADMIN}><ApplicationStatisticsPage /></P>} />
+            <Route path="/applications/:id" element={<P roles={[...MGMT,'STUDENT']}><ApplicationDetailsPage /></P>} />
+
+            {/* Complaints */}
+            <Route path="/complaints" element={<P roles={MGMT}><ComplaintsListPage /></P>} />
+            <Route path="/complaints/my" element={<P roles={['STUDENT']}><MyComplaintsPage /></P>} />
+            <Route path="/complaints/new" element={<P roles={['STUDENT']}><SubmitComplaintPage /></P>} />
+            <Route path="/complaints/statistics" element={<P roles={ADMIN}><ComplaintStatisticsPage /></P>} />
+            <Route path="/complaints/:id" element={<P roles={[...MGMT,'STUDENT']}><ComplaintDetailsPage /></P>} />
+
+            {/* Maintenance */}
+            <Route path="/maintenance" element={<P roles={[...MGMT,'MAINTENANCE_STAFF']}><MaintenanceListPage /></P>} />
+            <Route path="/maintenance/statistics" element={<P roles={ADMIN}><MaintenanceStatisticsPage /></P>} />
+            <Route path="/maintenance/:id" element={<P roles={[...MGMT,'MAINTENANCE_STAFF']}><MaintenanceDetailsPage /></P>} />
+
+            {/* Notices */}
+            <Route path="/notices" element={<NoticeBoardPage />} />
+            <Route path="/notices/new" element={<P roles={ADMIN}><CreateNoticePage /></P>} />
+            <Route path="/notices/:id" element={<NoticeDetailsPage />} />
+
+            {/* Meals */}
+            <Route path="/meals" element={<MealDashboardPage />} />
+
+            {/* Visitors */}
+            <Route path="/visitors" element={<P roles={['SUPER_ADMIN','PROVOST','GUARD','STUDENT']}><VisitorsLogPage /></P>} />
+            <Route path="/visitors/new" element={<P roles={['GUARD','SUPER_ADMIN']}><RegisterVisitorPage /></P>} />
+
+            {/* Attendance */}
+            <Route path="/attendance" element={<P roles={['SUPER_ADMIN','PROVOST','HOUSE_TUTOR','STUDENT']}><AttendanceDashboardPage /></P>} />
+
+            {/* Fees */}
+            <Route path="/fees" element={<P roles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF','STUDENT']}><FeesDashboardPage /></P>} />
+
+            {/* Events */}
+            <Route path="/events" element={<EventsCalendarPage />} />
+            <Route path="/events/:id" element={<EventDetailsPage />} />
+
+            {/* Reports */}
+            <Route path="/reports" element={<P roles={ADMIN}><ReportsDashboardPage /></P>} />
+
+            {/* Settings */}
+            <Route path="/settings" element={<P roles={ADMIN}><SettingsPage /></P>} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
