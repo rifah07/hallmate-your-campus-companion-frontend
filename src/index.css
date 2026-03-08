@@ -16,8 +16,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 170 15% 12%;
 
-    /* Sea-green primary */
-    --primary: 168 55% 42%;
+    /* Vibrant sea-green primary */
+    --primary: 168 65% 36%;
     --primary-foreground: 0 0% 100%;
 
     /* Soft mint secondary */
@@ -28,9 +28,9 @@
     --muted: 165 18% 94%;
     --muted-foreground: 170 8% 44%;
 
-    /* Blush-pink accent (feminine touch) */
-    --accent: 340 45% 93%;
-    --accent-foreground: 340 50% 35%;
+    /* Warm blush-pink accent */
+    --accent: 340 55% 88%;
+    --accent-foreground: 340 55% 32%;
 
     /* Rose destructive */
     --destructive: 0 72% 56%;
@@ -48,7 +48,7 @@
     --warning-foreground: 38 92% 15%;
 
     /* Rose highlight */
-    --rose: 340 55% 58%;
+    --rose: 340 65% 55%;
     --rose-foreground: 0 0% 100%;
 
     /* Teal */
