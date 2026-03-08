@@ -17,8 +17,15 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       isAuthenticated: false,
-      login: (user, token) => set({ user, token, isAuthenticated: true }),
+      login: (user, token) => {
+        localStorage.setItem('accessToken', token);
+        set({ user, token, isAuthenticated: true });
+      },
       logout: () => {
+        // Fire-and-forget API logout (don't block UI)
+        import('@/services/auth.service').then(({ authService }) => {
+          authService.logout().catch(() => {});
+        });
         set({ user: null, token: null, isAuthenticated: false });
         localStorage.removeItem('accessToken');
       },

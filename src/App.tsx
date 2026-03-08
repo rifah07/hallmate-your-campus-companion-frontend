@@ -35,6 +35,7 @@ import LoginPage from "@/pages/auth/LoginPage";
 import FirstLoginPage from "@/pages/auth/FirstLoginPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
+import ChangePasswordPage from "@/pages/auth/ChangePasswordPage";
 
 // Protected pages
 import DashboardPage from "@/pages/dashboard/DashboardPage";
@@ -129,13 +130,14 @@ const App = () => (
           <Route path="/login" element={<LoginPage />} />
           <Route path="/first-login" element={<FirstLoginPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
           {/* Protected routes */}
           <Route element={<P roles={ALL}><DashboardLayout /></P>}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/change-password" element={<ChangePasswordPage />} />
 
             <Route path="/users" element={<P roles={MGMT}><UsersListPage /></P>} />
             <Route path="/users/new" element={<P roles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF']}><CreateUserPage /></P>} />

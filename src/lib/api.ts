@@ -3,22 +3,77 @@ import axios from 'axios';
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
   headers: { 'Content-Type': 'application/json' },
+  withCredentials: true, // Required for httpOnly refresh token cookie
 });
 
+// Attach access token to every request
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
+// Track if we're already refreshing to avoid infinite loops
+let isRefreshing = false;
+let failedQueue: Array<{ resolve: (token: string) => void; reject: (err: unknown) => void }> = [];
+
+const processQueue = (error: unknown, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (token) prom.resolve(token);
+    else prom.reject(error);
+  });
+  failedQueue = [];
+};
+
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('hallmate-auth');
-      window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If 401 and not already retrying, attempt token refresh
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      // Don't retry refresh-token or login endpoints
+      if (originalRequest.url?.includes('/auth/refresh-token') || originalRequest.url?.includes('/auth/login')) {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('hallmate-auth');
+        window.location.href = '/login';
+        return Promise.reject(error);
+      }
+
+      if (isRefreshing) {
+        // Queue this request until refresh completes
+        return new Promise((resolve, reject) => {
+          failedQueue.push({
+            resolve: (token: string) => {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              resolve(api(originalRequest));
+            },
+            reject: (err: unknown) => reject(err),
+          });
+        });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const { data } = await api.post('/auth/refresh-token');
+        const newToken = data.data.accessToken;
+        localStorage.setItem('accessToken', newToken);
+        processQueue(null, newToken);
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        processQueue(refreshError, null);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('hallmate-auth');
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
     }
+
     return Promise.reject(error);
   }
 );
