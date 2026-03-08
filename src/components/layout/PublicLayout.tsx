@@ -25,9 +25,9 @@ const NAV_LINKS: NavItem[] = [
     { label: 'Gallery', path: '/gallery' },
   ]},
   { label: 'Admission', path: '/admission' },
+  { label: 'Notices', path: '/public-notices' },
   { label: 'Info', path: '', children: [
     { label: 'Events', path: '/events-public' },
-    { label: 'Notices', path: '/public-notices' },
     { label: 'FAQ', path: '/faq' },
   ]},
   { label: 'Contact', path: '/contact' },
