@@ -65,6 +65,8 @@ import NoticeBoardPage from "@/pages/notices/NoticeBoardPage";
 import NoticeDetailsPage from "@/pages/notices/NoticeDetailsPage";
 import CreateNoticePage from "@/pages/notices/CreateNoticePage";
 import MealDashboardPage from "@/pages/meals/MealDashboardPage";
+import MealCancellationPage from "@/pages/meals/MealCancellationPage";
+import StaffMealOverviewPage from "@/pages/meals/StaffMealOverviewPage";
 import VisitorsLogPage from "@/pages/visitors/VisitorsLogPage";
 import RegisterVisitorPage from "@/pages/visitors/RegisterVisitorPage";
 import AttendanceDashboardPage from "@/pages/attendance/AttendanceDashboardPage";
@@ -168,6 +170,8 @@ const App = () => (
             <Route path="/notices/:id" element={<NoticeDetailsPage />} />
 
             <Route path="/meals" element={<MealDashboardPage />} />
+            <Route path="/meals/cancel" element={<P roles={['STUDENT']}><MealCancellationPage /></P>} />
+            <Route path="/meals/overview" element={<P roles={['DINING_STAFF','SUPER_ADMIN','PROVOST']}><StaffMealOverviewPage /></P>} />
 
             <Route path="/visitors" element={<P roles={['SUPER_ADMIN','PROVOST','GUARD','STUDENT']}><VisitorsLogPage /></P>} />
             <Route path="/visitors/new" element={<P roles={['GUARD','SUPER_ADMIN']}><RegisterVisitorPage /></P>} />
