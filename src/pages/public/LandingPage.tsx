@@ -238,7 +238,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ Core Features ═══════ */}
-      <section className="py-24 relative">
+      <section className="py-14 md:py-16 relative">
         <div className="absolute inset-0 gradient-mesh" />
         <div className="container mx-auto px-4 relative">
           <SectionHeader tag="Why Choose Us" title="A Premier Living Experience" subtitle="A digitally managed residential experience designed for university women" />
@@ -263,7 +263,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ Recent Notices ═══════ */}
-      <section className="py-24 gradient-teal-subtle">
+      <section className="py-14 md:py-16 gradient-teal-subtle">
         <div className="container mx-auto px-4">
           <SectionHeader tag="Stay Updated" title="Recent Notices" subtitle="Important announcements and updates from the hall administration" />
           <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="max-w-4xl mx-auto space-y-3">
@@ -306,7 +306,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ Recent Events ═══════ */}
-      <section className="py-24">
+      <section className="py-14 md:py-16">
         <div className="container mx-auto px-4">
           <SectionHeader tag="Happening Now" title="Upcoming Events" subtitle="Stay connected with hall activities and celebrations" />
           <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
@@ -347,7 +347,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ Student Features ═══════ */}
-      <section className="py-24 relative">
+      <section className="py-14 md:py-16 relative">
         <div className="absolute inset-0 gradient-mesh" />
         <div className="container mx-auto px-4 relative">
           <SectionHeader tag="Student Portal" title="Smart Tools for Students" subtitle="Digital tools to make hall life seamless and enjoyable" />
@@ -373,7 +373,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════ Admin Features ═══════ */}
-      <section className="py-24 gradient-teal-subtle">
+      <section className="py-14 md:py-16 gradient-teal-subtle">
         <div className="container mx-auto px-4">
           <SectionHeader tag="Administration" title="Powerful Management Tools" subtitle="Comprehensive tools for Provost, House Tutors & staff" />
           <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true }}
