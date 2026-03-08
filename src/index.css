@@ -153,6 +153,10 @@
     letter-spacing: -0.011em;
   }
 
+  .font-display {
+    font-family: 'Sora', system-ui, sans-serif;
+  }
+
   h1 {
     font-family: 'Sora', system-ui, sans-serif;
     @apply text-4xl md:text-5xl font-bold tracking-tight leading-tight;
