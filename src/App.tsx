@@ -137,6 +137,7 @@ const App = () => (
           <Route element={<P roles={ALL}><DashboardLayout /></P>}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/change-password" element={<ChangePasswordPage />} />
 
             <Route path="/users" element={<P roles={MGMT}><UsersListPage /></P>} />
             <Route path="/users/new" element={<P roles={['SUPER_ADMIN','PROVOST','OFFICE_STAFF']}><CreateUserPage /></P>} />
