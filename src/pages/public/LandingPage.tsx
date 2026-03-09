@@ -147,12 +147,12 @@ export default function LandingPage() {
 
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="font-display text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold leading-[1.1] tracking-[-0.02em] mb-5">
-              Nawab Faizunnesa Chowdhurani Hall
+              Nawab Faizunnesa Chowdhurani Hall, Jagannath University
             </motion.h1>
 
             <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.6 }}
               className="text-sm sm:text-base opacity-80 leading-[1.7] max-w-lg mx-auto mb-10 font-normal">
-              Jagannath University — A Home Away From Home
+              A Home Away From Home — Safe, Smart & Digitally Managed Residential Experience
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.6 }}
