@@ -83,7 +83,7 @@ export function AppSidebar() {
             <div><h2 className="font-bold text-base text-sidebar-foreground">HallMate</h2><p className="text-[10px] text-muted-foreground">নওয়াব ফয়জুন্নেসা চৌধুরানী হল</p></div>
           </div>
         ) : (
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center mx-auto"><Shield className="w-5 h-5 text-primary-foreground" /></div>
+          <div className="w-9 h-9 rounded-lg gradient-teal flex items-center justify-center shadow-teal mx-auto"><GraduationCap className="w-5 h-5 text-primary-foreground" /></div>
         )}
       </SidebarHeader>
       {!collapsed && (
