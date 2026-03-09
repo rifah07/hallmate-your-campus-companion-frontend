@@ -146,7 +146,7 @@ export default function LandingPage() {
             </motion.div>
 
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold leading-[1.1] tracking-[-0.02em] mb-5">
+              className="font-display text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.15] tracking-[-0.01em] mb-5">
               Nawab Faizunnesa Chowdhurani Hall, Jagannath University
             </motion.h1>
 
