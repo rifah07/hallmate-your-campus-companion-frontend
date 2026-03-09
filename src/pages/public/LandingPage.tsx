@@ -152,7 +152,7 @@ export default function LandingPage() {
 
             <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.6 }}
               className="text-sm sm:text-base opacity-80 leading-[1.7] max-w-lg mx-auto mb-10 font-normal">
-              A Home Away From Home — Safe, Smart & Digitally Managed Residential Experience
+              Jagannath University — A Home Away From Home
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.6 }}
