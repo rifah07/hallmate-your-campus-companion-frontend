@@ -123,7 +123,7 @@ export default function LoginPage() {
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-foreground tracking-tight">HallMate</h1>
-                  <p className="text-xs text-muted-foreground">University Hall Management</p>
+                  <p className="text-xs text-muted-foreground">Nawab Faizunnesa Chowdhurani Hall</p>
                 </div>
               </div>
               <p className="text-muted-foreground text-sm max-w-sm leading-relaxed">
