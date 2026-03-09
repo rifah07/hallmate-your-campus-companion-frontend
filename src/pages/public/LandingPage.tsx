@@ -147,7 +147,7 @@ export default function LandingPage() {
 
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="font-display text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold leading-[1.1] tracking-[-0.02em] mb-5">
-              University Women's Hall
+              নওয়াব ফয়জুন্নেসা চৌধুরানী হল
             </motion.h1>
 
             <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.6 }}
