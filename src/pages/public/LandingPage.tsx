@@ -123,7 +123,7 @@ export default function LandingPage() {
       <section ref={heroRef} className="relative min-h-[88vh] flex items-center overflow-hidden">
         {/* Parallax background image */}
         <motion.div style={{ y: useTransform(scrollYProgress, [0, 1], [0, 100]) }} className="absolute inset-0">
-          <img src="/images/hall-building.jpg" alt="University Women's Hall Building" className="w-full h-full object-cover" />
+          <img src="/images/hall-building.jpg" alt="নওয়াব ফয়জুন্নেসা চৌধুরানী হল, Jagannath University" className="w-full h-full object-cover" />
         </motion.div>
         {/* Teal gradient overlay */}
         <div className="absolute inset-0 gradient-teal opacity-85" />

@@ -1,7 +1,8 @@
 import {
+import {
   Home, Users, UserPlus, Upload, BarChart3, Building, DoorOpen, BedDouble,
   ClipboardList, MessageSquare, Wrench, Megaphone, UtensilsCrossed, UserCheck,
-  CalendarDays, DollarSign, Calendar, FileText, Settings, UserCircle, Shield, Ban, Eye,
+  CalendarDays, DollarSign, Calendar, FileText, Settings, UserCircle, GraduationCap, Ban, Eye,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useLocation } from 'react-router-dom';
