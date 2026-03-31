@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Check, ArrowRight, FileText, Calendar, CreditCard, ClipboardList, UserCheck, Home } from 'lucide-react';
+import PageBanner from '@/components/public/PageBanner';
 
 const steps = [
   { icon: ClipboardList, title: 'Apply Online', desc: 'Fill out the online application form with your details.' },
