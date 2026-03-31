@@ -3,6 +3,7 @@ import { Trophy, Medal, Star, Award, GraduationCap, Lightbulb, Globe, Heart } fr
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import PageBanner from '@/components/public/PageBanner';
 
 const achievements = [
   {
@@ -57,16 +58,11 @@ const hallAchievements = [
 export default function AchievementsPage() {
   return (
     <div className="min-h-screen">
-      <div className="gradient-teal py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
-            Achievements & Accomplishments
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-primary-foreground/80 text-lg">
-            Celebrating excellence across academics, sports, culture, and leadership
-          </motion.p>
-        </div>
-      </div>
+      <PageBanner
+        title="Achievements & Accomplishments"
+        subtitle="Celebrating excellence across academics, sports, culture, and leadership"
+        backgroundImage="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-12 md:py-16 space-y-12">
         {/* Hall-level achievements */}

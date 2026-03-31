@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import PageBanner from '@/components/public/PageBanner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -55,12 +56,11 @@ export default function ApplicationFormPage() {
 
   return (
     <div className="gradient-teal-subtle">
-      <section className="gradient-teal py-12 text-primary-foreground text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-extrabold mb-2">Apply for Admission</h1>
-          <p className="opacity-90">Complete all steps to submit your application</p>
-        </div>
-      </section>
+      <PageBanner
+        title="Apply for Admission"
+        subtitle="Complete all steps to submit your application"
+        backgroundImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-10 max-w-3xl">
         {/* Progress */}

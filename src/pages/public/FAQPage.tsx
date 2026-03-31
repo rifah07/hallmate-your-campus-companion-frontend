@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import PageBanner from '@/components/public/PageBanner';
 import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Search } from 'lucide-react';
@@ -57,12 +58,11 @@ export default function FAQPage() {
 
   return (
     <div className="gradient-teal-subtle">
-      <section className="gradient-teal py-16 text-primary-foreground text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-extrabold mb-3">Frequently Asked Questions</h1>
-          <p className="text-lg opacity-90">Find answers to common questions</p>
-        </div>
-      </section>
+      <PageBanner
+        title="Frequently Asked Questions"
+        subtitle="Find answers to common questions"
+        backgroundImage="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <div className="relative mb-8">

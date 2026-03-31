@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PageBanner from '@/components/public/PageBanner';
 import { Utensils, Clock, Star, Users, Coffee, Salad, Soup, CakeSlice, HandPlatter } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -31,16 +32,11 @@ const features = [
 export default function DiningPage() {
   return (
     <div className="min-h-screen">
-      <div className="gradient-teal py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
-            Dining Hall
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-primary-foreground/80 text-lg">
-            Nutritious, home-style meals served with care
-          </motion.p>
-        </div>
-      </div>
+      <PageBanner
+        title="Dining Hall"
+        subtitle="Nutritious, home-style meals served with care"
+        backgroundImage="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-12 md:py-16 space-y-12">
         {/* Features */}

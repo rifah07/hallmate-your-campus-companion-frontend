@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import PageBanner from '@/components/public/PageBanner';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -31,12 +32,11 @@ export default function PublicNoticesPage() {
 
   return (
     <div className="gradient-teal-subtle">
-      <section className="gradient-teal py-16 text-primary-foreground text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-extrabold mb-3">Notice Board</h1>
-          <p className="text-lg opacity-90">Stay updated with the latest announcements</p>
-        </div>
-      </section>
+      <PageBanner
+        title="Notice Board"
+        subtitle="Stay updated with the latest announcements"
+        backgroundImage="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="flex flex-col sm:flex-row gap-3 mb-8">
