@@ -376,7 +376,7 @@ export interface LoginInput { universityId: string; password: string; rememberMe
 export interface FirstLoginInput { otp: string; newPassword: string; confirmPassword: string; }
 export interface CreateUserInput { name: string; universityId: string; email: string; phone?: string; role: UserRole; department?: string; year?: number; program?: string; session?: string; bloodGroup?: BloodGroup; emergencyContactName?: string; emergencyContactPhone?: string; assignedFloor?: number; }
 export interface UpdateUserInput extends Partial<CreateUserInput> { status?: UserStatus; }
-export interface CreateRoomInput { roomNumber: string; floor: number; type: RoomType; capacity: number; status?: RoomStatus; features?: { ac?: boolean; balcony?: boolean; attachedBath?: boolean }; }
-export interface UpdateRoomInput extends Partial<CreateRoomInput> {}
-export interface AssignInput { studentId: string; bedNumber: number; assignmentDate: string; notes?: string; }
-export interface TransferInput { targetRoomId: string; targetBedNumber: number; transferDate: string; reason: string; }
+export interface CreateRoomInput { roomNumber: string; floor: number; wing: Wing; roomType: RoomType; capacity: number; hasAC?: boolean; hasBalcony?: boolean; hasAttachedBath?: boolean; }
+export interface UpdateRoomInput { roomNumber?: string; floor?: number; wing?: Wing; roomType?: RoomType; capacity?: number; status?: RoomStatus; hasAC?: boolean; hasBalcony?: boolean; hasAttachedBath?: boolean; }
+export interface AssignInput { userId: string; bedNumber: number; }
+export interface TransferInput { userId: string; targetRoomId: string; targetBedNumber: number; }
