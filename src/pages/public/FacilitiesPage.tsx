@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PageBanner from '@/components/public/PageBanner';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Check, Wifi, Shield, Zap, Droplets, BedDouble, Users, Crown, Sparkles, Wind, Bath, Lamp, BookOpen, Dumbbell, CookingPot, Flower2, Camera } from 'lucide-react';
