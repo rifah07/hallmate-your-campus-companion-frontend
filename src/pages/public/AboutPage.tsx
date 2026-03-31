@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
+import PageBanner from '@/components/public/PageBanner';
 import { Target, Eye, Heart, Award, Users, GraduationCap } from 'lucide-react';
 
 const fadeUp = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } };
