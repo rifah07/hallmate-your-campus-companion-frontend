@@ -31,16 +31,11 @@ const achievements = [
 export default function AboutPage() {
   return (
     <div className="bg-background">
-      {/* Header */}
-      <section className="gradient-teal py-20 text-primary-foreground text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="font-display text-3xl md:text-4xl font-bold mb-3 tracking-tight">About Our Hall</h1>
-            <p className="text-base opacity-80 max-w-lg mx-auto">A legacy of excellence in university women's residential education</p>
-          </motion.div>
-        </div>
-      </section>
+      <PageBanner
+        title="About Our Hall"
+        subtitle="A legacy of excellence in university women's residential education"
+        backgroundImage="https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-20 space-y-24 max-w-5xl">
         {/* History */}

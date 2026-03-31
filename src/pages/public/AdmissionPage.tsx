@@ -36,12 +36,11 @@ const dates = [
 export default function AdmissionPage() {
   return (
     <div className="gradient-teal-subtle">
-      <section className="gradient-teal py-16 text-primary-foreground text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-extrabold mb-3">Admission</h1>
-          <p className="text-lg opacity-90">Your journey to a new home starts here</p>
-        </div>
-      </section>
+      <PageBanner
+        title="Admission"
+        subtitle="Your journey to a new home starts here"
+        backgroundImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-16 space-y-16">
         {/* Steps */}
