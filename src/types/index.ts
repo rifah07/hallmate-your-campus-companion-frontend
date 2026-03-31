@@ -13,8 +13,9 @@ export type UserRole =
 export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'SUSPENDED' | 'GRADUATED' | 'SEAT_CANCELLED';
 export type ProgramType = 'UNDERGRADUATE' | 'MASTERS' | 'PHD';
 export type BloodGroupEnum = 'A_POSITIVE' | 'A_NEGATIVE' | 'B_POSITIVE' | 'B_NEGATIVE' | 'O_POSITIVE' | 'O_NEGATIVE' | 'AB_POSITIVE' | 'AB_NEGATIVE';
-export type RoomStatus = 'AVAILABLE' | 'OCCUPIED' | 'MAINTENANCE' | 'RESERVED';
-export type RoomType = 'SINGLE' | 'DOUBLE' | 'TRIPLE' | 'QUAD';
+export type RoomStatus = 'AVAILABLE' | 'OCCUPIED' | 'PARTIALLY_OCCUPIED' | 'MAINTENANCE' | 'RESERVED';
+export type RoomType = 'SINGLE' | 'DOUBLE' | 'TRIPLE' | 'FOUR_SHARING';
+export type Wing = 'A' | 'B';
 export type BloodGroup = 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
 
 export type ApplicationStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
