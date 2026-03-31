@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PageBanner from '@/components/public/PageBanner';
 import { Phone, Mail, Shield, Utensils, Wrench, ClipboardList, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
