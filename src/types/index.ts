@@ -77,13 +77,37 @@ export interface Room {
   id: string;
   roomNumber: string;
   floor: number;
-  type: RoomType;
+  wing: Wing;
+  roomType: RoomType;
   capacity: number;
-  occupants: User[];
+  currentOccupancy: number;
   status: RoomStatus;
-  features: { ac: boolean; balcony: boolean; attachedBath: boolean };
+  hasAC: boolean;
+  hasBalcony: boolean;
+  hasAttachedBath: boolean;
+  vacantBeds: number[];
+  occupancyRate: number;
+  occupants?: RoomOccupant[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface RoomOccupant {
+  id: string;
+  name: string;
+  universityId: string;
+  avatar?: string;
+  bedNumber: number;
+}
+
+export interface RoomStatistics {
+  totalRooms: number;
+  occupiedRooms: number;
+  vacantRooms: number;
+  totalBeds: number;
+  occupiedBeds: number;
+  vacantBeds: number;
+  overallOccupancyRate: number;
 }
 
 export interface Application {
