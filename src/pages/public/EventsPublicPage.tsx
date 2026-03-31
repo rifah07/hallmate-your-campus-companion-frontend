@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PageBanner from '@/components/public/PageBanner';
 import { Calendar, MapPin, Clock, Users, Tag, ChevronRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
