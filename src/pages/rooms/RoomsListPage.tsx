@@ -5,12 +5,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { mockRooms } from '@/lib/mock-data';
 import { STATUS_COLORS, FLOORS } from '@/constants';
 import { motion } from 'framer-motion';
+
+const ROOM_TYPE_LABELS: Record<string, string> = {
+  SINGLE: 'Single', DOUBLE: 'Double', TRIPLE: 'Triple', FOUR_SHARING: '4-Sharing',
+};
 
 export default function RoomsListPage() {
   const navigate = useNavigate();
@@ -49,11 +52,12 @@ export default function RoomsListPage() {
           </SelectContent>
         </Select>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[150px]"><SelectValue placeholder="Status" /></SelectTrigger>
+          <SelectTrigger className="w-[170px]"><SelectValue placeholder="Status" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="AVAILABLE">Available</SelectItem>
             <SelectItem value="OCCUPIED">Occupied</SelectItem>
+            <SelectItem value="PARTIALLY_OCCUPIED">Partially Occupied</SelectItem>
             <SelectItem value="MAINTENANCE">Maintenance</SelectItem>
             <SelectItem value="RESERVED">Reserved</SelectItem>
           </SelectContent>
@@ -73,29 +77,21 @@ export default function RoomsListPage() {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <p className="text-2xl font-bold">{room.roomNumber}</p>
-                      <Badge variant="secondary" className="text-xs mt-1">Floor {room.floor}</Badge>
+                      <div className="flex gap-1 mt-1">
+                        <Badge variant="secondary" className="text-xs">Floor {room.floor}</Badge>
+                        <Badge variant="outline" className="text-xs">Wing {room.wing}</Badge>
+                      </div>
                     </div>
-                    <Badge variant="outline" className={`text-xs ${STATUS_COLORS[room.status]}`}>{room.status}</Badge>
+                    <Badge variant="outline" className={`text-xs ${STATUS_COLORS[room.status]}`}>{room.status.replace('_', ' ')}</Badge>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between text-muted-foreground">
-                      <span>Type</span><span className="font-medium text-foreground">{room.type}</span>
+                      <span>Type</span><span className="font-medium text-foreground">{ROOM_TYPE_LABELS[room.roomType]}</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground">
-                      <span>Capacity</span><span className="font-medium text-foreground">{room.occupants.length}/{room.capacity}</span>
+                      <span>Occupancy</span><span className="font-medium text-foreground">{room.currentOccupancy}/{room.capacity}</span>
                     </div>
                   </div>
-                  {room.occupants.length > 0 && (
-                    <div className="flex -space-x-2 mt-3">
-                      {room.occupants.slice(0, 3).map((o, j) => (
-                        <Avatar key={j} className="h-7 w-7 border-2 border-card">
-                          <AvatarImage src={o.avatar} />
-                          <AvatarFallback className="text-[10px]">{o.name[0]}</AvatarFallback>
-                        </Avatar>
-                      ))}
-                      {room.occupants.length > 3 && <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-[10px] font-medium border-2 border-card">+{room.occupants.length - 3}</div>}
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             </motion.div>
@@ -106,16 +102,17 @@ export default function RoomsListPage() {
           <CardContent className="p-0">
             <Table>
               <TableHeader>
-                <TableRow><TableHead>Room</TableHead><TableHead>Floor</TableHead><TableHead>Type</TableHead><TableHead>Occupancy</TableHead><TableHead>Status</TableHead></TableRow>
+                <TableRow><TableHead>Room</TableHead><TableHead>Floor</TableHead><TableHead>Wing</TableHead><TableHead>Type</TableHead><TableHead>Occupancy</TableHead><TableHead>Status</TableHead></TableRow>
               </TableHeader>
               <TableBody>
                 {filtered.map(room => (
                   <TableRow key={room.id} className="cursor-pointer" onClick={() => navigate(`/rooms/${room.id}`)}>
                     <TableCell className="font-medium">{room.roomNumber}</TableCell>
                     <TableCell>{room.floor}</TableCell>
-                    <TableCell>{room.type}</TableCell>
-                    <TableCell>{room.occupants.length}/{room.capacity}</TableCell>
-                    <TableCell><Badge variant="outline" className={`text-xs ${STATUS_COLORS[room.status]}`}>{room.status}</Badge></TableCell>
+                    <TableCell>{room.wing}</TableCell>
+                    <TableCell>{ROOM_TYPE_LABELS[room.roomType]}</TableCell>
+                    <TableCell>{room.currentOccupancy}/{room.capacity}</TableCell>
+                    <TableCell><Badge variant="outline" className={`text-xs ${STATUS_COLORS[room.status]}`}>{room.status.replace('_', ' ')}</Badge></TableCell>
                   </TableRow>
                 ))}
               </TableBody>

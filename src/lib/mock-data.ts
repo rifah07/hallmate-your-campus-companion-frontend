@@ -55,28 +55,37 @@ export const getHouseTutorForFloor = (floor: number): User | undefined =>
   mockUsers.find(u => u.role === 'HOUSE_TUTOR' && u.assignedFloor === floor);
 
 // Rooms: 10 rooms per floor, 14 floors = 140 rooms (realistic for 1000+ students)
-const ROOM_TYPES: Room['type'][] = ['SINGLE', 'DOUBLE', 'TRIPLE', 'QUAD'];
-const ROOM_CAPACITY: Record<Room['type'], number> = { SINGLE: 1, DOUBLE: 2, TRIPLE: 3, QUAD: 4 };
+const ROOM_TYPES: Room['roomType'][] = ['SINGLE', 'DOUBLE', 'TRIPLE', 'FOUR_SHARING'];
+const ROOM_CAPACITY: Record<Room['roomType'], number> = { SINGLE: 1, DOUBLE: 2, TRIPLE: 3, FOUR_SHARING: 4 };
 const students = () => mockUsers.filter(u => u.role === 'STUDENT');
 
 export const mockRooms: Room[] = Array.from({ length: 140 }, (_, i) => {
   const floor = Math.floor(i / 10) + 1;
   const roomInFloor = (i % 10) + 1;
-  const type = ROOM_TYPES[i % 4];
-  const capacity = ROOM_CAPACITY[type];
-  const statuses: Room['status'][] = ['AVAILABLE', 'OCCUPIED', 'OCCUPIED', 'OCCUPIED'];
+  const roomType = ROOM_TYPES[i % 4];
+  const capacity = ROOM_CAPACITY[roomType];
+  const statuses: Room['status'][] = ['AVAILABLE', 'OCCUPIED', 'PARTIALLY_OCCUPIED', 'OCCUPIED'];
   const status = i < 120 ? statuses[i % 4] : 'AVAILABLE';
-  const occupantCount = status === 'OCCUPIED' ? Math.min(capacity, Math.floor(Math.random() * capacity) + 1) : 0;
-  const occupants = students().slice(0, occupantCount);
+  const currentOccupancy = status === 'OCCUPIED' ? capacity : status === 'PARTIALLY_OCCUPIED' ? Math.max(1, capacity - 1) : 0;
+  const vacantBeds = Array.from({ length: capacity - currentOccupancy }, (_, j) => currentOccupancy + j + 1);
+  const occupants = students().slice(0, currentOccupancy).map((s, j) => ({
+    id: s.id, name: s.name, universityId: s.universityId, avatar: s.avatar, bedNumber: j + 1,
+  }));
   return {
     id: `r${i + 1}`,
     roomNumber: `${floor}${String(roomInFloor).padStart(2, '0')}`,
     floor,
-    type,
+    wing: (roomInFloor <= 5 ? 'A' : 'B') as Room['wing'],
+    roomType,
     capacity,
-    occupants,
+    currentOccupancy,
     status,
-    features: { ac: i % 3 === 0, balcony: i % 5 === 0, attachedBath: i % 4 === 0 },
+    hasAC: i % 3 === 0,
+    hasBalcony: i % 5 === 0,
+    hasAttachedBath: i % 4 === 0,
+    vacantBeds,
+    occupancyRate: capacity > 0 ? (currentOccupancy / capacity) * 100 : 0,
+    occupants,
     createdAt: '2024-01-01',
     updatedAt: '2024-06-01',
   };

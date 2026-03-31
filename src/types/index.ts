@@ -13,8 +13,9 @@ export type UserRole =
 export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'SUSPENDED' | 'GRADUATED' | 'SEAT_CANCELLED';
 export type ProgramType = 'UNDERGRADUATE' | 'MASTERS' | 'PHD';
 export type BloodGroupEnum = 'A_POSITIVE' | 'A_NEGATIVE' | 'B_POSITIVE' | 'B_NEGATIVE' | 'O_POSITIVE' | 'O_NEGATIVE' | 'AB_POSITIVE' | 'AB_NEGATIVE';
-export type RoomStatus = 'AVAILABLE' | 'OCCUPIED' | 'MAINTENANCE' | 'RESERVED';
-export type RoomType = 'SINGLE' | 'DOUBLE' | 'TRIPLE' | 'QUAD';
+export type RoomStatus = 'AVAILABLE' | 'OCCUPIED' | 'PARTIALLY_OCCUPIED' | 'MAINTENANCE' | 'RESERVED';
+export type RoomType = 'SINGLE' | 'DOUBLE' | 'TRIPLE' | 'FOUR_SHARING';
+export type Wing = 'A' | 'B';
 export type BloodGroup = 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
 
 export type ApplicationStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
@@ -76,13 +77,37 @@ export interface Room {
   id: string;
   roomNumber: string;
   floor: number;
-  type: RoomType;
+  wing: Wing;
+  roomType: RoomType;
   capacity: number;
-  occupants: User[];
+  currentOccupancy: number;
   status: RoomStatus;
-  features: { ac: boolean; balcony: boolean; attachedBath: boolean };
+  hasAC: boolean;
+  hasBalcony: boolean;
+  hasAttachedBath: boolean;
+  vacantBeds: number[];
+  occupancyRate: number;
+  occupants?: RoomOccupant[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface RoomOccupant {
+  id: string;
+  name: string;
+  universityId: string;
+  avatar?: string;
+  bedNumber: number;
+}
+
+export interface RoomStatistics {
+  totalRooms: number;
+  occupiedRooms: number;
+  vacantRooms: number;
+  totalBeds: number;
+  occupiedBeds: number;
+  vacantBeds: number;
+  overallOccupancyRate: number;
 }
 
 export interface Application {
@@ -351,7 +376,7 @@ export interface LoginInput { universityId: string; password: string; rememberMe
 export interface FirstLoginInput { otp: string; newPassword: string; confirmPassword: string; }
 export interface CreateUserInput { name: string; universityId: string; email: string; phone?: string; role: UserRole; department?: string; year?: number; program?: string; session?: string; bloodGroup?: BloodGroup; emergencyContactName?: string; emergencyContactPhone?: string; assignedFloor?: number; }
 export interface UpdateUserInput extends Partial<CreateUserInput> { status?: UserStatus; }
-export interface CreateRoomInput { roomNumber: string; floor: number; type: RoomType; capacity: number; status?: RoomStatus; features?: { ac?: boolean; balcony?: boolean; attachedBath?: boolean }; }
-export interface UpdateRoomInput extends Partial<CreateRoomInput> {}
-export interface AssignInput { studentId: string; bedNumber: number; assignmentDate: string; notes?: string; }
-export interface TransferInput { targetRoomId: string; targetBedNumber: number; transferDate: string; reason: string; }
+export interface CreateRoomInput { roomNumber: string; floor: number; wing: Wing; roomType: RoomType; capacity: number; hasAC?: boolean; hasBalcony?: boolean; hasAttachedBath?: boolean; }
+export interface UpdateRoomInput { roomNumber?: string; floor?: number; wing?: Wing; roomType?: RoomType; capacity?: number; status?: RoomStatus; hasAC?: boolean; hasBalcony?: boolean; hasAttachedBath?: boolean; }
+export interface AssignInput { userId: string; bedNumber: number; }
+export interface TransferInput { userId: string; targetRoomId: string; targetBedNumber: number; }

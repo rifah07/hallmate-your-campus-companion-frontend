@@ -16,9 +16,9 @@ export function HouseTutorDashboard() {
     const rooms = mockRooms.filter(r => r.floor === floor);
     // Collect unique students from room occupants on this floor
     const studentIds = new Set<string>();
-    const students: typeof mockUsers = [];
+    const students: Array<{ id: string; name: string; universityId: string; avatar?: string }> = [];
     for (const room of rooms) {
-      for (const o of room.occupants) {
+      for (const o of (room.occupants || [])) {
         if (!studentIds.has(o.id)) { studentIds.add(o.id); students.push(o); }
       }
     }

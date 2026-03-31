@@ -34,6 +34,7 @@ export const STATUS_COLORS: Record<string, string> = {
   SEAT_CANCELLED: 'bg-warning/15 text-warning border-warning/30',
   AVAILABLE: 'bg-success/15 text-success border-success/30',
   OCCUPIED: 'bg-rose/15 text-rose border-rose/30',
+  PARTIALLY_OCCUPIED: 'bg-warning/15 text-warning border-warning/30',
   MAINTENANCE: 'bg-warning/15 text-warning border-warning/30',
   RESERVED: 'bg-primary/15 text-primary border-primary/30',
   PENDING: 'bg-warning/15 text-warning border-warning/30',
