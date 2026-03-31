@@ -43,31 +43,37 @@ export default function CreateRoomPage() {
                 </Select>
               </div>
               <div className="space-y-2">
+                <Label>Wing *</Label>
+                <Select><SelectTrigger><SelectValue placeholder="Select wing" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="A">Wing A</SelectItem>
+                    <SelectItem value="B">Wing B</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
                 <Label>Room Type *</Label>
                 <Select><SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="SINGLE">Single</SelectItem><SelectItem value="DOUBLE">Double</SelectItem>
-                    <SelectItem value="TRIPLE">Triple</SelectItem><SelectItem value="QUAD">Quad</SelectItem>
+                    <SelectItem value="SINGLE">Single</SelectItem>
+                    <SelectItem value="DOUBLE">Double</SelectItem>
+                    <SelectItem value="TRIPLE">Triple</SelectItem>
+                    <SelectItem value="FOUR_SHARING">4-Sharing</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2"><Label>Capacity *</Label><Input type="number" min={1} max={4} placeholder="Number of beds" required /></div>
-              <div className="space-y-2">
-                <Label>Status</Label>
-                <Select defaultValue="AVAILABLE"><SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="AVAILABLE">Available</SelectItem><SelectItem value="MAINTENANCE">Under Maintenance</SelectItem>
-                    <SelectItem value="RESERVED">Reserved</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
             <div className="space-y-3">
               <Label>Features</Label>
               <div className="flex flex-wrap gap-6">
-                {['AC', 'Balcony', 'Attached Bath'].map(f => (
-                  <div key={f} className="flex items-center gap-2">
-                    <Checkbox id={f} /><Label htmlFor={f} className="font-normal cursor-pointer">{f}</Label>
+                {[
+                  { id: 'hasAC', label: 'AC' },
+                  { id: 'hasBalcony', label: 'Balcony' },
+                  { id: 'hasAttachedBath', label: 'Attached Bath' },
+                ].map(f => (
+                  <div key={f.id} className="flex items-center gap-2">
+                    <Checkbox id={f.id} /><Label htmlFor={f.id} className="font-normal cursor-pointer">{f.label}</Label>
                   </div>
                 ))}
               </div>

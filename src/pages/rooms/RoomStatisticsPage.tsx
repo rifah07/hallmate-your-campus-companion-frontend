@@ -18,13 +18,13 @@ export default function RoomStatisticsPage() {
   ];
 
   const typeData = [
-    { name: 'Single', value: mockRooms.filter(r => r.type === 'SINGLE').length, color: 'hsl(252, 56%, 57%)' },
-    { name: 'Double', value: mockRooms.filter(r => r.type === 'DOUBLE').length, color: 'hsl(340, 65%, 60%)' },
-    { name: 'Triple', value: mockRooms.filter(r => r.type === 'TRIPLE').length, color: 'hsl(174, 50%, 45%)' },
-    { name: 'Quad', value: mockRooms.filter(r => r.type === 'QUAD').length, color: 'hsl(38, 92%, 50%)' },
+    { name: 'Single', value: mockRooms.filter(r => r.roomType === 'SINGLE').length, color: 'hsl(252, 56%, 57%)' },
+    { name: 'Double', value: mockRooms.filter(r => r.roomType === 'DOUBLE').length, color: 'hsl(340, 65%, 60%)' },
+    { name: 'Triple', value: mockRooms.filter(r => r.roomType === 'TRIPLE').length, color: 'hsl(174, 50%, 45%)' },
+    { name: '4-Sharing', value: mockRooms.filter(r => r.roomType === 'FOUR_SHARING').length, color: 'hsl(38, 92%, 50%)' },
   ];
 
-  const floorData = Array.from({ length: 7 }, (_, i) => ({
+  const floorData = Array.from({ length: 14 }, (_, i) => ({
     floor: `F${i + 1}`,
     rooms: mockRooms.filter(r => r.floor === i + 1).length,
   }));

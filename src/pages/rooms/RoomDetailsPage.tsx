@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Edit, UserPlus, UserMinus, Wrench, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit, UserPlus, UserMinus, Trash2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,13 +10,15 @@ import { STATUS_COLORS } from '@/constants';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+
+const ROOM_TYPE_LABELS: Record<string, string> = {
+  SINGLE: 'Single', DOUBLE: 'Double', TRIPLE: 'Triple', FOUR_SHARING: '4-Sharing',
+};
 
 export default function RoomDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const room = mockRooms.find(r => r.id === id) || mockRooms[0];
-  const vacantBeds = room.capacity - room.occupants.length;
 
   return (
     <div className="space-y-6 max-w-4xl">
@@ -31,12 +33,13 @@ export default function RoomDetailsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
         {[
           ['Room', room.roomNumber],
           ['Floor', String(room.floor)],
-          ['Type', room.type],
-          ['Status', room.status],
+          ['Wing', room.wing],
+          ['Type', ROOM_TYPE_LABELS[room.roomType]],
+          ['Status', room.status.replace('_', ' ')],
         ].map(([label, value]) => (
           <Card key={label}>
             <CardContent className="p-4 text-center">
@@ -49,9 +52,9 @@ export default function RoomDetailsPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {[
-          { label: 'AC', active: room.features.ac },
-          { label: 'Balcony', active: room.features.balcony },
-          { label: 'Attached Bath', active: room.features.attachedBath },
+          { label: 'AC', active: room.hasAC },
+          { label: 'Balcony', active: room.hasBalcony },
+          { label: 'Attached Bath', active: room.hasAttachedBath },
         ].map(f => (
           <Badge key={f.label} variant={f.active ? 'default' : 'secondary'} className="justify-center py-2">
             {f.label}: {f.active ? 'Yes' : 'No'}
@@ -62,11 +65,11 @@ export default function RoomDetailsPage() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base">Occupants ({room.occupants.length}/{room.capacity})</CardTitle>
+            <CardTitle className="text-base">Occupants ({room.currentOccupancy}/{room.capacity})</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
-          {room.occupants.map(o => (
+          {(room.occupants || []).map(o => (
             <div key={o.id} className="flex items-center justify-between p-3 rounded-lg border">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
@@ -75,24 +78,34 @@ export default function RoomDetailsPage() {
                 </Avatar>
                 <div>
                   <p className="text-sm font-medium">{o.name}</p>
-                  <p className="text-xs text-muted-foreground">{o.universityId}</p>
+                  <p className="text-xs text-muted-foreground">{o.universityId} · Bed {o.bedNumber}</p>
                 </div>
               </div>
               <Button variant="ghost" size="sm" className="text-destructive"><UserMinus className="h-4 w-4" /></Button>
             </div>
           ))}
 
-          {vacantBeds > 0 && (
+          {room.vacantBeds.length > 0 && (
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="outline" className="w-full border-dashed"><UserPlus className="mr-2 h-4 w-4" /> Assign Student ({vacantBeds} bed{vacantBeds > 1 ? 's' : ''} available)</Button>
+                <Button variant="outline" className="w-full border-dashed">
+                  <UserPlus className="mr-2 h-4 w-4" /> Assign Student ({room.vacantBeds.length} bed{room.vacantBeds.length > 1 ? 's' : ''} available)
+                </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader><DialogTitle>Assign Student</DialogTitle></DialogHeader>
                 <div className="space-y-4">
-                  <div className="space-y-2"><Label>Search Student</Label><Input placeholder="Name or University ID" /></div>
-                  <div className="space-y-2"><Label>Bed Number</Label><Input type="number" min={1} max={room.capacity} placeholder="Bed #" /></div>
-                  <div className="space-y-2"><Label>Notes</Label><Textarea placeholder="Optional notes" /></div>
+                  <div className="space-y-2"><Label>Student ID (UUID)</Label><Input placeholder="Enter student user ID" /></div>
+                  <div className="space-y-2">
+                    <Label>Bed Number</Label>
+                    <div className="flex gap-2">
+                      {room.vacantBeds.map(b => (
+                        <Badge key={b} variant="outline" className="cursor-pointer hover:bg-primary hover:text-primary-foreground px-3 py-1">
+                          Bed {b}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
                   <Button className="w-full">Confirm Assignment</Button>
                 </div>
               </DialogContent>
