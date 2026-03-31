@@ -32,12 +32,14 @@ export const useUser = (id: string) =>
   useQuery({ queryKey: ['users', id], queryFn: () => mockFetch(mockUsers.find(u => u.id === id)) });
 
 // ── Rooms ────────────────────────────────────────────────────────
-export const useRooms = (params?: { floor?: number; status?: string }) =>
+export const useRooms = (params?: { floor?: number; status?: string; wing?: string; type?: string }) =>
   useQuery({
     queryKey: ['rooms', params],
     queryFn: () => mockFetch(mockRooms.filter(r => {
       if (params?.floor && r.floor !== params.floor) return false;
       if (params?.status && r.status !== params.status) return false;
+      if (params?.wing && r.wing !== params.wing) return false;
+      if (params?.type && r.roomType !== params.type) return false;
       return true;
     })),
   });
@@ -49,9 +51,27 @@ export const useVacantRooms = (floor?: number) =>
   useQuery({
     queryKey: ['rooms', 'vacant', floor],
     queryFn: () => mockFetch(mockRooms.filter(r => {
-      const hasSpace = r.occupants.length < r.capacity;
+      const hasSpace = r.vacantBeds.length > 0;
       return hasSpace && (!floor || r.floor === floor);
     })),
+  });
+
+export const useRoomStatistics = () =>
+  useQuery({
+    queryKey: ['rooms', 'statistics'],
+    queryFn: () => {
+      const totalBeds = mockRooms.reduce((s, r) => s + r.capacity, 0);
+      const occupiedBeds = mockRooms.reduce((s, r) => s + r.currentOccupancy, 0);
+      return mockFetch({
+        totalRooms: mockRooms.length,
+        occupiedRooms: mockRooms.filter(r => r.status === 'OCCUPIED').length,
+        vacantRooms: mockRooms.filter(r => r.status === 'AVAILABLE').length,
+        totalBeds,
+        occupiedBeds,
+        vacantBeds: totalBeds - occupiedBeds,
+        overallOccupancyRate: totalBeds > 0 ? (occupiedBeds / totalBeds) * 100 : 0,
+      });
+    },
   });
 
 // ── Complaints & Requests (unified) ─────────────────────────────
