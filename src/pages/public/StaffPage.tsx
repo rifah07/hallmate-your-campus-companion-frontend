@@ -50,16 +50,11 @@ const staffSections = [
 export default function StaffPage() {
   return (
     <div className="min-h-screen">
-      <div className="gradient-teal py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
-            Our Staff
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-primary-foreground/80 text-lg">
-            The dedicated team keeping our hall running smoothly
-          </motion.p>
-        </div>
-      </div>
+      <PageBanner
+        title="Our Staff"
+        subtitle="The dedicated team keeping our hall running smoothly"
+        backgroundImage="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-12 md:py-16 space-y-12">
         {staffSections.map((section, si) => (

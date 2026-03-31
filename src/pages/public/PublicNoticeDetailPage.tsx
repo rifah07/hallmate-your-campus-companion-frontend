@@ -29,16 +29,19 @@ export default function PublicNoticeDetailPage() {
 
   return (
     <div className="gradient-teal-subtle min-h-[60vh]">
-      <section className="gradient-teal py-12 text-primary-foreground">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <Link to="/public-notices" className="inline-flex items-center gap-1 text-sm opacity-80 hover:opacity-100 mb-4 transition-opacity">
+      <section className="relative overflow-hidden py-14">
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&q=80)' }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-teal-800/90 via-teal-700/85 to-teal-900/90" />
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+        <div className="container mx-auto px-4 max-w-3xl relative z-10">
+          <Link to="/public-notices" className="inline-flex items-center gap-1 text-sm text-white/80 hover:text-white mb-4 transition-opacity">
             <ArrowLeft className="w-4 h-4" /> All Notices
           </Link>
           <div className="flex items-center gap-2 mb-3">
             <Badge variant="outline" className="bg-white/15 text-white border-white/30 text-xs">{notice.category}</Badge>
             {notice.isPinned && <Badge variant="outline" className="bg-white/15 text-white border-white/30 text-xs">📌 Pinned</Badge>}
           </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold">{notice.title}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg">{notice.title}</h1>
         </div>
       </section>
 

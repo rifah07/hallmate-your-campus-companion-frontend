@@ -34,12 +34,11 @@ const commonAreas = [
 export default function FacilitiesPage() {
   return (
     <div className="gradient-teal-subtle">
-      <section className="gradient-teal py-16 text-primary-foreground text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-extrabold mb-3">Hall Facilities</h1>
-          <p className="text-lg opacity-90">Modern amenities designed for university students</p>
-        </div>
-      </section>
+      <PageBanner
+        title="Hall Facilities"
+        subtitle="Modern amenities designed for university students"
+        backgroundImage="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-16 space-y-16">
         {/* Room Types */}

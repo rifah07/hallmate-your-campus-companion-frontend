@@ -31,12 +31,11 @@ export default function ContactPage() {
 
   return (
     <div className="gradient-teal-subtle">
-      <section className="gradient-teal py-16 text-primary-foreground text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-extrabold mb-3">Contact Us</h1>
-          <p className="text-lg opacity-90">We'd love to hear from you</p>
-        </div>
-      </section>
+      <PageBanner
+        title="Contact Us"
+        subtitle="We'd love to hear from you"
+        backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">

@@ -44,12 +44,11 @@ export default function GalleryPage() {
 
   return (
     <div className="gradient-teal-subtle">
-      <section className="gradient-teal py-16 text-primary-foreground text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-extrabold mb-3">Photo Gallery</h1>
-          <p className="text-lg opacity-90">Explore our hall through pictures</p>
-        </div>
-      </section>
+      <PageBanner
+        title="Photo Gallery"
+        subtitle="Explore our hall through pictures"
+        backgroundImage="https://images.unsplash.com/photo-1559135197-8a45ea74d367?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-12">
         {/* Filters */}

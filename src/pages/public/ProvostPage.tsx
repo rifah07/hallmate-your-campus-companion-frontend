@@ -42,16 +42,11 @@ export default function ProvostPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <div className="gradient-teal py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h1 {...fadeIn} className="text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
-            Message from the Provost
-          </motion.h1>
-          <motion.p {...fadeIn} className="text-primary-foreground/80 text-lg">
-            University Women's Hall
-          </motion.p>
-        </div>
-      </div>
+      <PageBanner
+        title="Message from the Provost"
+        subtitle="Nawab Faizunnesa Chowdhurani Hall"
+        backgroundImage="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid lg:grid-cols-3 gap-8">

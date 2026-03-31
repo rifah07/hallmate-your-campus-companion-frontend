@@ -25,12 +25,11 @@ export default function TrackApplicationPage() {
 
   return (
     <div className="gradient-teal-subtle min-h-[70vh]">
-      <section className="gradient-teal py-16 text-primary-foreground text-center">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-extrabold mb-3">Track Your Application</h1>
-          <p className="text-lg opacity-90">Enter your Application ID to check your status</p>
-        </div>
-      </section>
+      <PageBanner
+        title="Track Your Application"
+        subtitle="Enter your Application ID to check your status"
+        backgroundImage="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600&q=80"
+      />
 
       <div className="container mx-auto px-4 py-12 max-w-xl">
         <Card className="shadow-teal-lg">
