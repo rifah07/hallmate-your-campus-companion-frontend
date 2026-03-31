@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PageBanner from '@/components/public/PageBanner';
 import { Utensils, Clock, Star, Users, Coffee, Salad, Soup, CakeSlice, HandPlatter } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
