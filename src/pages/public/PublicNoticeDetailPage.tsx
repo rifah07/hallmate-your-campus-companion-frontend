@@ -31,7 +31,7 @@ export default function PublicNoticeDetailPage() {
   return (
     <div className="gradient-teal-subtle min-h-[60vh]">
       <section className="relative overflow-hidden py-14">
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&q=80)' }} />
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${noticeBoardBanner})` }} />
         <div className="absolute inset-0 bg-gradient-to-br from-teal-800/90 via-teal-700/85 to-teal-900/90" />
         <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
         <div className="container mx-auto px-4 max-w-3xl relative z-10">
