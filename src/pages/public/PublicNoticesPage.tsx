@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import PageBanner from '@/components/public/PageBanner';
+import noticeBoardBanner from '@/assets/notice-board-banner.jpg';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -35,7 +36,7 @@ export default function PublicNoticesPage() {
       <PageBanner
         title="Notice Board"
         subtitle="Stay updated with the latest announcements"
-        backgroundImage="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&q=80"
+        backgroundImage={noticeBoardBanner}
       />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
