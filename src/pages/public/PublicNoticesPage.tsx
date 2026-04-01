@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import PageBanner from '@/components/public/PageBanner';
+import noticeBoardBanner from '@/assets/notice-board-banner.jpg';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
