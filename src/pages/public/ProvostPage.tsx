@@ -45,7 +45,7 @@ export default function ProvostPage() {
       <PageBanner
         title="Message from the Provost"
         subtitle="Nawab Faizunnesa Chowdhurani Hall"
-        backgroundImage="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&q=80"
+        backgroundImage="https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80"
       />
 
       <div className="container mx-auto px-4 py-12 md:py-16">

@@ -73,7 +73,7 @@ export default function HouseTutorsPage() {
       <PageBanner
         title="House Tutors"
         subtitle="Dedicated mentors caring for residents on every floor"
-        backgroundImage="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&q=80"
+        backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80"
       />
 
       <div className="container mx-auto px-4 py-12 md:py-16">

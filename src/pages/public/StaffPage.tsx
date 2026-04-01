@@ -53,7 +53,7 @@ export default function StaffPage() {
       <PageBanner
         title="Our Staff"
         subtitle="The dedicated team keeping our hall running smoothly"
-        backgroundImage="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&q=80"
+        backgroundImage="https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=1600&q=80"
       />
 
       <div className="container mx-auto px-4 py-12 md:py-16 space-y-12">
