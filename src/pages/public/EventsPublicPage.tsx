@@ -36,7 +36,7 @@ export default function EventsPublicPage() {
       <PageBanner
         title="Events & Activities"
         subtitle="Never a dull moment at Nawab Faizunnesa Chowdhurani Hall"
-        backgroundImage="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80"
+        backgroundImage="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80"
       />
 
       <div className="container mx-auto px-4 py-12 md:py-16 space-y-12">

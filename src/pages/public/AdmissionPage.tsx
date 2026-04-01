@@ -39,7 +39,7 @@ export default function AdmissionPage() {
       <PageBanner
         title="Admission"
         subtitle="Your journey to a new home starts here"
-        backgroundImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80"
+        backgroundImage="https://images.unsplash.com/photo-1568667256549-094345857637?w=1600&q=80"
       />
 
       <div className="container mx-auto px-4 py-16 space-y-16">

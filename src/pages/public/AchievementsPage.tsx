@@ -61,7 +61,7 @@ export default function AchievementsPage() {
       <PageBanner
         title="Achievements & Accomplishments"
         subtitle="Celebrating excellence across academics, sports, culture, and leadership"
-        backgroundImage="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1600&q=80"
+        backgroundImage="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=1600&q=80"
       />
 
       <div className="container mx-auto px-4 py-12 md:py-16 space-y-12">

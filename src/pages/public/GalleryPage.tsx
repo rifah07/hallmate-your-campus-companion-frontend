@@ -22,7 +22,7 @@ const photos = [
   { id: 11, category: 'Dining Hall', title: 'Kitchen & Serving Area', src: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&h=600&fit=crop' },
   { id: 12, category: 'Hall Building', title: 'Garden & Green Area', src: 'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=600&h=600&fit=crop' },
   { id: 13, category: 'Common Areas', title: 'Library Corner', src: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=600&h=600&fit=crop' },
-  { id: 14, category: 'Events', title: 'Sports Day', src: 'https://images.unsplash.com/photo-1461896836934-bd45ba8fcf9b?w=600&h=600&fit=crop' },
+  { id: 14, category: 'Events', title: 'Sports Day', src: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&h=600&fit=crop' },
   { id: 15, category: 'Hall Building', title: 'Night View', src: 'https://images.unsplash.com/photo-1559135197-8a45ea74d367?w=600&h=600&fit=crop' },
   { id: 16, category: 'Dining Hall', title: 'Breakfast Setup', src: 'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=600&h=600&fit=crop' },
 ];
