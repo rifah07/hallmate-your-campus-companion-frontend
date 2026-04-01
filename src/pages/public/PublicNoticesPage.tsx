@@ -36,7 +36,7 @@ export default function PublicNoticesPage() {
       <PageBanner
         title="Notice Board"
         subtitle="Stay updated with the latest announcements"
-        backgroundImage="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&q=80"
+        backgroundImage={noticeBoardBanner}
       />
 
       <div className="container mx-auto px-4 py-12 max-w-4xl">
