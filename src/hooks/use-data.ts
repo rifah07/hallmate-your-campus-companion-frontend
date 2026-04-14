@@ -84,6 +84,24 @@ export const useComplaint = (id: string) =>
 export const useApplications = (params?: QueryParams) =>
   useQuery({ queryKey: ['applications', params], queryFn: () => mockFetch(mockApplications) });
 
+export const useApplication = (id: string) =>
+  useQuery({ queryKey: ['applications', id], queryFn: () => mockFetch(mockApplications.find(a => a.id === id)) });
+
+export const useMyApplications = () =>
+  useQuery({ queryKey: ['applications', 'my'], queryFn: () => mockFetch(mockApplications.filter(a => a.studentId === '4')) });
+
+export const useApplicationStatistics = () =>
+  useQuery({
+    queryKey: ['applications', 'statistics'],
+    queryFn: () => mockFetch({
+      total: mockApplications.length,
+      pending: mockApplications.filter(a => a.status === 'PENDING').length,
+      approved: mockApplications.filter(a => a.status === 'APPROVED').length,
+      rejected: mockApplications.filter(a => a.status === 'REJECTED').length,
+      cancelled: mockApplications.filter(a => a.status === 'CANCELLED').length,
+    }),
+  });
+
 // ── Maintenance ──────────────────────────────────────────────────
 export const useMaintenanceRequests = (params?: QueryParams) =>
   useQuery({ queryKey: ['maintenance', params], queryFn: () => mockFetch(mockMaintenanceRequests) });

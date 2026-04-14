@@ -80,6 +80,16 @@ export const DEPARTMENTS = [
 
 export const FLOORS = Array.from({ length: 14 }, (_, i) => i + 1);
 
+export const APPLICATION_TYPES = [
+  { value: 'SEAT_APPLICATION', label: 'Seat Application' },
+  { value: 'SEAT_CANCELLATION', label: 'Seat Cancellation' },
+  { value: 'SEAT_TRANSFER', label: 'Seat Transfer' },
+  { value: 'SEAT_SWAP', label: 'Seat Swap' },
+  { value: 'LEAVE', label: 'Leave' },
+  { value: 'COMPLAINT', label: 'Complaint' },
+  { value: 'MAINTENANCE', label: 'Maintenance' },
+];
+
 export const COMPLAINT_CATEGORIES = [
   { value: 'MAINTENANCE', label: 'Maintenance' },
   { value: 'DINING', label: 'Dining' },
