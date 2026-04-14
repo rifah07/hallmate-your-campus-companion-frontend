@@ -19,7 +19,8 @@ export type Wing = 'A' | 'B';
 export type BloodGroup = 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
 
 export type ApplicationStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
-export type ApplicationType = 'NEW_SEAT' | 'TRANSFER' | 'GUEST_ROOM';
+export type ApplicationType = 'SEAT_APPLICATION' | 'SEAT_CANCELLATION' | 'SEAT_TRANSFER' | 'SEAT_SWAP' | 'LEAVE' | 'COMPLAINT' | 'MAINTENANCE';
+export type AssignableRole = 'SUPER_ADMIN' | 'PROVOST' | 'HOUSE_TUTOR' | 'OFFICE_STAFF' | 'ASSISTANT_WARDEN';
 
 export type ComplaintStatus = 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
 export type ComplaintCategory = 'MAINTENANCE' | 'DINING' | 'BEHAVIOR' | 'SECURITY' | 'OTHER';
@@ -112,17 +113,48 @@ export interface RoomStatistics {
 
 export interface Application {
   id: string;
-  studentId: string;
-  studentName: string;
-  studentAvatar?: string;
   type: ApplicationType;
   status: ApplicationStatus;
-  roomPreferences: string[];
-  reason: string;
-  documents: string[];
-  adminNotes?: string;
+  studentId: string;
+  data: Record<string, any>;
+  attachments: string[];
+  assignedTo?: string;
+  assignedToRole?: AssignableRole;
+  responseNote?: string;
+  respondedAt?: string;
   createdAt: string;
   updatedAt: string;
+  // Populated from backend
+  student?: { id: string; name: string; universityId: string; avatar?: string };
+}
+
+export interface CreateApplicationInput {
+  type: ApplicationType;
+  data: Record<string, any>;
+  attachments?: string[];
+}
+
+export interface UpdateApplicationInput {
+  data?: Record<string, any>;
+  attachments?: string[];
+}
+
+export interface AssignApplicationInput {
+  assignedTo: string;
+  assignedToRole: AssignableRole;
+}
+
+export interface RespondToApplicationInput {
+  status: 'APPROVED' | 'REJECTED' | 'CANCELLED';
+  responseNote: string;
+}
+
+export interface ApplicationStatistics {
+  total: number;
+  pending: number;
+  approved: number;
+  rejected: number;
+  cancelled: number;
 }
 
 export interface Complaint {

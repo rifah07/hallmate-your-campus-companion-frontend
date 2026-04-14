@@ -4,10 +4,14 @@ import type { QueryParams } from '@/types';
 export const applicationsService = {
   getAll: (params?: QueryParams) => api.get('/applications', { params }),
   getById: (id: string) => api.get(`/applications/${id}`),
-  getMy: () => api.get('/applications/my'),
+  getMy: () => api.get('/applications/my-applications'),
+  getAssigned: () => api.get('/applications/assigned'),
   create: (data: any) => api.post('/applications', data),
-  approve: (id: string, notes?: string) => api.patch(`/applications/${id}/approve`, { notes }),
-  reject: (id: string, notes?: string) => api.patch(`/applications/${id}/reject`, { notes }),
+  update: (id: string, data: any) => api.patch(`/applications/${id}`, data),
+  delete: (id: string) => api.delete(`/applications/${id}`),
+  assign: (id: string, data: any) => api.post(`/applications/${id}/assign`, data),
+  respond: (id: string, data: any) => api.post(`/applications/${id}/respond`, data),
+  cancel: (id: string) => api.post(`/applications/${id}/cancel`),
   statistics: () => api.get('/applications/statistics'),
 };
 
