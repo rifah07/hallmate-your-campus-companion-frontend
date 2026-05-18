@@ -182,3 +182,18 @@ export const useGallery = (category?: string) =>
     queryKey: ['gallery', category],
     queryFn: () => mockFetch([]), // Replace with publicService.getGallery(category)
   });
+
+// ── Public: Hall / About ─────────────────────────────────────────
+export const useHallInfo = () =>
+  useQuery({
+    queryKey: ['public', 'hall-info'],
+    queryFn: () => publicService.getHallInfo(),
+    staleTime: 60 * 60 * 1000, // 1h — backend caches for 1h
+  });
+
+export const useAboutPage = () =>
+  useQuery({
+    queryKey: ['public', 'about'],
+    queryFn: () => publicService.getAbout(),
+    staleTime: 60 * 60 * 1000,
+  });
