@@ -1,7 +1,22 @@
 import api from '@/lib/api';
 import type {
   HallInfo, AboutPageData, ContactSubmissionBody, PublicApplicationBody,
+  ProvostUser, ProvostHistory, CreateProvostHistoryBody,
 } from '@/types/public';
+
+// Standard backend envelope: { success, message, data }
+interface ApiEnvelope<T> { success: boolean; message?: string; data: T }
+
+// Build multipart FormData from a partial provost body (skips undefined).
+const toProvostFormData = (body: Partial<CreateProvostHistoryBody>): FormData => {
+  const fd = new FormData();
+  Object.entries(body).forEach(([k, v]) => {
+    if (v === undefined || v === null) return;
+    if (v instanceof File) fd.append(k, v);
+    else fd.append(k, String(v));
+  });
+  return fd;
+};
 
 // Standard backend envelope: { success, message, data }
 interface ApiEnvelope<T> { success: boolean; message?: string; data: T }
