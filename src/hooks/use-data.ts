@@ -245,3 +245,34 @@ export const useDeleteProvost = () => {
     onSuccess: () => invalidateProvosts(qc),
   });
 };
+
+// ── Public: House Tutors / Staff / Facilities / Dining ───────────
+import type { StaffCategory, FacilityCategory } from '@/types/public';
+
+export const usePublicHouseTutors = () =>
+  useQuery({
+    queryKey: ['public', 'house-tutors'],
+    queryFn: () => publicService.getHouseTutors(),
+    staleTime: FIFTEEN_MIN,
+  });
+
+export const usePublicStaff = (params?: { page?: number; limit?: number; category?: StaffCategory; search?: string }) =>
+  useQuery({
+    queryKey: ['public', 'staff', params],
+    queryFn: () => publicService.getStaff(params),
+    staleTime: FIFTEEN_MIN,
+  });
+
+export const usePublicFacilities = (category?: FacilityCategory) =>
+  useQuery({
+    queryKey: ['public', 'facilities', category],
+    queryFn: () => publicService.getFacilities(category),
+    staleTime: 60 * 60 * 1000, // 1h
+  });
+
+export const usePublicDining = () =>
+  useQuery({
+    queryKey: ['public', 'dining'],
+    queryFn: () => publicService.getDining(),
+    staleTime: 5 * 60 * 1000, // 5m
+  });

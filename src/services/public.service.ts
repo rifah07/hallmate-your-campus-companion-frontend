@@ -2,7 +2,12 @@ import api from '@/lib/api';
 import type {
   HallInfo, AboutPageData, ContactSubmissionBody, PublicApplicationBody,
   ProvostUser, ProvostHistory, CreateProvostHistoryBody,
+  PublicHouseTutor, PublicStaffProfile, StaffCategory,
+  Facility, FacilityCategory, DiningInfo, PublicPaginationMeta,
 } from '@/types/public';
+
+// Paginated envelope variant (some endpoints emit { success, data, meta })
+interface PaginatedEnvelope<T> { success: boolean; data: T[]; meta: PublicPaginationMeta }
 
 // Standard backend envelope: { success, message, data }
 interface ApiEnvelope<T> { success: boolean; message?: string; data: T }
@@ -53,8 +58,21 @@ export const publicService = {
   submitApplication: (data: PublicApplicationBody) => api.post('/public/applications', data),
   trackApplication: (applicationId: string) => api.get(`/public/applications/track/${applicationId}`),
 
+  // ── House Tutors / Staff ───────────────────────────────────────
+  getHouseTutors: () =>
+    api.get<ApiEnvelope<PublicHouseTutor[]>>('/public/house-tutors').then(r => r.data.data),
+
+  getStaff: (params?: { page?: number; limit?: number; category?: StaffCategory; search?: string }) =>
+    api.get<PaginatedEnvelope<PublicStaffProfile>>('/public/staff', { params }).then(r => r.data),
+
+  // ── Facilities / Dining ────────────────────────────────────────
+  getFacilities: (category?: FacilityCategory) =>
+    api.get<ApiEnvelope<Facility[]>>('/public/facilities', { params: { category } }).then(r => r.data.data),
+
+  getDining: () =>
+    api.get<ApiEnvelope<DiningInfo>>('/public/dining').then(r => r.data.data),
+
   // ── Misc public reads ───────────────────────────────────────────
-  getFacilities: () => api.get('/public/facilities'),
   getFAQ: () => api.get('/public/faq'),
   getGallery: (category?: string) => api.get('/public/gallery', { params: { category } }),
 };
