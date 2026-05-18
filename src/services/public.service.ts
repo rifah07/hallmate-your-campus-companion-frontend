@@ -2,7 +2,12 @@ import api from '@/lib/api';
 import type {
   HallInfo, AboutPageData, ContactSubmissionBody, PublicApplicationBody,
   ProvostUser, ProvostHistory, CreateProvostHistoryBody,
+  PublicHouseTutor, PublicStaffProfile, StaffCategory,
+  Facility, FacilityCategory, DiningInfo, PublicPaginationMeta,
 } from '@/types/public';
+
+// Paginated envelope variant (some endpoints emit { success, data, meta })
+interface PaginatedEnvelope<T> { success: boolean; data: T[]; meta: PublicPaginationMeta }
 
 // Standard backend envelope: { success, message, data }
 interface ApiEnvelope<T> { success: boolean; message?: string; data: T }
