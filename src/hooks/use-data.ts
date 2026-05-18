@@ -19,6 +19,7 @@ import {
   getHouseTutorForFloor,
 } from '@/lib/mock-data';
 import type { QueryParams, UserRole } from '@/types';
+import { publicService } from '@/services/public.service';
 
 // ── Helpers ──────────────────────────────────────────────────────
 const delay = (ms = 200) => new Promise(r => setTimeout(r, ms));
