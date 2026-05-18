@@ -19,6 +19,7 @@ import {
   getHouseTutorForFloor,
 } from '@/lib/mock-data';
 import type { QueryParams, UserRole } from '@/types';
+import { publicService } from '@/services/public.service';
 
 // ── Helpers ──────────────────────────────────────────────────────
 const delay = (ms = 200) => new Promise(r => setTimeout(r, ms));
@@ -181,4 +182,19 @@ export const useGallery = (category?: string) =>
   useQuery({
     queryKey: ['gallery', category],
     queryFn: () => mockFetch([]), // Replace with publicService.getGallery(category)
+  });
+
+// ── Public: Hall / About ─────────────────────────────────────────
+export const useHallInfo = () =>
+  useQuery({
+    queryKey: ['public', 'hall-info'],
+    queryFn: () => publicService.getHallInfo(),
+    staleTime: 60 * 60 * 1000, // 1h — backend caches for 1h
+  });
+
+export const useAboutPage = () =>
+  useQuery({
+    queryKey: ['public', 'about'],
+    queryFn: () => publicService.getAbout(),
+    staleTime: 60 * 60 * 1000,
   });
