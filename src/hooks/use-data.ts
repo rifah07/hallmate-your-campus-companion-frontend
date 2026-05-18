@@ -198,3 +198,50 @@ export const useAboutPage = () =>
     queryFn: () => publicService.getAbout(),
     staleTime: 60 * 60 * 1000,
   });
+
+// ── Public: Provost (current + history) ──────────────────────────
+const FIFTEEN_MIN = 15 * 60 * 1000;
+
+export const useCurrentProvost = () =>
+  useQuery({
+    queryKey: ['public', 'provost'],
+    queryFn: () => publicService.getCurrentProvost(),
+    staleTime: FIFTEEN_MIN,
+  });
+
+export const useProvosts = () =>
+  useQuery({
+    queryKey: ['public', 'provosts'],
+    queryFn: () => publicService.getProvosts(),
+    staleTime: FIFTEEN_MIN,
+  });
+
+const invalidateProvosts = (qc: ReturnType<typeof useQueryClient>) => {
+  qc.invalidateQueries({ queryKey: ['public', 'provosts'] });
+  qc.invalidateQueries({ queryKey: ['public', 'provost'] });
+};
+
+export const useCreateProvost = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: publicService.createProvost,
+    onSuccess: () => invalidateProvosts(qc),
+  });
+};
+
+export const useUpdateProvost = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: Partial<Parameters<typeof publicService.updateProvost>[1]> }) =>
+      publicService.updateProvost(id, body),
+    onSuccess: () => invalidateProvosts(qc),
+  });
+};
+
+export const useDeleteProvost = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => publicService.deleteProvost(id),
+    onSuccess: () => invalidateProvosts(qc),
+  });
+};
