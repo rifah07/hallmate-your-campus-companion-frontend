@@ -197,11 +197,6 @@ export const useAboutPage = () =>
     queryKey: ['public', 'about'],
     queryFn: () => publicService.getAbout(),
     staleTime: 60 * 60 * 1000,
-export const useAboutPage = () =>
-  useQuery({
-    queryKey: ['public', 'about'],
-    queryFn: () => publicService.getAbout(),
-    staleTime: 60 * 60 * 1000,
   });
 
 // ── Public: Provost (current + history) ──────────────────────────
