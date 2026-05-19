@@ -178,10 +178,11 @@ export const useHouseTutorForFloor = (floor: number) =>
   });
 
 // ── Gallery (public) ─────────────────────────────────────────────
-export const useGallery = (category?: string) =>
+export const useGallery = (params?: { page?: number; limit?: number; category?: GalleryCategory; search?: string }) =>
   useQuery({
-    queryKey: ['gallery', category],
-    queryFn: () => mockFetch([]), // Replace with publicService.getGallery(category)
+    queryKey: ['public', 'gallery', params],
+    queryFn: () => publicService.getGallery(params),
+    staleTime: 5 * 60 * 1000,
   });
 
 // ── Public: Hall / About ─────────────────────────────────────────
