@@ -4,6 +4,8 @@ import type {
   ProvostUser, ProvostHistory, CreateProvostHistoryBody,
   PublicHouseTutor, PublicStaffProfile, StaffCategory,
   Facility, FacilityCategory, DiningInfo, PublicPaginationMeta,
+  Achievement, PublicEvent, PublicNotice, PublicNoticeDetail,
+  PublicNoticePriority, GalleryItem, GalleryCategory,
 } from '@/types/public';
 
 // Paginated envelope variant (some endpoints emit { success, data, meta })
