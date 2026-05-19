@@ -53,12 +53,24 @@ export const publicService = {
   deleteProvost: (id: string) =>
     api.delete<ApiEnvelope<null>>(`/public/provosts/${id}`).then(r => r.data),
 
-  // ── Notices / Contact / Applications (existing) ────────────────
-  getPublicNotices: (params?: { page?: number; limit?: number; category?: string; priority?: string; search?: string }) =>
-    api.get('/public/notices', { params }),
+  // ── Notices / Contact / Applications ───────────────────────────
+  getPublicNotices: (params?: { page?: number; limit?: number; category?: string; priority?: PublicNoticePriority; search?: string }) =>
+    api.get<PaginatedEnvelope<PublicNotice>>('/public/notices', { params }).then(r => r.data),
+
+  getPublicNotice: (noticeId: string) =>
+    api.get<ApiEnvelope<PublicNoticeDetail>>(`/public/notices/${noticeId}`).then(r => r.data.data),
+
   submitContactForm: (data: ContactSubmissionBody) => api.post('/public/contact', data),
   submitApplication: (data: PublicApplicationBody) => api.post('/public/applications', data),
   trackApplication: (applicationId: string) => api.get(`/public/applications/track/${applicationId}`),
+
+  // ── Achievements ───────────────────────────────────────────────
+  getAchievements: (params?: { page?: number; limit?: number; category?: string; year?: number }) =>
+    api.get<PaginatedEnvelope<Achievement>>('/public/achievements', { params }).then(r => r.data),
+
+  // ── Events ─────────────────────────────────────────────────────
+  getPublicEvents: (params?: { page?: number; limit?: number; search?: string; upcoming?: boolean; featured?: boolean }) =>
+    api.get<PaginatedEnvelope<PublicEvent>>('/public/events', { params }).then(r => r.data),
 
   // ── House Tutors / Staff ───────────────────────────────────────
   getHouseTutors: () =>
