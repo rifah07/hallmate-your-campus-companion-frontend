@@ -86,7 +86,10 @@ export const publicService = {
   getDining: () =>
     api.get<ApiEnvelope<DiningInfo>>('/public/dining').then(r => r.data.data),
 
-  // ── Misc public reads ───────────────────────────────────────────
+  // ── Gallery ────────────────────────────────────────────────────
+  getGallery: (params?: { page?: number; limit?: number; category?: GalleryCategory; search?: string }) =>
+    api.get<PaginatedEnvelope<GalleryItem>>('/public/gallery', { params }).then(r => r.data),
+
+  // ── Misc public reads ──────────────────────────────────────────
   getFAQ: () => api.get('/public/faq'),
-  getGallery: (category?: string) => api.get('/public/gallery', { params: { category } }),
 };
