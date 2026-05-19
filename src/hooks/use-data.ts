@@ -178,10 +178,11 @@ export const useHouseTutorForFloor = (floor: number) =>
   });
 
 // ── Gallery (public) ─────────────────────────────────────────────
-export const useGallery = (category?: string) =>
+export const useGallery = (params?: { page?: number; limit?: number; category?: GalleryCategory; search?: string }) =>
   useQuery({
-    queryKey: ['gallery', category],
-    queryFn: () => mockFetch([]), // Replace with publicService.getGallery(category)
+    queryKey: ['public', 'gallery', params],
+    queryFn: () => publicService.getGallery(params),
+    staleTime: 5 * 60 * 1000,
   });
 
 // ── Public: Hall / About ─────────────────────────────────────────
@@ -247,7 +248,37 @@ export const useDeleteProvost = () => {
 };
 
 // ── Public: House Tutors / Staff / Facilities / Dining ───────────
-import type { StaffCategory, FacilityCategory } from '@/types/public';
+import type { StaffCategory, FacilityCategory, GalleryCategory, PublicNoticePriority } from '@/types/public';
+
+// ── Public: Achievements / Events / Notices ──────────────────────
+export const usePublicAchievements = (params?: { page?: number; limit?: number; category?: string; year?: number }) =>
+  useQuery({
+    queryKey: ['public', 'achievements', params],
+    queryFn: () => publicService.getAchievements(params),
+    staleTime: FIFTEEN_MIN,
+  });
+
+export const usePublicEvents = (params?: { page?: number; limit?: number; search?: string; upcoming?: boolean; featured?: boolean }) =>
+  useQuery({
+    queryKey: ['public', 'events', params],
+    queryFn: () => publicService.getPublicEvents(params),
+    staleTime: 60 * 1000,
+  });
+
+export const usePublicNotices = (params?: { page?: number; limit?: number; category?: string; priority?: PublicNoticePriority; search?: string }) =>
+  useQuery({
+    queryKey: ['public', 'notices', params],
+    queryFn: () => publicService.getPublicNotices(params),
+    staleTime: 60 * 1000,
+  });
+
+export const usePublicNotice = (noticeId: string) =>
+  useQuery({
+    queryKey: ['public', 'notices', noticeId],
+    queryFn: () => publicService.getPublicNotice(noticeId),
+    enabled: !!noticeId,
+    staleTime: 5 * 60 * 1000,
+  });
 
 export const usePublicHouseTutors = () =>
   useQuery({
