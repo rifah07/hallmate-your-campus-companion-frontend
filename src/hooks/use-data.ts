@@ -315,3 +315,17 @@ export const usePublicFAQ = (params?: { category?: string; search?: string }) =>
     queryFn: () => publicService.getFAQ(params),
     staleTime: 60 * 60 * 1000, // 1h — backend caches for 1h
   });
+
+// ── Public: Admission ────────────────────────────────────────────
+export const usePublicAdmission = () =>
+  useQuery({
+    queryKey: ['public', 'admission'],
+    queryFn: () => publicService.getAdmission(),
+    staleTime: 15 * 60 * 1000, // 15m — backend caches for 15m
+  });
+
+// ── Public: Contact Form ─────────────────────────────────────────
+export const useSubmitContact = () =>
+  useMutation({
+    mutationFn: publicService.submitContactForm,
+  });

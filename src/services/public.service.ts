@@ -5,7 +5,7 @@ import type {
   PublicHouseTutor, PublicStaffProfile, StaffCategory,
   Facility, FacilityCategory, DiningInfo, PublicPaginationMeta,
   Achievement, PublicEvent, PublicNotice, PublicNoticeDetail,
-  PublicNoticePriority, GalleryItem, GalleryCategory, FAQ,
+  PublicNoticePriority, GalleryItem, GalleryCategory, FAQ, AdmissionInfo,
 } from '@/types/public';
 
 // Paginated envelope variant (some endpoints emit { success, data, meta })
@@ -60,7 +60,8 @@ export const publicService = {
   getPublicNotice: (noticeId: string) =>
     api.get<ApiEnvelope<PublicNoticeDetail>>(`/public/notices/${noticeId}`).then(r => r.data.data),
 
-  submitContactForm: (data: ContactSubmissionBody) => api.post('/public/contact', data),
+  submitContactForm: (data: ContactSubmissionBody) =>
+    api.post<ApiEnvelope<{ id: string; name: string; email: string; subject: string; createdAt: string }>>('/public/contact', data).then(r => r.data),
   submitApplication: (data: PublicApplicationBody) => api.post('/public/applications', data),
   trackApplication: (applicationId: string) => api.get(`/public/applications/track/${applicationId}`),
 
@@ -93,4 +94,8 @@ export const publicService = {
   // ── FAQ ────────────────────────────────────────────────────────
   getFAQ: (params?: { category?: string; search?: string }) =>
     api.get<ApiEnvelope<FAQ[]>>('/public/faq', { params }).then(r => r.data.data),
+
+  // ── Admission ──────────────────────────────────────────────────
+  getAdmission: () =>
+    api.get<ApiEnvelope<{ current: AdmissionInfo; extra?: Record<string, unknown> | null }>>('/public/admission').then(r => r.data.data),
 };
