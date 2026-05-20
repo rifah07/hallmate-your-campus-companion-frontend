@@ -329,3 +329,17 @@ export const useSubmitContact = () =>
   useMutation({
     mutationFn: publicService.submitContactForm,
   });
+
+// ── Public: Applications (submit + track) ────────────────────────
+export const useSubmitPublicApplication = () =>
+  useMutation({
+    mutationFn: publicService.submitApplication,
+  });
+
+export const useTrackPublicApplication = (applicationId: string) =>
+  useQuery({
+    queryKey: ['public', 'applications', 'track', applicationId],
+    queryFn: () => publicService.trackApplication(applicationId),
+    enabled: !!applicationId,
+    staleTime: 0, // live status — never cached
+  });
