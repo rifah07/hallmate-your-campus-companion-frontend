@@ -70,8 +70,10 @@ export const publicService = {
 
   submitContactForm: (data: ContactSubmissionBody) =>
     api.post<ApiEnvelope<{ id: string; name: string; email: string; subject: string; createdAt: string }>>('/public/contact', data).then(r => r.data),
-  submitApplication: (data: PublicApplicationBody) => api.post('/public/applications', data),
-  trackApplication: (applicationId: string) => api.get(`/public/applications/track/${applicationId}`),
+  submitApplication: (data: PublicApplicationBody) =>
+    api.post<ApiEnvelope<PublicApplicationSubmitResponse>>('/public/applications', data).then(r => r.data),
+  trackApplication: (applicationId: string) =>
+    api.get<ApiEnvelope<ApplicationTrackingResponse>>(`/public/applications/track/${applicationId}`).then(r => r.data.data),
 
   // ── Achievements ───────────────────────────────────────────────
   getAchievements: (params?: { page?: number; limit?: number; category?: string; year?: number }) =>
