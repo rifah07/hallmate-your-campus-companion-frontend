@@ -5,7 +5,7 @@ import type {
   PublicHouseTutor, PublicStaffProfile, StaffCategory,
   Facility, FacilityCategory, DiningInfo, PublicPaginationMeta,
   Achievement, PublicEvent, PublicNotice, PublicNoticeDetail,
-  PublicNoticePriority, GalleryItem, GalleryCategory,
+  PublicNoticePriority, GalleryItem, GalleryCategory, FAQ,
 } from '@/types/public';
 
 // Paginated envelope variant (some endpoints emit { success, data, meta })
@@ -90,6 +90,7 @@ export const publicService = {
   getGallery: (params?: { page?: number; limit?: number; category?: GalleryCategory; search?: string }) =>
     api.get<PaginatedEnvelope<GalleryItem>>('/public/gallery', { params }).then(r => r.data),
 
-  // ── Misc public reads ──────────────────────────────────────────
-  getFAQ: () => api.get('/public/faq'),
+  // ── FAQ ────────────────────────────────────────────────────────
+  getFAQ: (params?: { category?: string; search?: string }) =>
+    api.get<ApiEnvelope<FAQ[]>>('/public/faq', { params }).then(r => r.data.data),
 };
