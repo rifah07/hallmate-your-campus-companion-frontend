@@ -94,4 +94,8 @@ export const publicService = {
   // ── FAQ ────────────────────────────────────────────────────────
   getFAQ: (params?: { category?: string; search?: string }) =>
     api.get<ApiEnvelope<FAQ[]>>('/public/faq', { params }).then(r => r.data.data),
+
+  // ── Admission ──────────────────────────────────────────────────
+  getAdmission: () =>
+    api.get<ApiEnvelope<{ current: AdmissionInfo; extra?: Record<string, unknown> | null }>>('/public/admission').then(r => r.data.data),
 };
