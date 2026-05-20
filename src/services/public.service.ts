@@ -6,7 +6,15 @@ import type {
   Facility, FacilityCategory, DiningInfo, PublicPaginationMeta,
   Achievement, PublicEvent, PublicNotice, PublicNoticeDetail,
   PublicNoticePriority, GalleryItem, GalleryCategory, FAQ, AdmissionInfo,
+  ApplicationTrackingResponse, PublicApplicationType,
 } from '@/types/public';
+
+export interface PublicApplicationSubmitResponse {
+  id: string;
+  type: PublicApplicationType;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
+  createdAt: string;
+}
 
 // Paginated envelope variant (some endpoints emit { success, data, meta })
 interface PaginatedEnvelope<T> { success: boolean; data: T[]; meta: PublicPaginationMeta }
