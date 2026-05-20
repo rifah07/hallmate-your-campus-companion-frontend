@@ -307,3 +307,11 @@ export const usePublicDining = () =>
     queryFn: () => publicService.getDining(),
     staleTime: 5 * 60 * 1000, // 5m
   });
+
+// ── Public: FAQ ──────────────────────────────────────────────────
+export const usePublicFAQ = (params?: { category?: string; search?: string }) =>
+  useQuery({
+    queryKey: ['public', 'faq', params],
+    queryFn: () => publicService.getFAQ(params),
+    staleTime: 60 * 60 * 1000, // 1h — backend caches for 1h
+  });
