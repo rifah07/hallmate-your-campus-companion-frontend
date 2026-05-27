@@ -344,3 +344,63 @@ export const useTrackPublicApplication = (applicationId: string) =>
     enabled: !!applicationId,
     staleTime: 0, // live status — never cached
   });
+
+// ── Admin: Hall Info (SUPER_ADMIN only) ──────────────────────────
+const invalidateHallInfo = (qc: ReturnType<typeof useQueryClient>) => {
+  qc.invalidateQueries({ queryKey: ['public', 'hall-info'] });
+};
+
+export const useCreateHallInfo = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: AdminHallInfoBody) => adminService.createHallInfo(body),
+    onSuccess: () => invalidateHallInfo(qc),
+  });
+};
+
+export const useUpdateHallInfo = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: Partial<AdminHallInfoBody> }) =>
+      adminService.updateHallInfo(id, body),
+    onSuccess: () => invalidateHallInfo(qc),
+  });
+};
+
+export const useDeleteHallInfo = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => adminService.deleteHallInfo(id),
+    onSuccess: () => invalidateHallInfo(qc),
+  });
+};
+
+// ── Admin: Facilities (SUPER_ADMIN, PROVOST) ─────────────────────
+const invalidateFacilities = (qc: ReturnType<typeof useQueryClient>) => {
+  qc.invalidateQueries({ queryKey: ['public', 'facilities'] });
+};
+
+export const useCreateFacility = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: AdminFacilityBody) => adminService.createFacility(body),
+    onSuccess: () => invalidateFacilities(qc),
+  });
+};
+
+export const useUpdateFacility = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: Partial<AdminFacilityBody> }) =>
+      adminService.updateFacility(id, body),
+    onSuccess: () => invalidateFacilities(qc),
+  });
+};
+
+export const useDeleteFacility = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => adminService.deleteFacility(id),
+    onSuccess: () => invalidateFacilities(qc),
+  });
+};
