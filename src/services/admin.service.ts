@@ -46,9 +46,9 @@ export interface AdminFacilityBody {
 
 // Generic FormData builder: skips undefined/null, appends Files as-is,
 // stringifies everything else (booleans → "true"/"false", numbers → "123").
-const toFormData = (body: Record<string, unknown>): FormData => {
+const toFormData = <T extends object>(body: T): FormData => {
   const fd = new FormData();
-  Object.entries(body).forEach(([k, v]) => {
+  Object.entries(body as Record<string, unknown>).forEach(([k, v]) => {
     if (v === undefined || v === null) return;
     if (v instanceof File || v instanceof Blob) fd.append(k, v);
     else fd.append(k, String(v));
