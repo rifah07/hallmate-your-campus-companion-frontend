@@ -20,6 +20,7 @@ import {
 } from '@/lib/mock-data';
 import type { QueryParams, UserRole } from '@/types';
 import { publicService } from '@/services/public.service';
+import { adminService, type AdminHallInfoBody, type AdminFacilityBody } from '@/services/admin.service';
 
 // ── Helpers ──────────────────────────────────────────────────────
 const delay = (ms = 200) => new Promise(r => setTimeout(r, ms));
